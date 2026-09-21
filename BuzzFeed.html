@@ -4,19 +4,26 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Buzz Feed</title>
+
+        <link rel="stylesheet" href="buzzfeed.css">
     </head>
     <body>
         <!-- Navigation Bar -->
         <header class="navbar">
             <div class="logo">
-                <h1>KUMARITES</h1>
+                <a href="index.html">
+                    <img
+                        src="Images/BuzzFeed Images/Kumarites Logo.png"
+                        alt="Kumarites"
+                    >                    
+                </a>
                 <p>Trusted finds na sulit at tipid, mula sa iyong mga Kumpare at Kumare.</p>
             </div>
             <nav class="main-navigation">
                 <a href="index.html">Home</a>
-                <a href="BuzzFeed.html">BuzzFeed</a>
-                <a href="#">Stores</a>
-                <a href="#">Categories</a>
+                <a href="BuzzFeed.html" class="active">BuzzFeed</a>
+                <a href="stores.html">Stores</a>
+                <a href="categories.html">Categories</a>
             </nav>
             <div class="nav-search">
                 <input
@@ -36,23 +43,28 @@
         <div>
             <!-- The Bee -->
             <section class="page-bee">
-                <div class="breadcrumb">
-                    <a href="index.html">Home</a>
-                    <span></span>
-                    <span>BuzzFeed</span>
-                </div>
                 <div class="bee-content">
-                    <div>
+                    <div class="bee-image">
+                        <img
+                            src="Images/BuzzFeed Images/header pic.png"
+                            alt="People sharing trends and recommendations"
+                        >
+                    </div>
+                    <div class="bee-text">
                         <h2>
                             What's
                             <span>Buzzing?</span>
                         </h2>
+
                         <p>
                             Discover real finds, deals, recommendations,
                             and helpful tsika shared by the community.
                         </p>
+
+                        <a href="create-buzz.html" class="primary-button">
+                            + Create a Buzz
+                        </a>
                     </div>
-                    <a href="create-buzz.html" class="primary-button">+ Create a Buzz</a>
                 </div>
             </section>
 
@@ -159,7 +171,7 @@
                         <!-- BUZZ CARD 1 -->
                         <article  class="buzz-card" data-type="sulit" data-category="grocery">
                             <div class="buzz-image">
-                                <img src="images/rice.jpg" alt="Rice products displayed in a grocery store">
+                                <img src="Images/BuzzFeed Images/Cheap Rice.png" alt="Rice products displayed in a grocery store">
                             </div>
                             <div class="buzz-card-content">
                                 <div class="buzz-meta">
@@ -216,7 +228,7 @@
                         <!-- BUZZ CARD 2 -->
                         <article class="buzz-card" data-type="sale" data-category="school">
                             <div class="buzz-image">
-                                <img src="images/school-supplies.jpg" alt="School supplies">
+                                <img src="Images/BuzzFeed Images/School Supplies.png" alt="School supplies">
                             </div>
                             <div class="buzz-card-content">
                                 <div class="buzz-meta">
@@ -267,7 +279,7 @@
                         <!-- BUZZ CARD 3 -->
                         <article class="buzz-card" data-type="recommendation" data-category="food">
                             <div class="buzz-image">
-                                <img src="images/food.jpg" alt="Food from a local restaurant">
+                                <img src="Images/BuzzFeed Images/Food.png" alt="Food from a local restaurant">
                             </div>
 
                             <div class="buzz-card-content">
@@ -403,20 +415,73 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <div class="footer-logo">
-                <h2>KUMARITES</h2>
-                <p>Real People. Real Finds. Real Savings!</p>
+
+            <div class="footer-content">
+
+                <!-- Kumarites Information -->
+                <div class="footer-column footer-brand">
+                    <h2>KUMARITES</h2>
+
+                    <p>
+                        Real Finds. Real People. A More Sulit You.
+                    </p>
+
+                    <p>
+                        A community-driven platform where people share
+                        sulit finds, price updates, and store recommendations.
+                    </p>
+                </div>
+
+
+                <!-- Menu -->
+                <div class="footer-column">
+                    <h3>Menu</h3>
+
+                    <a href="index.html">Home</a>
+                    <a href="buzzfeed.html">Buzz Feed</a>
+                    <a href="stores.html">Stores</a>
+                    <a href="categories.html">Categories</a>
+                    <a href="about.html">About Kumarites</a>
+                </div>
+
+
+                <!-- Contact -->
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    
+                    <a href="#">Contact Us</a>
+                    <a href="#">Community Guidelines</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+
+
+                <!-- Social Media -->
+                <div class="footer-column footer-social">
+                    <h3>Follow Us</h3>
+
+                    <div class="social-icons">
+
+                        <a href="#" aria-label="Facebook">
+                            <img src="Images/footer - facebook icon.png" alt="Facebook">
+                        </a>
+
+                        <a href="#" aria-label="Instagram">
+                            <img src="Images/footer - instagram icon.png" alt="Instagram">
+                        </a>
+
+                    </div>
+                </div>
+
             </div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="buzz-feed.html">Buzz Feed</a>
-                <a href="stores.html">Stores</a>
-                <a href="categories.html">Categories</a>
-                <a href="about.html">About Kumarites</a>
+
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <p>
+                    © 2026 Kumarites. Community-powered consumer information.
+                </p>
             </div>
-            <p class="copyright">
-                © 2026 Kumarites. Community-powered consumer information.
-            </p>
+
         </footer>
     </body>
 </html>
