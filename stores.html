@@ -4,62 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SM Seaside City Cebu - Kumarites</title>
+    <title>SM Mall of Asia - Kumarites</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stores.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
 </head>
 
 <body>
 
-    <!-- Page Header -->
-    <header>
-        <h1>Kumarites</h1>
-
-        <!-- Navigation -->
-        <nav>
-            <h2>Navigation</h2>
-
-            <div class="navigation-links">
-                <a href="#">Home</a> |
-                <a href="#">Buzz Feed</a> |
-                <a href="#">Stores</a> |
-                <a href="#">Categories</a>
-            </div>
-
-            <br>
-
-            <div class="navigation-tools">
-                <input type="text" placeholder="Search stores, products, or buzzes...">
-
-                <button>Notifications</button>
-                <button>Log In</button>
-                <button>Sign Up</button>
-            </div>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="Images/BuzzFeed Images/Kumarites Logo.png" alt="Kumarites">
+            </a>
+            <p>Real Finds. Real People. A More Sulit You.</p>
+        </div>
+        <nav class="main-navigation">
+            <a href="index.html">Home</a>
+            <a href="BuzzFeed.html">BuzzFeed</a>
+            <a href="stores.html" class="active">Stores</a>
+            <a href="categories.html">Categories</a>
         </nav>
+        <div class="nav-search">
+            <input type="search" id="searchInput" placeholder="Search stores, products, or buzzes">
+        </div>
+        <div class="nav-actions">
+            <a href="login.html" class="login-button">Log In</a>
+            <a href="signup.html" class="signup-button">Sign Up</a>
+        </div>
     </header>
 
-    <br>
+    <main class="store-page">
+    <p class="breadcrumb"><a href="stores.html">Stores</a> &gt; SM Mall of Asia</p>
 
-    <!-- Breadcrumb -->
-    <p><a href="#">Stores</a> &gt; SM Seaside City Cebu</p>
-
-    <br>
-
-    <!-- Store Banner -->
     <section class="store-banner">
-        <h2>SM Seaside City Cebu</h2>
-        <p><em>Cebu City, Cebu</em></p>
-        <p>Shopping, dining, and more &mdash; discover the latest finds, promos, and experiences at SM Seaside City from the Kumarites community.</p>
+        <h2>SM Mall of Asia</h2>
+        <p><em>Pasay City, Metro Manila</em></p>
+        <p>Shopping, dining, and more &mdash; discover the latest finds, promos, and experiences at SM Mall of Asia from the Kumarites community.</p>
 
         <div class="store-tags">
             <p>Mall | Shopping | Food | Entertainment | Services</p>
         </div>
 
-        <!-- IMAGE: Store banner photo -->
-        <img src="" alt="SM Seaside City Cebu">
     </section>
 
-    <br>
-
-    <!-- Store Stats -->
     <section class="store-stats">
         <h3>Store Stats</h3>
 
@@ -73,9 +62,6 @@
         <button>Create a Buzz</button>
     </section>
 
-    <br>
-
-    <!-- Store Tabs -->
     <section class="store-tabs">
         <div class="tabs-list">
             <a href="#">Latest Buzzes</a> |
@@ -84,8 +70,6 @@
             <a href="#">Recommendations</a> |
             <a href="#">Advice</a>
         </div>
-
-        <br>
 
         <div class="search-sort">
             <input type="text" placeholder="Search buzzes in this store...">
@@ -98,123 +82,238 @@
         </div>
     </section>
 
-    <br>
+        <div class="store-layout">
 
-    <!-- Buzz List -->
-    <section class="buzz-list">
+        <section class="buzz-list">
 
-        <div class="buzz-list-header">
-            <h2>Buzzes at SM Seaside City Cebu</h2>
-        </div>
+            <div class="buzz-list-header">
+                <h2>Buzzes at SM Mall of Asia</h2>
+            </div>
 
-        <div class="buzz-list-items">
-            <ul>
-                <li>
-                    <h3>SULIT FIND</h3>
-                    <p>Buy 1 Take 1 on Dove Shampoo!</p>
-                    <p>Saw this at Watsons inside SM Seaside. Buy 1 Take 1 on selected Dove variants. Until supplies last!</p>
-                    <p>Watsons (SM Seaside) | Personal Care</p>
-                    <p>Posted by BudgetBuddy &mdash; 2 hours ago</p>
-                    <p>28 Likes &mdash; 4 Comments</p>
-                    <button>Save</button>
+            <ul class="buzz-list-items">
+
+                <li class="buzz-card">
+                    <div class="buzz-image">
+                        <img src="Images/Stores%20Images/DoveBuy1Take1.png" alt="Dove Buy 1 Take 1 promo">
+                    </div>
+                    <div class="buzz-card-content">
+                        <div class="buzz-meta">
+                            <span class="buzz-type sulit">SULIT FIND</span>
+                            <span class="buzz-time">2 hours ago</span>
+                        </div>
+                        <h3>Buy 1 Take 1 on Dove Shampoo!</h3>
+                        <p>Saw this at Watsons inside SM Mall of Asia. Buy 1 Take 1 on selected Dove variants. Until supplies last!</p>
+                        <p class="buzz-tags">Watsons (SM Mall of Asia) | Personal Care</p>
+                        <div class="buzz-footer">
+                            <span class="buzz-author">Posted by <strong>BudgetBuddy</strong></span>
+                        </div>
+                        <div class="buzz-actions">
+                            <button class="useful-button" type="button" data-count="24" aria-pressed="false">
+                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
+                                <span>Useful 24</span>
+                            </button>
+                            <button class="save-button" type="button">Save</button>
+                            <a class="view-button" href="#">View Buzz</a>
+                        </div>
+                    </div>
                 </li>
 
-                <li>
-                    <h3>SALE / PROMO</h3>
-                    <p>Unli Rice for &#8369;99 at Mang Inasal!</p>
-                    <p>Perfect for lunch! Unli rice promo is still ongoing at Mang Inasal, SM Seaside. Sulit kaayo!</p>
-                    <p>Mang Inasal (SM Seaside) | Food</p>
-                    <p>Posted by FoodieCebu &mdash; 5 hours ago</p>
-                    <p>42 Likes &mdash; 6 Comments</p>
-                    <button>Save</button>
+                <li class="buzz-card">
+                    <div class="buzz-image">
+                        <img src="Images/Stores%20Images/Mang%20Inasal.png" alt="Mang Inasal promo">
+                    </div>
+                    <div class="buzz-card-content">
+                        <div class="buzz-meta">
+                            <span class="buzz-type sale">SALE / PROMO</span>
+                            <span class="buzz-time">5 hours ago</span>
+                        </div>
+                        <h3>Unli Rice for &#8369;99 at Mang Inasal!</h3>
+                        <p>Perfect for lunch! Unli rice promo is still ongoing at Mang Inasal, SM Mall of Asia. Sulit kaayo!</p>
+                        <p class="buzz-tags">Mang Inasal (SM Mall of Asia) | Food</p>
+                        <div class="buzz-footer">
+                            <span class="buzz-author">Posted by <strong>FoodieCebu</strong></span>
+                        </div>
+                        <div class="buzz-actions">
+                            <button class="useful-button" type="button" data-count="18" aria-pressed="false">
+                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
+                                <span>Useful 18</span>
+                            </button>
+                            <button class="save-button" type="button">Save</button>
+                            <a class="view-button" href="#">View Buzz</a>
+                        </div>
+                    </div>
                 </li>
 
-                <li>
-                    <h3>RECOMMENDATION</h3>
-                    <p>Cute and affordable finds at Miniso</p>
-                    <p>Lots of new items this week! Kawaii stuff, organizers, and school supplies. Prices are still affordable.</p>
-                    <p>Miniso (SM Seaside) | School Supplies</p>
-                    <p>Posted by FindsPH &mdash; 1 day ago</p>
-                    <p>35 Likes &mdash; 3 Comments</p>
-                    <button>Save</button>
+                <li class="buzz-card">
+                    <div class="buzz-image">
+                        <img src="Images/Stores%20Images/Miniso.png" alt="Miniso finds">
+                    </div>
+                    <div class="buzz-card-content">
+                        <div class="buzz-meta">
+                            <span class="buzz-type recommendation">RECOMMENDATION</span>
+                            <span class="buzz-time">1 day ago</span>
+                        </div>
+                        <h3>Cute and affordable finds at Miniso</h3>
+                        <p>Lots of new items this week! Kawaii stuff, organizers, and school supplies. Prices are still affordable.</p>
+                        <p class="buzz-tags">Miniso (SM Mall of Asia) | School Supplies</p>
+                        <div class="buzz-footer">
+                            <span class="buzz-author">Posted by <strong>FindsPH</strong></span>
+                        </div>
+                        <div class="buzz-actions">
+                            <button class="useful-button" type="button" data-count="31" aria-pressed="false">
+                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
+                                <span>Useful 31</span>
+                            </button>
+                            <button class="save-button" type="button">Save</button>
+                            <a class="view-button" href="#">View Buzz</a>
+                        </div>
+                    </div>
                 </li>
 
-                <li>
-                    <h3>ADVICE</h3>
-                    <p>Go early to avoid parking hassle</p>
-                    <p>Weekends get really crowded. Best to go before 11 AM if you're bringing a car. Parking fills up fast!</p>
-                    <p>Parking (SM Seaside) | General</p>
-                    <p>Posted by CebuTita &mdash; 2 days ago</p>
-                    <p>19 Likes &mdash; 2 Comments</p>
-                    <button>Save</button>
+                <li class="buzz-card">
+                    <div class="buzz-image">
+                        <img src="Images/Stores%20Images/MallOfAsia.png" alt="SM Mall of Asia parking area">
+                    </div>
+                    <div class="buzz-card-content">
+                        <div class="buzz-meta">
+                            <span class="buzz-type advice">ADVICE</span>
+                            <span class="buzz-time">2 days ago</span>
+                        </div>
+                        <h3>Go early to avoid parking hassle</h3>
+                        <p>Weekends get really crowded. Best to go before 11 AM if you're bringing a car. Parking fills up fast!</p>
+                        <p class="buzz-tags">Parking (SM Mall of Asia) | General</p>
+                        <div class="buzz-footer">
+                            <span class="buzz-author">Posted by <strong>FoodieeNakss</strong></span>
+                        </div>
+                        <div class="buzz-actions">
+                            <button class="useful-button" type="button" data-count="12" aria-pressed="false">
+                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
+                                <span>Useful 12</span>
+                            </button>
+                            <button class="save-button" type="button">Save</button>
+                            <a class="view-button" href="#">View Buzz</a>
+                        </div>
+                    </div>
                 </li>
+
             </ul>
+
+        </section>
+
+        <aside class="store-sidebar">
+
+            <section class="about-store">
+                <h2>About SM Mall of Asia</h2>
+                <p>SM Mall of Asia is one of the largest malls in the Philippines, offering a wide range of shopping, dining, entertainment, and essential services.</p>
+
+                <div class="store-details">
+                    <p class="detail-item"><i class="fi fi-rr-marker detail-icon" aria-hidden="true"></i><span>Seaside Blvd, Mall of Asia Complex, Pasay City, Metro Manila</span></p>
+                    <p class="detail-item"><i class="fi fi-rr-clock-three detail-icon" aria-hidden="true"></i><span>10:00 AM - 10:00 PM (Daily)</span></p>
+                    <p class="detail-item"><i class="fi fi-sr-phone-call detail-icon" aria-hidden="true"></i><span>(02) 8556-0680</span></p>
+                    <p class="detail-item"><i class="fi fi-rr-globe detail-icon" aria-hidden="true"></i><a href="#">www.smsupermalls.com</a></p>
+                </div>
+
+                <button>Visit Official Website</button>
+            </section>
+
+            <section class="store-map">
+                <h3><i class="fi fi-rr-marker section-icon" aria-hidden="true"></i>Store Location</h3>
+
+                <div class="map-frame">
+                    <iframe
+                        src="https://www.google.com/maps?q=SM+Mall+of+Asia&output=embed"
+                        title="Live map of SM Mall of Asia"
+                        loading="lazy"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
+
+            <section class="popular-categories">
+                <h3>Popular Categories in this Store</h3>
+
+                <div class="category-list">
+                    <ol>
+                        <li>Food <strong>(12)</strong></li>
+                        <li>Shopping <strong>(10)</strong></li>
+                        <li>Services <strong>(6)</strong></li>
+                        <li>Entertainment <strong>(5)</strong></li>
+                        <li>Personal Care <strong>(4)</strong></li>
+                        <li>School Supplies <strong>(3)</strong></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="cta-card">
+                <h3>Share your finds!</h3>
+                <p>Help other Kumarites discover great deals at SM Mall of Asia.</p>
+                <button>Create a Buzz</button>
+            </section>
+
+        </aside>
+
+    </div>
+    </main>
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <div class="footer-column footer-brand">
+                <h2>KUMARITES</h2>
+
+                <p>
+                    Real Finds. Real People. A More Sulit You.
+                </p>
+
+                <p>
+                    A community-driven platform where people share
+                    sulit finds, price updates, and store recommendations.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Menu</h3>
+
+                <a href="index.html">Home</a>
+                <a href="buzzfeed.html">Buzz Feed</a>
+                <a href="stores.html" class="active">Stores</a>
+                <a href="categories.html">Categories</a>
+                <a href="about.html">About Kumarites</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Contact</h3>
+
+                <a href="#">Contact Us</a>
+                <a href="#">Community Guidelines</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="footer-column footer-social">
+                <h3>Follow Us</h3>
+
+                <div class="social-icons">
+
+                    <a href="#" aria-label="Facebook">
+                        <img src="Images/footer - facebook icon.png" alt="Facebook">
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <img src="Images/footer - instagram icon.png" alt="Instagram">
+                    </a>
+
+                </div>
+            </div>
+
         </div>
 
-    </section>
-
-    <br>
-
-    <!-- About the Store -->
-    <section class="about-store">
-        <h2>About SM Seaside City Cebu</h2>
-        <p>SM Seaside City Cebu is one of the largest malls in the Philippines, offering a wide range of shopping, dining, entertainment, and essential services.</p>
-
-        <div class="store-details">
-            <p>Cebu South Coastal Road, Cebu City, Cebu</p>
-            <p>10:00 AM - 10:00 PM (Daily)</p>
-            <p>(032) 340-8735</p>
-            <p><a href="#">https://www.smsupermalls.com</a></p>
+        <div class="footer-bottom">
+            <p>
+                &copy; 2026 Kumarites. Community-powered consumer information.
+            </p>
         </div>
 
-        <button>Visit Official Website</button>
-    </section>
-
-    <br>
-
-    <!-- Store Map -->
-    <section class="store-map">
-        <h3>Store Location</h3>
-
-        <!-- IMAGE: Map of store location -->
-        <img src="" alt="Map of SM Seaside City Cebu">
-    </section>
-
-    <br>
-
-    <!-- Popular Categories -->
-    <section class="popular-categories">
-        <h3>Popular Categories in this Store</h3>
-
-        <div class="category-list">
-            <ol>
-                <li>Food <strong>(12)</strong></li>
-                <li>Shopping <strong>(10)</strong></li>
-                <li>Services <strong>(6)</strong></li>
-                <li>Entertainment <strong>(5)</strong></li>
-                <li>Personal Care <strong>(4)</strong></li>
-                <li>School Supplies <strong>(3)</strong></li>
-            </ol>
-        </div>
-    </section>
-
-    <br>
-
-    <!-- Call to Action -->
-    <section class="cta-card">
-        <h3>Share your finds!</h3>
-        <p>Help other Kumarites discover great deals at SM Seaside.</p>
-        <button>Create a Buzz</button>
-
-        <!-- IMAGE: Illustration of girl shopping -->
-        <img src="" alt="Illustration of a girl shopping">
-    </section>
-
-    <br>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; Kumarites 2026</p>
     </footer>
 
 </body>
