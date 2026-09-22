@@ -1,0 +1,147 @@
+/* =========================
+   CATEGORIES PAGE
+   ========================= */
+
+.categories-page {
+    background-color: #fafafd;
+    padding: 40px 30px 50px;
+}
+
+
+/* Main Categories Container */
+
+.categories-page .categories {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* =========================
+   PAGE HEADING
+   ========================= */
+
+.categories-page .categories-header {
+    display: block;
+    margin-bottom: 25px;
+}
+
+.categories-page .categories-header h2 {
+    margin: 0 0 10px;
+
+    font-size: 28px;
+    color: #222;
+}
+
+.categories-page .categories-header p {
+    max-width: 750px;
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   CATEGORY LIST
+   ========================= */
+
+.categories-page .categories-content {
+    width: 100%;
+}
+
+.categories-page .category-list {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+
+/* =========================
+   SMALLER DESKTOP
+   ========================= */
+
+@media (max-width: 1200px) {
+
+    .categories-page {
+        padding: 35px 25px 45px;
+    }
+
+    .categories-page .categories {
+        max-width: 1000px;
+    }
+
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 900px) {
+
+    .categories-page {
+        padding: 30px 20px 40px;
+    }
+
+    .categories-page .categories-header h2 {
+        font-size: 26px;
+    }
+
+    .categories-page .categories-header p {
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .categories-page {
+        padding: 25px 18px 35px;
+    }
+
+    .categories-page .categories-header {
+        margin-bottom: 20px;
+    }
+
+    .categories-page .categories-header h2 {
+        font-size: 24px;
+    }
+
+    .categories-page .categories-header p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .categories-page .category-list {
+        justify-content: center;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+   ========================= */
+
+@media (max-width: 450px) {
+
+    .categories-page {
+        padding: 20px 15px 30px;
+    }
+
+    .categories-page .categories-header h2 {
+        font-size: 22px;
+    }
+
+}

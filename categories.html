@@ -4,104 +4,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Categories - Kumarites</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="categories.css">
 </head>
 
 <body>
 
-    <!-- Page Header -->
-    <header>
-        <h1>Kumarites</h1>
+    <!-- Navigation Bar -->
+    <header class="navbar">
 
-        <!-- Navigation -->
-        <nav>
-            <h2>Navigation</h2>
+        <div class="logo">
+            <a href="index.html">
+                <img
+                    src="Images/BuzzFeed Images/Kumarites Logo.png"
+                    alt="Kumarites"
+                >
+            </a>
 
-            <div class="navigation-links">
-                <a href="#">Home</a> |
-                <a href="#">Buzz Feed</a> |
-                <a href="#">Stores</a> |
-                <a href="#">Categories</a>
-            </div>
+            <p>Real Finds. Real People. A More Sulit You.</p>
+        </div>
 
-            <br>
-
-            <div class="navigation-tools">
-                <input type="text" placeholder="Search categories">
-
-                <button>Notifications</button>
-                <button>Log In</button>
-                <button>Sign Up</button>
-            </div>
+        <nav class="main-navigation">
+            <a href="index.html">Home</a>
+            <a href="BuzzFeed.html">BuzzFeed</a>
+            <a href="stores.html">Stores</a>
+            <a href="categories.html" class="active">Categories</a>
         </nav>
+
+        <div class="nav-search">
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search stores, products, or buzzes"
+            >
+        </div>
+
+        <div class="nav-actions">
+            <a href="login.html" class="login-button">Log In</a>
+            <a href="signup.html" class="signup-button">Sign Up</a>
+        </div>
+
     </header>
 
-    <main>
 
-        <!-- Breadcrumb -->
-        <p>
-            <a href="#">Home</a> &gt; Categories
-        </p>
+    <!-- Main Content -->
+    <main class="categories-page">
 
-        <!-- Categories Header -->
-        <section>
-            <h2>Browse by Category</h2>
-            <p>
-                Explore useful finds, deals, recommendations, and helpful
-                tips shared by the Kumarites community.
-            </p>
-        </section>
+        <section class="categories">
 
-        <!-- Category List -->
-        <section>
-            <h2>Categories</h2>
+            <!-- Page Heading -->
+            <div class="categories-header">
 
-            <div class="category">
-                <h3>Food &amp; Beverages</h3>
-                <p>Discover affordable meals, drinks, food promos, and recommended places.</p>
+                <div>
+                    <h2>Browse by Category</h2>
+
+                    <p>
+                        Explore useful finds, deals, recommendations,
+                        and helpful tips shared by the Kumarites community.
+                    </p>
+                </div>
+
             </div>
 
-            <div class="category">
-                <h3>Grocery</h3>
-                <p>Find grocery deals, affordable essentials, and sulit everyday products.</p>
+
+            <!-- Category List -->
+            <div class="categories-content">
+
+                <div class="category-list">
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">🛒</span>
+                        <span>Grocery</span>
+                    </a>
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">🍽️</span>
+                        <span>Food</span>
+                    </a>
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">👗</span>
+                        <span>Clothing</span>
+                    </a>
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">📱</span>
+                        <span>Electronics</span>
+                    </a>
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">📒</span>
+                        <span>School Supplies</span>
+                    </a>
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">🏠</span>
+                        <span>Household</span>
+                    </a>
+
+                    <a href="#" class="category-card">
+                        <span class="category-icon">⚙️</span>
+                        <span>Services</span>
+                    </a>
+
+                </div>
+
             </div>
 
-            <div class="category">
-                <h3>School Supplies</h3>
-                <p>Browse deals and recommendations for school and learning essentials.</p>
-            </div>
-
-            <div class="category">
-                <h3>Fashion</h3>
-                <p>Discover affordable clothing, accessories, sales, and fashion finds.</p>
-            </div>
-
-            <div class="category">
-                <h3>Electronics</h3>
-                <p>Find deals and recommendations for gadgets, accessories, and electronics.</p>
-            </div>
-
-            <div class="category">
-                <h3>Home &amp; Living</h3>
-                <p>Explore household products, home essentials, and budget-friendly finds.</p>
-            </div>
         </section>
 
     </main>
 
-    <!-- Page Footer -->
-    <footer>
-        <h2>Kumarites</h2>
-        <p>Real People. Real Finds. Real Savings!</p>
 
-        <p>
-            <a href="#">Home</a> |
-            <a href="#">Buzz Feed</a> |
-            <a href="#">Stores</a> |
-            <a href="#">Categories</a>
-        </p>
+    <!-- Footer -->
+    <footer class="footer">
 
-        <p>&copy; Kumarites 2026</p>
+        <div class="footer-content">
+
+            <!-- Kumarites Information -->
+            <div class="footer-column footer-brand">
+
+                <h2>KUMARITES</h2>
+
+                <p>
+                    Real Finds. Real People. A More Sulit You.
+                </p>
+
+                <p>
+                    A community-driven platform where people share
+                    sulit finds, price updates, and store recommendations.
+                </p>
+
+            </div>
+
+
+            <!-- Menu -->
+            <div class="footer-column">
+
+                <h3>Menu</h3>
+
+                <a href="index.html">Home</a>
+                <a href="BuzzFeed.html">Buzz Feed</a>
+                <a href="stores.html">Stores</a>
+                <a href="categories.html">Categories</a>
+                <a href="about.html">About Kumarites</a>
+
+            </div>
+
+
+            <!-- Contact -->
+            <div class="footer-column">
+
+                <h3>Contact</h3>
+
+                <a href="#">Contact Us</a>
+                <a href="#">Community Guidelines</a>
+                <a href="#">Privacy Policy</a>
+
+            </div>
+
+
+            <!-- Social Media -->
+            <div class="footer-column footer-social">
+
+                <h3>Follow Us</h3>
+
+                <div class="social-icons">
+
+                    <a href="#" aria-label="Facebook">
+                        <img
+                            src="Images/footer - facebook icon.png"
+                            alt="Facebook"
+                        >
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <img
+                            src="Images/footer - instagram icon.png"
+                            alt="Instagram"
+                        >
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+
+            <p>
+                &copy; 2026 Kumarites.
+                Community-powered consumer information.
+            </p>
+
+        </div>
+
     </footer>
 
 </body>
