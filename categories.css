@@ -1,57 +1,83 @@
-/* =========================
-   CATEGORIES PAGE
-   ========================= */
+/* Categories Page */
 
 .categories-page {
     background-color: #fafafd;
-    padding: 40px 30px 50px;
 }
 
 
-/* Main Categories Container */
+/* Hero Section */
 
-.categories-page .categories {
+.categories-hero {
+    min-height: 340px;
+
+    display: flex;
+    align-items: center;
+
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(250, 250, 253, 1) 0%,
+            rgba(250, 250, 253, 0.98) 25%,
+            rgba(250, 250, 253, 0.92) 45%,
+            rgba(250, 250, 253, 0.65) 60%,
+            rgba(250, 250, 253, 0.20) 78%,
+            rgba(250, 250, 253, 0.05) 100%
+        ),
+        url("Images/Categories Images/categories-hero.png");
+
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+}
+
+
+/* Hero Content */
+
+.categories-hero-content {
+    width: 100%;
     max-width: 1200px;
+
     margin: 0 auto;
+    padding: 50px 40px;
 }
 
+.categories-hero h1 {
+    max-width: 600px;
 
-/* =========================
-   PAGE HEADING
-   ========================= */
+    margin: 0 0 18px;
 
-.categories-page .categories-header {
-    display: block;
-    margin-bottom: 25px;
+    font-size: 52px;
+    line-height: 1.1;
+
+    color: #1f1f2e;
 }
 
-.categories-page .categories-header h2 {
-    margin: 0 0 10px;
-
-    font-size: 28px;
-    color: #222;
+.categories-hero h1 span {
+    color: #5b2dcc;
 }
 
-.categories-page .categories-header p {
-    max-width: 750px;
+.categories-hero p {
+    max-width: 520px;
+
     margin: 0;
 
-    color: #777;
+    font-size: 18px;
+    line-height: 1.6;
 
-    font-size: 14px;
-    line-height: 1.5;
+    color: #4f5565;
 }
 
 
-/* =========================
-   CATEGORY LIST
-   ========================= */
+/* Category Cards Section */
 
-.categories-page .categories-content {
-    width: 100%;
+.categories-section {
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 35px 30px 45px;
 }
 
-.categories-page .category-list {
+.categories-section .category-list {
     width: 100%;
 
     display: flex;
@@ -62,86 +88,124 @@
 }
 
 
-/* =========================
-   SMALLER DESKTOP
-   ========================= */
+/* Smaller Desktop */
 
 @media (max-width: 1200px) {
 
-    .categories-page {
-        padding: 35px 25px 45px;
+    .categories-hero {
+        min-height: 310px;
     }
 
-    .categories-page .categories {
-        max-width: 1000px;
+    .categories-hero-content {
+        padding: 45px 30px;
+    }
+
+    .categories-hero h1 {
+        font-size: 46px;
     }
 
 }
 
 
-/* =========================
-   TABLET
-   ========================= */
+/* Tablet */
 
 @media (max-width: 900px) {
 
-    .categories-page {
+    .categories-hero {
+        min-height: 280px;
+        background-position: center right;
+    }
+
+    .categories-hero-content {
+        padding: 35px 25px;
+    }
+
+    .categories-hero h1 {
+        font-size: 40px;
+    }
+
+    .categories-hero p {
+        max-width: 480px;
+        font-size: 16px;
+    }
+
+    .categories-section {
         padding: 30px 20px 40px;
     }
 
-    .categories-page .categories-header h2 {
-        font-size: 26px;
-    }
-
-    .categories-page .categories-header p {
-        font-size: 13px;
-    }
-
 }
 
 
-/* =========================
-   MOBILE
-   ========================= */
+/* Mobile */
 
 @media (max-width: 600px) {
 
-    .categories-page {
+    .categories-hero {
+        min-height: 250px;
+
+        background-image:
+            linear-gradient(
+                rgba(250, 250, 253, 0.94),
+                rgba(250, 250, 253, 0.94)
+            ),
+            url("Images/Categories Images/categories-hero.png");
+
+        background-position: center;
+    }
+
+    .categories-hero-content {
+        padding: 30px 20px;
+    }
+
+    .categories-hero h1 {
+        font-size: 32px;
+    }
+
+    .categories-hero p {
+        max-width: 100%;
+
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .categories-section {
         padding: 25px 18px 35px;
-    }
-
-    .categories-page .categories-header {
-        margin-bottom: 20px;
-    }
-
-    .categories-page .categories-header h2 {
-        font-size: 24px;
-    }
-
-    .categories-page .categories-header p {
-        font-size: 13px;
-        line-height: 1.4;
-    }
-
-    .categories-page .category-list {
-        justify-content: center;
     }
 
 }
 
 
-/* =========================
-   SMALL MOBILE
-   ========================= */
+/* Small Mobile */
 
 @media (max-width: 450px) {
 
-    .categories-page {
-        padding: 20px 15px 30px;
+    .categories-hero {
+        min-height: 230px;
     }
 
-    .categories-page .categories-header h2 {
-        font-size: 22px;
+    .categories-hero h1 {
+        font-size: 28px;
+    }
+
+}
+
+
+/* Footer Breakpoints */
+
+@media (max-width: 900px) {
+
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .footer-content {
+        grid-template-columns: 1fr;
     }
 
 }
