@@ -7,62 +7,124 @@
 
     <title>Categories - Kumarites</title>
 
+    <!-- Shared Website CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Categories Page CSS -->
     <link rel="stylesheet" href="categories.css">
 </head>
 
+
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- =====================================================
+         NAVIGATION BAR
+         ===================================================== -->
+
     <header class="navbar">
 
+        <!-- Kumarites Logo -->
         <div class="logo">
+
             <a href="index.html">
                 <img
                     src="Images/BuzzFeed Images/Kumarites Logo.png"
-                    alt="Kumarites"
+                    alt="Kumarites Logo"
                 >
             </a>
 
-            <p>Real Finds. Real People. A More Sulit You.</p>
+            <p>
+                Real Finds. Real People. A More Sulit You.
+            </p>
+
         </div>
 
+
+        <!-- Main Navigation -->
         <nav class="main-navigation">
-            <a href="index.html">Home</a>
-            <a href="BuzzFeed.html">BuzzFeed</a>
-            <a href="stores.html">Stores</a>
-            <a href="categories.html" class="active">Categories</a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="BuzzFeed.html">
+                BuzzFeed
+            </a>
+
+            <a href="stores.html">
+                Stores
+            </a>
+
+            <a href="categories.html" class="active">
+                Categories
+            </a>
+
         </nav>
 
+
+        <!-- Main Website Search -->
         <div class="nav-search">
+
             <input
                 type="search"
                 placeholder="Search stores, products, or buzzes"
+                aria-label="Search Kumarites"
             >
+
         </div>
 
+
+        <!-- Login / Sign Up -->
         <div class="nav-actions">
-            <a href="login.html" class="login-button">Log In</a>
-            <a href="signup.html" class="signup-button">Sign Up</a>
+
+            <a href="login.html" class="login-button">
+                Log In
+            </a>
+
+            <a href="signup.html" class="signup-button">
+                Sign Up
+            </a>
+
         </div>
 
     </header>
 
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
     <main class="categories-page">
 
-        <!-- Hero Section -->
+
+        <!-- =================================================
+             HERO SECTION
+             ================================================= -->
+
         <section class="categories-hero">
 
+            <!-- Barkada Mall Hero Image -->
+            <img
+                src="Images/Categories Images/Barkada Mall.png"
+                alt="Group of friends shopping together inside a modern mall"
+                class="categories-hero-image"
+            >
+
+
+            <!-- Hero Text -->
             <div class="categories-hero-content">
 
                 <h1>
-                    Browse by <span>Category</span>
+                    Find What's
+                    <span>Sulit</span>
+                    for You
                 </h1>
 
                 <p>
-                    Explore useful finds, deals, recommendations,
-                    and helpful tips shared by the Kumarites community.
+                    Browse categories to discover sulit finds,
+                    deals, recommendations, and helpful tips
+                    shared by the Kumarites community.
                 </p>
 
             </div>
@@ -70,45 +132,382 @@
         </section>
 
 
-        <!-- Category Cards -->
-        <section class="categories-section">
 
-            <div class="category-list">
+        <!-- =================================================
+             EXPLORE CATEGORIES
+             ================================================= -->
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">🛒</span>
-                    <span>Grocery</span>
+        <section
+            class="categories-section"
+            id="exploreCategories"
+        >
+
+            <div class="categories-heading">
+
+                <h2>
+                    Explore Categories
+                </h2>
+
+                <p>
+                    Find the kind of sulit discovery you're looking for.
+                </p>
+
+            </div>
+
+
+
+            <!-- Category Search -->
+            <div class="category-search">
+
+                <input
+                    type="search"
+                    id="categorySearch"
+                    placeholder="Search categories..."
+                    aria-label="Search categories"
+                >
+
+            </div>
+
+
+
+            <!-- Category Cards -->
+            <div
+                class="category-list"
+                id="categoryList"
+            >
+
+
+                <!-- Grocery -->
+                <a
+                    href="BuzzFeed.html"
+                    class="category-card"
+                    data-category="grocery supermarket essentials"
+                >
+
+                    <span class="category-icon">
+                        🛒
+                    </span>
+
+                    <span class="category-name">
+                        Grocery
+                    </span>
+
                 </a>
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">🍽️</span>
-                    <span>Food</span>
+
+
+                <!-- Food -->
+                <a
+                    href="BuzzFeed.html"
+                    class="category-card"
+                    data-category="food meals restaurant dining"
+                >
+
+                    <span class="category-icon">
+                        🍽️
+                    </span>
+
+                    <span class="category-name">
+                        Food
+                    </span>
+
                 </a>
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">👗</span>
-                    <span>Clothing</span>
+
+
+                <!-- Clothing -->
+                <a
+                    href="BuzzFeed.html"
+                    class="category-card"
+                    data-category="clothing fashion clothes apparel"
+                >
+
+                    <span class="category-icon">
+                        👗
+                    </span>
+
+                    <span class="category-name">
+                        Clothing
+                    </span>
+
                 </a>
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">📱</span>
-                    <span>Electronics</span>
+
+
+                <!-- Electronics -->
+                <a
+                    href="BuzzFeed.html"
+                    class="category-card"
+                    data-category="electronics gadgets technology devices"
+                >
+
+                    <span class="category-icon">
+                        📱
+                    </span>
+
+                    <span class="category-name">
+                        Electronics
+                    </span>
+
                 </a>
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">📒</span>
-                    <span>School Supplies</span>
+
+
+                <!-- School Supplies -->
+                <a
+                    href="BuzzFeed.html"
+                    class="category-card"
+                    data-category="school supplies notebooks stationery"
+                >
+
+                    <span class="category-icon">
+                        📒
+                    </span>
+
+                    <span class="category-name">
+                        School Supplies
+                    </span>
+
                 </a>
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">🏠</span>
-                    <span>Household</span>
+
+
+                <!-- Household -->
+                <a
+                    href="BuzzFeed.html"
+                    class="category-card"
+                    data-category="household home living"
+                >
+
+                    <span class="category-icon">
+                        🏠
+                    </span>
+
+                    <span class="category-name">
+                        Household
+                    </span>
+
                 </a>
 
-                <a href="#" class="category-card">
-                    <span class="category-icon">⚙️</span>
-                    <span>Services</span>
+
+
+                <!-- Services -->
+                <a
+                    href="stores.html"
+                    class="category-card"
+                    data-category="services service repair assistance"
+                >
+
+                    <span class="category-icon">
+                        ⚙️
+                    </span>
+
+                    <span class="category-name">
+                        Services
+                    </span>
+
                 </a>
+
+            </div>
+
+
+
+            <!-- Message Shown Only When Search Has No Match -->
+            <p
+                id="noCategoryResult"
+                class="no-category-result"
+            >
+                No matching category found.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FEATURED THIS WEEK
+             ================================================= -->
+
+        <section class="featured-categories">
+
+            <!-- Section Heading -->
+            <div class="section-heading">
+
+                <p class="section-label">
+                    DISCOVER
+                </p>
+
+                <h2>
+                    Featured This Week
+                </h2>
+
+                <p class="section-description">
+                    Discover categories featuring everyday finds,
+                    sulit deals, and useful community recommendations.
+                </p>
+
+            </div>
+
+
+
+            <!-- Featured Cards -->
+            <div class="featured-list">
+
+
+                <!-- Grocery -->
+                <article class="featured-card">
+
+                    <div class="featured-icon">
+                        🛒
+                    </div>
+
+
+                    <div class="featured-details">
+
+                        <span class="featured-tag">
+                            EVERYDAY FINDS
+                        </span>
+
+                        <h3>
+                            Grocery
+                        </h3>
+
+                        <p>
+                            Check everyday essentials,
+                            supermarket deals, and budget-friendly
+                            grocery finds.
+                        </p>
+
+
+                        <button
+                            type="button"
+                            class="featured-link"
+                            data-featured-category="grocery"
+                        >
+                            Explore Grocery →
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- Food -->
+                <article class="featured-card">
+
+                    <div class="featured-icon">
+                        🍽️
+                    </div>
+
+
+                    <div class="featured-details">
+
+                        <span class="featured-tag">
+                            SULIT EATS
+                        </span>
+
+                        <h3>
+                            Food
+                        </h3>
+
+                        <p>
+                            Discover affordable meals,
+                            food promos, and recommendations
+                            shared by the community.
+                        </p>
+
+
+                        <button
+                            type="button"
+                            class="featured-link"
+                            data-featured-category="food"
+                        >
+                            Explore Food →
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- Electronics -->
+                <article class="featured-card">
+
+                    <div class="featured-icon">
+                        📱
+                    </div>
+
+
+                    <div class="featured-details">
+
+                        <span class="featured-tag">
+                            SMART FINDS
+                        </span>
+
+                        <h3>
+                            Electronics
+                        </h3>
+
+                        <p>
+                            Explore gadget deals,
+                            useful accessories, and electronics
+                            recommendations.
+                        </p>
+
+
+                        <button
+                            type="button"
+                            class="featured-link"
+                            data-featured-category="electronics"
+                        >
+                            Explore Electronics →
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             COMMUNITY CALL TO ACTION
+             ================================================= -->
+
+        <section class="categories-cta">
+
+            <div class="categories-cta-content">
+
+                <div class="cta-text">
+
+                    <p class="cta-label">
+                        KUMARITES COMMUNITY
+                    </p>
+
+                    <h2>
+                        Got a sulit find?
+                    </h2>
+
+                    <p>
+                        Share your discovery with the community.
+                        Your tsika might help another Kumarite save.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="cta-button"
+                    id="createBuzzButton"
+                >
+                    + Create a Buzz
+                </button>
 
             </div>
 
@@ -117,14 +516,22 @@
     </main>
 
 
-    <!-- Footer -->
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
     <footer class="footer">
 
         <div class="footer-content">
 
+
+            <!-- Kumarites Information -->
             <div class="footer-column footer-brand">
 
-                <h2>KUMARITES</h2>
+                <h2>
+                    KUMARITES
+                </h2>
 
                 <p>
                     Real Finds. Real People. A More Sulit You.
@@ -138,48 +545,93 @@
             </div>
 
 
+
+            <!-- Menu -->
             <div class="footer-column">
 
-                <h3>Menu</h3>
+                <h3>
+                    Menu
+                </h3>
 
-                <a href="index.html">Home</a>
-                <a href="BuzzFeed.html">Buzz Feed</a>
-                <a href="stores.html">Stores</a>
-                <a href="categories.html">Categories</a>
-                <a href="about.html">About Kumarites</a>
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="BuzzFeed.html">
+                    Buzz Feed
+                </a>
+
+                <a href="stores.html">
+                    Stores
+                </a>
+
+                <a href="categories.html">
+                    Categories
+                </a>
+
+                <a href="about.html">
+                    About Kumarites
+                </a>
 
             </div>
 
 
+
+            <!-- Contact -->
             <div class="footer-column">
 
-                <h3>Contact</h3>
+                <h3>
+                    Contact
+                </h3>
 
-                <a href="#">Contact Us</a>
-                <a href="#">Community Guidelines</a>
-                <a href="#">Privacy Policy</a>
+                <a href="#">
+                    Contact Us
+                </a>
+
+                <a href="#">
+                    Community Guidelines
+                </a>
+
+                <a href="#">
+                    Privacy Policy
+                </a>
 
             </div>
 
 
+
+            <!-- Social Media -->
             <div class="footer-column footer-social">
 
-                <h3>Follow Us</h3>
+                <h3>
+                    Follow Us
+                </h3>
 
                 <div class="social-icons">
 
-                    <a href="#" aria-label="Facebook">
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+
                         <img
                             src="Images/footer - facebook icon.png"
                             alt="Facebook"
                         >
+
                     </a>
 
-                    <a href="#" aria-label="Instagram">
+
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+
                         <img
                             src="Images/footer - instagram icon.png"
                             alt="Instagram"
                         >
+
                     </a>
 
                 </div>
@@ -189,6 +641,8 @@
         </div>
 
 
+
+        <!-- Copyright -->
         <div class="footer-bottom">
 
             <p>
@@ -199,6 +653,177 @@
         </div>
 
     </footer>
+
+
+
+    <!-- =====================================================
+         SMALL NOTIFICATION
+         ===================================================== -->
+
+    <div
+        class="category-toast"
+        id="categoryToast"
+        role="status"
+        aria-live="polite"
+    >
+        Create a Buzz feature will be connected soon.
+    </div>
+
+
+
+    <!-- =====================================================
+         CATEGORY PAGE JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+        /* Category Search */
+
+        const categorySearch =
+            document.getElementById("categorySearch");
+
+        const categoryCards =
+            document.querySelectorAll(".category-card");
+
+        const noCategoryResult =
+            document.getElementById("noCategoryResult");
+
+
+        function filterCategories() {
+
+            const searchValue =
+                categorySearch.value
+                    .toLowerCase()
+                    .trim();
+
+            let visibleCategories = 0;
+
+
+            categoryCards.forEach(function (card) {
+
+                const categoryKeywords =
+                    card.dataset.category.toLowerCase();
+
+                const categoryName =
+                    card.textContent
+                        .toLowerCase()
+                        .trim();
+
+
+                const matchesSearch =
+                    categoryKeywords.includes(searchValue) ||
+                    categoryName.includes(searchValue);
+
+
+                if (matchesSearch) {
+
+                    card.style.display = "";
+                    visibleCategories++;
+
+                }
+
+                else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            if (visibleCategories === 0) {
+
+                noCategoryResult.style.display = "block";
+
+            }
+
+            else {
+
+                noCategoryResult.style.display = "none";
+
+            }
+
+        }
+
+
+        categorySearch.addEventListener(
+            "input",
+            filterCategories
+        );
+
+
+
+        /* Featured Category Buttons */
+
+        const featuredLinks =
+            document.querySelectorAll(".featured-link");
+
+        const exploreCategories =
+            document.getElementById("exploreCategories");
+
+
+        featuredLinks.forEach(function (link) {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    const selectedCategory =
+                        link.dataset.featuredCategory;
+
+
+                    categorySearch.value =
+                        selectedCategory;
+
+
+                    filterCategories();
+
+
+                    exploreCategories.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+
+                    setTimeout(function () {
+
+                        categorySearch.focus();
+
+                    }, 500);
+
+                }
+            );
+
+        });
+
+
+
+        /* Create Buzz Temporary Notification */
+
+        const createBuzzButton =
+            document.getElementById("createBuzzButton");
+
+        const categoryToast =
+            document.getElementById("categoryToast");
+
+
+        createBuzzButton.addEventListener(
+            "click",
+            function () {
+
+                categoryToast.classList.add("show");
+
+
+                setTimeout(function () {
+
+                    categoryToast.classList.remove("show");
+
+                }, 2800);
+
+            }
+        );
+
+    </script>
 
 </body>
 
