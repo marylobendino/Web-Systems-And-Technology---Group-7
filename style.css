@@ -640,6 +640,21 @@ select {
     font-size: 13px;
 }
 
+.heart-button {
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease;
+}
+
+.heart-button:hover {
+    transform: scale(1.05);
+}
+
+.heart-button.liked {
+    color: #ff3970;
+    font-weight: bold;
+}
+
 /* =========================
    TRENDING STORES
    ========================= */

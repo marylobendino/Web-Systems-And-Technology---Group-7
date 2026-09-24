@@ -1,0 +1,131 @@
+<html>
+<html lang="en">
+<head>
+
+    <title>Kumarites</title>
+
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js"></script>
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <!-- LEFT SIDE -->
+        <div class="welcome-section">
+
+            <div class="logo">
+                <a href="index.html">
+                    <img
+                        src="Images/BuzzFeed Images/Kumarites Logo.png"
+                        alt="Kumarites"
+                        width="300px"
+                    >   
+                </a>
+
+                <h2>Real Finds. Real People. A More Sulit You.</h2>
+
+                <p>
+                    Discover sulit finds, share recommendations,
+                    and connect with your community.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="form-section">
+
+            <!-- LOGIN FORM -->
+            <div class="form-container" id="loginForm">
+
+                <h2>Welcome Back!</h2>
+
+                <p class="form-subtitle">
+                    Log in to your Kumarites account.
+                </p>
+
+                <form>
+
+                    <label for="loginEmail">Email</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label for="loginPassword">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <button type="submit">Log In</button>
+
+                </form>
+
+                <p class="switch-form">
+                    Don't have an account?
+                    <a href="#" id="showSignup">Sign Up</a>
+                </p>
+
+            </div>
+
+
+            <!-- SIGN UP FORM -->
+            <div class="form-container hidden" id="signupForm">
+
+                <h2>Create an Account</h2>
+
+                <p class="form-subtitle">
+                    Join the Kumarites community.
+                </p>
+
+                <form>
+
+                    <label for="signupName">Full Name</label>
+                    <input
+                        type="text"
+                        id="signupName"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                    <label for="signupEmail">Email</label>
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label for="signupPassword">Password</label>
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                    <button type="submit">Sign Up</button>
+
+                </form>
+
+                <p class="switch-form">
+                    Already have an account?
+                    <a href="#" id="showLogin">Log In</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
