@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="categories.css">
 </head>
 
-
 <body>
 
     <!-- =====================================================
@@ -74,7 +73,7 @@
         </div>
 
 
-        <!-- Login / Sign Up -->
+        <!-- Login and Sign Up -->
         <div class="nav-actions">
 
             <a href="login.html" class="login-button">
@@ -112,7 +111,7 @@
             >
 
 
-            <!-- Hero Text -->
+            <!-- Hero Content -->
             <div class="categories-hero-content">
 
                 <h1>
@@ -142,6 +141,7 @@
             id="exploreCategories"
         >
 
+            <!-- Section Heading -->
             <div class="categories-heading">
 
                 <h2>
@@ -312,7 +312,7 @@
 
 
 
-            <!-- Message Shown Only When Search Has No Match -->
+            <!-- Search No Result Message -->
             <p
                 id="noCategoryResult"
                 class="no-category-result"
@@ -330,7 +330,7 @@
 
         <section class="featured-categories">
 
-            <!-- Section Heading -->
+            <!-- Featured Section Heading -->
             <div class="section-heading">
 
                 <p class="section-label">
@@ -354,7 +354,7 @@
             <div class="featured-list">
 
 
-                <!-- Grocery -->
+                <!-- Grocery Featured Card -->
                 <article class="featured-card">
 
                     <div class="featured-icon">
@@ -393,7 +393,7 @@
 
 
 
-                <!-- Food -->
+                <!-- Food Featured Card -->
                 <article class="featured-card">
 
                     <div class="featured-icon">
@@ -432,7 +432,7 @@
 
 
 
-                <!-- Electronics -->
+                <!-- Electronics Featured Card -->
                 <article class="featured-card">
 
                     <div class="featured-icon">
@@ -483,6 +483,7 @@
 
             <div class="categories-cta-content">
 
+                <!-- CTA Text -->
                 <div class="cta-text">
 
                     <p class="cta-label">
@@ -501,6 +502,7 @@
                 </div>
 
 
+                <!-- CTA Button -->
                 <button
                     type="button"
                     class="cta-button"
@@ -657,7 +659,7 @@
 
 
     <!-- =====================================================
-         SMALL NOTIFICATION
+         CREATE BUZZ NOTIFICATION
          ===================================================== -->
 
     <div
@@ -672,158 +674,10 @@
 
 
     <!-- =====================================================
-         CATEGORY PAGE JAVASCRIPT
+         CATEGORIES JAVASCRIPT
          ===================================================== -->
 
-    <script>
-
-        /* Category Search */
-
-        const categorySearch =
-            document.getElementById("categorySearch");
-
-        const categoryCards =
-            document.querySelectorAll(".category-card");
-
-        const noCategoryResult =
-            document.getElementById("noCategoryResult");
-
-
-        function filterCategories() {
-
-            const searchValue =
-                categorySearch.value
-                    .toLowerCase()
-                    .trim();
-
-            let visibleCategories = 0;
-
-
-            categoryCards.forEach(function (card) {
-
-                const categoryKeywords =
-                    card.dataset.category.toLowerCase();
-
-                const categoryName =
-                    card.textContent
-                        .toLowerCase()
-                        .trim();
-
-
-                const matchesSearch =
-                    categoryKeywords.includes(searchValue) ||
-                    categoryName.includes(searchValue);
-
-
-                if (matchesSearch) {
-
-                    card.style.display = "";
-                    visibleCategories++;
-
-                }
-
-                else {
-
-                    card.style.display = "none";
-
-                }
-
-            });
-
-
-            if (visibleCategories === 0) {
-
-                noCategoryResult.style.display = "block";
-
-            }
-
-            else {
-
-                noCategoryResult.style.display = "none";
-
-            }
-
-        }
-
-
-        categorySearch.addEventListener(
-            "input",
-            filterCategories
-        );
-
-
-
-        /* Featured Category Buttons */
-
-        const featuredLinks =
-            document.querySelectorAll(".featured-link");
-
-        const exploreCategories =
-            document.getElementById("exploreCategories");
-
-
-        featuredLinks.forEach(function (link) {
-
-            link.addEventListener(
-                "click",
-                function () {
-
-                    const selectedCategory =
-                        link.dataset.featuredCategory;
-
-
-                    categorySearch.value =
-                        selectedCategory;
-
-
-                    filterCategories();
-
-
-                    exploreCategories.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-
-                    setTimeout(function () {
-
-                        categorySearch.focus();
-
-                    }, 500);
-
-                }
-            );
-
-        });
-
-
-
-        /* Create Buzz Temporary Notification */
-
-        const createBuzzButton =
-            document.getElementById("createBuzzButton");
-
-        const categoryToast =
-            document.getElementById("categoryToast");
-
-
-        createBuzzButton.addEventListener(
-            "click",
-            function () {
-
-                categoryToast.classList.add("show");
-
-
-                setTimeout(function () {
-
-                    categoryToast.classList.remove("show");
-
-                }, 2800);
-
-            }
-        );
-
-    </script>
+    <script src="categories.js"></script>
 
 </body>
 
