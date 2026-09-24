@@ -58,17 +58,17 @@
             <p><strong>4.6</strong> Community Rating (120 ratings)</p>
         </div>
 
-        <button>Share</button>
-        <button>Create a Buzz</button>
+        <button type="button" class="share-button" id="shareStoreButton">Share</button>
+        <button type="button" class="create-buzz-button">Create a Buzz</button>
     </section>
 
     <section class="store-tabs">
         <div class="tabs-list">
-            <a href="#">Latest Buzzes</a> |
-            <a href="#">Sulit Finds</a> |
-            <a href="#">Sale / Promos</a> |
-            <a href="#">Recommendations</a> |
-            <a href="#">Advice</a>
+            <button class="tab-button active" type="button" data-category="latest" aria-selected="true">Latest Buzzes</button>
+            <button class="tab-button" type="button" data-category="sulit" aria-selected="false">Sulit Finds</button>
+            <button class="tab-button" type="button" data-category="sale" aria-selected="false">Sale / Promos</button>
+            <button class="tab-button" type="button" data-category="recommendation" aria-selected="false">Recommendations</button>
+            <button class="tab-button" type="button" data-category="advice" aria-selected="false">Advice</button>
         </div>
 
         <div class="search-sort">
@@ -92,14 +92,14 @@
 
             <ul class="buzz-list-items">
 
-                <li class="buzz-card">
+                <li class="buzz-card" data-category="sulit">
                     <div class="buzz-image">
                         <img src="Images/Stores%20Images/DoveBuy1Take1.png" alt="Dove Buy 1 Take 1 promo">
                     </div>
                     <div class="buzz-card-content">
                         <div class="buzz-meta">
                             <span class="buzz-type sulit">SULIT FIND</span>
-                            <span class="buzz-time">2 hours ago</span>
+                            <span class="buzz-time" data-minutes-ago="120">2 hours ago</span>
                         </div>
                         <h3>Buy 1 Take 1 on Dove Shampoo!</h3>
                         <p>Saw this at Watsons inside SM Mall of Asia. Buy 1 Take 1 on selected Dove variants. Until supplies last!</p>
@@ -118,14 +118,14 @@
                     </div>
                 </li>
 
-                <li class="buzz-card">
+                <li class="buzz-card" data-category="sale">
                     <div class="buzz-image">
                         <img src="Images/Stores%20Images/Mang%20Inasal.png" alt="Mang Inasal promo">
                     </div>
                     <div class="buzz-card-content">
                         <div class="buzz-meta">
                             <span class="buzz-type sale">SALE / PROMO</span>
-                            <span class="buzz-time">5 hours ago</span>
+                            <span class="buzz-time" data-minutes-ago="300">5 hours ago</span>
                         </div>
                         <h3>Unli Rice for &#8369;99 at Mang Inasal!</h3>
                         <p>Perfect for lunch! Unli rice promo is still ongoing at Mang Inasal, SM Mall of Asia. Sulit kaayo!</p>
@@ -144,14 +144,14 @@
                     </div>
                 </li>
 
-                <li class="buzz-card">
+                <li class="buzz-card" data-category="recommendation">
                     <div class="buzz-image">
                         <img src="Images/Stores%20Images/Miniso.png" alt="Miniso finds">
                     </div>
                     <div class="buzz-card-content">
                         <div class="buzz-meta">
                             <span class="buzz-type recommendation">RECOMMENDATION</span>
-                            <span class="buzz-time">1 day ago</span>
+                            <span class="buzz-time" data-minutes-ago="1440">1 day ago</span>
                         </div>
                         <h3>Cute and affordable finds at Miniso</h3>
                         <p>Lots of new items this week! Kawaii stuff, organizers, and school supplies. Prices are still affordable.</p>
@@ -170,14 +170,14 @@
                     </div>
                 </li>
 
-                <li class="buzz-card">
+                <li class="buzz-card" data-category="advice">
                     <div class="buzz-image">
                         <img src="Images/Stores%20Images/MallOfAsia.png" alt="SM Mall of Asia parking area">
                     </div>
                     <div class="buzz-card-content">
                         <div class="buzz-meta">
                             <span class="buzz-type advice">ADVICE</span>
-                            <span class="buzz-time">2 days ago</span>
+                            <span class="buzz-time" data-minutes-ago="2880">2 days ago</span>
                         </div>
                         <h3>Go early to avoid parking hassle</h3>
                         <p>Weekends get really crowded. Best to go before 11 AM if you're bringing a car. Parking fills up fast!</p>
@@ -198,6 +198,10 @@
 
             </ul>
 
+            <div class="load-more-wrapper">
+                <button type="button" id="loadMoreBuzzesButton" class="load-more-button">Load More Buzzes</button>
+            </div>
+
         </section>
 
         <aside class="store-sidebar">
@@ -210,10 +214,10 @@
                     <p class="detail-item"><i class="fi fi-rr-marker detail-icon" aria-hidden="true"></i><span>Seaside Blvd, Mall of Asia Complex, Pasay City, Metro Manila</span></p>
                     <p class="detail-item"><i class="fi fi-rr-clock-three detail-icon" aria-hidden="true"></i><span>10:00 AM - 10:00 PM (Daily)</span></p>
                     <p class="detail-item"><i class="fi fi-sr-phone-call detail-icon" aria-hidden="true"></i><span>(02) 8556-0680</span></p>
-                    <p class="detail-item"><i class="fi fi-rr-globe detail-icon" aria-hidden="true"></i><a href="#">www.smsupermalls.com</a></p>
+                    <p class="detail-item"><i class="fi fi-rr-globe detail-icon" aria-hidden="true"></i><a href="https://www.smsupermalls.com" target="_blank" rel="noopener noreferrer">www.smsupermalls.com</a></p>
                 </div>
 
-                <button>Visit Official Website</button>
+                <a class="official-website-button" href="https://www.smsupermalls.com" target="_blank" rel="noopener noreferrer">Visit Official Website</a>
             </section>
 
             <section class="store-map">
@@ -247,13 +251,81 @@
             <section class="cta-card">
                 <h3>Share your finds!</h3>
                 <p>Help other Kumarites discover great deals at SM Mall of Asia.</p>
-                <button>Create a Buzz</button>
+                <button type="button" class="create-buzz-button">Create a Buzz</button>
             </section>
 
         </aside>
 
     </div>
     </main>
+
+    <div class="buzz-modal hidden" id="createBuzzModal" aria-hidden="true">
+        <div class="buzz-modal-backdrop" data-close-create-modal></div>
+        <div class="buzz-modal-dialog create-buzz-dialog" role="dialog" aria-modal="true" aria-labelledby="createBuzzTitle">
+            <button class="modal-close" type="button" data-close-create-modal aria-label="Close create a buzz form">×</button>
+            <div class="create-buzz-content">
+                <span class="form-eyebrow">Share with Kumarites</span>
+                <h3 id="createBuzzTitle">Create a Buzz</h3>
+                <p class="form-intro">Share a useful find, promo, recommendation, or advice from your selected store.</p>
+                <form id="createBuzzForm">
+                    <label for="buzzCategory">Category</label>
+                    <select id="buzzCategory" name="category" required>
+                        <option value="sulit">Sulit Find</option>
+                        <option value="sale">Sale / Promo</option>
+                        <option value="recommendation">Recommendation</option>
+                        <option value="advice">Advice</option>
+                    </select>
+
+                    <label for="buzzTitleInput">Title</label>
+                    <input id="buzzTitleInput" name="title" type="text" maxlength="80" placeholder="What did you discover?" required>
+
+                    <label for="buzzDescriptionInput">Description</label>
+                    <textarea id="buzzDescriptionInput" name="description" maxlength="280" rows="4" placeholder="Tell the community what makes it useful..." required></textarea>
+
+                    <label for="buzzImageInput">Image <span>(required)</span></label>
+                    <input id="buzzImageInput" name="image" type="file" accept="image/jpeg,image/png,image/webp" required>
+                    <small class="form-hint">JPG, PNG, or WEBP | minimum 800 x 600 px | maximum 5 MB</small>
+                    <small id="buzzImageError" class="form-error" role="alert" hidden></small>
+
+                    <label for="buzzTagsInput">Place or tags <span>(optional)</span></label>
+                    <input id="buzzTagsInput" name="tags" type="text" maxlength="80" placeholder="e.g. Food Court | Budget Meals">
+
+                    <div class="create-buzz-form-actions">
+                        <button type="button" class="form-cancel-button" data-close-create-modal>Cancel</button>
+                        <button type="submit" class="form-submit-button">Post Buzz</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="buzz-modal hidden" id="buzzModal" aria-hidden="true">
+        <div class="buzz-modal-backdrop" data-close-modal></div>
+        <div class="buzz-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="buzzModalTitle">
+            <button class="modal-close" type="button" aria-label="Close modal">×</button>
+            <div class="modal-visual">
+                <img id="modalImage" src="" alt="Buzz item preview">
+            </div>
+            <div class="modal-content">
+                <span id="modalCategory" class="buzz-type">SULIT FIND</span>
+                <h3 id="buzzModalTitle">Buzz title</h3>
+                <p id="modalMeta" class="modal-meta">Store | Category</p>
+                <p id="modalDescription" class="modal-description">Buzz description goes here.</p>
+                <div class="modal-footer">
+                    <span>Posted by <strong id="modalAuthor">Author</strong></span>
+                    <span id="modalTime">2 hours ago</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="useful-button" type="button" aria-pressed="false">
+                        <i class="fi fi-rr-heart" aria-hidden="true"></i>
+                        <span>Useful 24</span>
+                    </button>
+                    <button class="save-button" type="button">Save</button>
+                    <button class="delete-button modal-delete-button" type="button" hidden>Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
 
@@ -315,6 +387,8 @@
         </div>
 
     </footer>
+
+    <script src="stores.js"></script>
 
 </body>
 

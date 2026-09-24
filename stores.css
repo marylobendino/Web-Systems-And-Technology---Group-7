@@ -94,6 +94,10 @@
     cursor: pointer;
 }
 
+.store-stats .share-button {
+    background-color: #f4f0ff;
+}
+
 .store-stats button:last-child {
     background-color: #5b2dcc;
     color: white;
@@ -110,15 +114,24 @@
     border-bottom: 1px solid #eeeeee;
 }
 
-.tabs-list a {
+.tab-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: "Lucida Sans", Arial, sans-serif;
     font-size: 14px;
-    text-decoration: none;
     color: #555;
 }
 
-.tabs-list a:first-child {
+.tab-button:hover,
+.tab-button.active {
     font-weight: bold;
     color: #5b2dcc;
+}
+
+.buzz-card[hidden] {
+    display: none;
 }
 
 .search-sort {
@@ -163,6 +176,31 @@
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+.load-more-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.load-more-button {
+    min-height: 40px;
+    padding: 0 20px;
+    border: 1px solid #6c3bd1;
+    border-radius: 7px;
+    background: #fff;
+    color: #5b2dcc;
+    cursor: pointer;
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.load-more-button:hover {
+    background: #f1ebff;
+    border-color: #5b2dcc;
 }
 
 .buzz-card {
@@ -285,21 +323,51 @@
 
 .save-button {
     align-self: flex-start;
-    margin-top: 12px;
+    margin-top: 0;
     font-family: "Lucida Sans", Arial, sans-serif;
-    padding: 7px 18px;
+    padding: 0 12px;
     border: 1px solid #e8e8f0;
     border-radius: 7px;
     background-color: white;
     color: #777;
     cursor: pointer;
     transition: 0.2s;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .save-button:hover {
     background-color: #fafafd;
     color: #5b2dcc;
     border-color: #8a62dc;
+}
+
+.save-button.saved {
+    background-color: #f1ebff;
+    border-color: #5b2dcc;
+    color: #5b2dcc;
+}
+
+.delete-button {
+    align-self: flex-start;
+    height: 34px;
+    padding: 0 12px;
+    border: 1px solid #f0caca;
+    border-radius: 7px;
+    background-color: #fff;
+    color: #b33a3a;
+    cursor: pointer;
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1;
+}
+
+.delete-button:hover {
+    background-color: #fff2f2;
+    border-color: #d97979;
 }
 
 .buzz-actions {
@@ -364,8 +432,303 @@
     background-color: #4720ad;
 }
 
-.useful-button[aria-pressed="true"] i::before {
-    content: "\\f004";
+.buzz-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.buzz-modal.hidden {
+    display: none;
+}
+
+.buzz-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.buzz-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(980px, 92vw);
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(31, 41, 55, 0.18);
+    display: grid;
+    grid-template-columns: 360px 1fr;
+}
+
+.create-buzz-dialog {
+    display: block;
+    width: min(560px, 92vw);
+    max-height: 92vh;
+    overflow-y: auto;
+}
+
+.create-buzz-content {
+    padding: 34px 34px 30px;
+}
+
+.form-eyebrow {
+    color: #5b2dcc;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.create-buzz-content h3 {
+    margin: 8px 0 6px;
+    color: #222;
+    font-size: 28px;
+}
+
+.form-intro {
+    margin: 0 0 24px;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+#createBuzzForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#createBuzzForm label {
+    margin-top: 8px;
+    color: #444;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#createBuzzForm label span {
+    color: #999;
+    font-weight: normal;
+}
+
+#createBuzzForm input,
+#createBuzzForm select,
+#createBuzzForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    color: #333;
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 14px;
+}
+
+#createBuzzForm textarea {
+    resize: vertical;
+}
+
+#buzzImageInput {
+    padding: 7px;
+    background-color: #fafafd;
+    cursor: pointer;
+}
+
+#buzzImageInput::file-selector-button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: 1px solid #d9cdf6;
+    border-radius: 5px;
+    background-color: #f1ebff;
+    color: #5b2dcc;
+    cursor: pointer;
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#buzzImageInput::file-selector-button:hover {
+    background-color: #e8ddff;
+}
+
+.form-hint {
+    margin-top: -3px;
+    color: #999;
+    font-size: 11px;
+}
+
+.form-error {
+    margin-top: -3px;
+    color: #b33a3a;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+#createBuzzForm input:focus,
+#createBuzzForm select:focus,
+#createBuzzForm textarea:focus {
+    outline: 2px solid rgba(91, 45, 204, 0.18);
+    border-color: #6c3bd1;
+}
+
+.create-buzz-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.form-cancel-button,
+.form-submit-button {
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.form-cancel-button {
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #666;
+}
+
+.form-submit-button {
+    border: 1px solid #5b2dcc;
+    background: #5b2dcc;
+    color: #fff;
+}
+
+.form-submit-button:hover {
+    background: #4720ad;
+    border-color: #4720ad;
+}
+
+.form-cancel-button:hover {
+    border-color: #b9a4ed;
+    color: #5b2dcc;
+}
+
+@media (max-width: 520px) {
+    .create-buzz-content {
+        padding: 28px 22px 24px;
+    }
+
+    .create-buzz-content h3 {
+        font-size: 24px;
+    }
+
+    .create-buzz-form-actions {
+        position: sticky;
+        bottom: -24px;
+        padding: 12px 0 0;
+        background: #fff;
+    }
+}
+
+.modal-visual {
+    background: #f6f3ff;
+    min-height: 340px;
+}
+
+.modal-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-content {
+    padding: 32px 30px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#buzzModalTitle {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.2;
+    color: #1d1d1f;
+}
+
+.modal-meta {
+    margin: 0;
+    color: #5b2dcc;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.modal-description {
+    margin: 0;
+    color: #4a4a4a;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 12px;
+    color: #666;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.modal-actions .useful-button,
+.modal-actions .save-button,
+.modal-actions .view-button {
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(91, 45, 204, 0.15);
+    border-radius: 50%;
+    background: #fff;
+    color: #5b2dcc;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .buzz-modal-dialog {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-visual {
+        min-height: 220px;
+    }
+
+    #buzzModalTitle {
+        font-size: 22px;
+    }
 }
 
 .store-sidebar {
@@ -407,9 +770,14 @@
     text-decoration: underline;
 }
 
-.about-store button {
+.about-store button,
+.official-website-button {
     width: 100%;
     margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     font-family: "Lucida Sans", Arial, sans-serif;
     padding: 10px 16px;
     border: 1px solid #6c3bd1;
@@ -417,6 +785,8 @@
     background-color: white;
     color: #5b2dcc;
     cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .store-map h3 {
