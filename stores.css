@@ -471,6 +471,158 @@
     grid-template-columns: 360px 1fr;
 }
 
+.share-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(620px, 90vw);
+    padding: 52px 48px 42px;
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(31, 41, 55, 0.18);
+    text-align: center;
+}
+
+.share-dialog .modal-close {
+    top: 16px;
+    right: 16px;
+}
+
+.share-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 20px;
+    border: 1px solid #e3d9fb;
+    border-radius: 50%;
+    background: #faf8ff;
+    color: #5b2dcc;
+    font-size: 28px;
+}
+
+.share-dialog h2 {
+    margin: 0;
+    color: #222;
+    font-size: 31px;
+}
+
+.share-subtitle {
+    max-width: 390px;
+    margin: 10px auto 34px;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.share-label {
+    display: block;
+    margin: 0 0 9px;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.share-link-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 9px 8px 15px;
+    border-radius: 9px;
+    background: #f7f7fb;
+}
+
+.share-link-row input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #555;
+    font-family: "Lucida Sans", Arial, sans-serif;
+    font-size: 13px;
+    text-overflow: ellipsis;
+}
+
+.share-link-row button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 6px;
+    background: #fff;
+    color: #666;
+    cursor: pointer;
+}
+
+.share-link-row button:hover {
+    color: #5b2dcc;
+    background: #f1ebff;
+}
+
+.share-copy-status {
+    display: block;
+    min-height: 18px;
+    margin-top: 7px;
+    color: #5b2dcc;
+    font-size: 12px;
+    text-align: left;
+}
+
+.share-to-label {
+    margin-top: 26px;
+}
+
+.share-social-list {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.share-social {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 9px;
+    color: #555;
+    text-decoration: none;
+}
+
+.share-social span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.share-social span i {
+    line-height: 1;
+}
+
+.share-social small {
+    font-size: 12px;
+}
+
+.share-social:hover small {
+    color: #5b2dcc;
+}
+
+.share-social.facebook span { background: #1877f2; }
+.share-social.x-social span { background: #111; }
+.share-social.whatsapp span { background: #25d366; }
+.share-social.telegram span { background: #229ed9; }
+.share-social.linkedin span { background: #0a66c2; font-size: 12px; }
+
 .create-buzz-dialog {
     display: block;
     width: min(560px, 92vw);
@@ -622,6 +774,29 @@
 }
 
 @media (max-width: 520px) {
+    .share-dialog {
+        width: min(500px, 88vw);
+        padding: 34px 20px 28px;
+    }
+
+    .share-dialog h2 {
+        font-size: 23px;
+    }
+
+    .share-social-list {
+        gap: 7px;
+    }
+
+    .share-social span {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .share-social small {
+        font-size: 9px;
+    }
+
     .create-buzz-content {
         padding: 28px 22px 24px;
     }

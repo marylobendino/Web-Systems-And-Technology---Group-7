@@ -1,27 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
+	const shareButton = document.getElementById('shareStoreButton');
+	const shareModal = document.getElementById('shareModal');
+	const shareLinkInput = document.getElementById('shareLinkInput');
+	const copyShareLinkButton = document.getElementById('copyShareLinkButton');
+	const shareCopyStatus = document.getElementById('shareCopyStatus');
+	const closeShareModal = () => {
+		if (!shareModal) return;
+		shareModal.classList.add('hidden');
+		shareModal.setAttribute('aria-hidden', 'true');
+		document.body.classList.remove('modal-open');
+	};
 
-    const shareButton = document.getElementById('shareStoreButton');
+	if (shareButton) {
+		shareButton.addEventListener('click', () => {
+			if (!shareModal) return;
+			shareLinkInput.value = window.location.href;
+			shareCopyStatus.textContent = '';
+			shareModal.classList.remove('hidden');
+			shareModal.setAttribute('aria-hidden', 'false');
+			document.body.classList.add('modal-open');
+		});
+	}
 
-    if (!shareButton) return;
+	document.querySelectorAll('[data-close-share-modal]').forEach((element) => {
+		element.addEventListener('click', closeShareModal);
+	});
 
-    shareButton.addEventListener('click', async () => {
+	if (copyShareLinkButton) {
+		copyShareLinkButton.addEventListener('click', async () => {
+			try {
+				await navigator.clipboard.writeText(shareLinkInput.value);
+				shareCopyStatus.textContent = 'Link copied';
+			} catch (error) {
+				shareLinkInput.select();
+				shareCopyStatus.textContent = 'Select and copy the link manually.';
+			}
+		});
+	}
 
-        const shareUrl = window.location.href;
-
-        try {
-            await navigator.clipboard.writeText(shareUrl);
-
-            shareButton.textContent = '✓ Link Copied';
-
-            setTimeout(() => {
-                shareButton.textContent = '➣ Share';
-            }, 1500);
-
-        } catch (error) {
-            alert('Unable to copy the link.');
-            console.error(error);
-        }
-    });
+	document.querySelectorAll('[data-share-network]').forEach((link) => {
+		link.addEventListener('click', () => {
+			const encodedUrl = encodeURIComponent(window.location.href);
+			const encodedText = encodeURIComponent('Check out this Kumarites store page.');
+			const networkUrls = {
+				facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+				x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
+				whatsapp: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
+				telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
+				linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+			};
+			link.href = networkUrls[link.dataset.shareNetwork];
+		});
+	});
 
 	const createBuzzModal = document.getElementById('createBuzzModal');
 	const createBuzzForm = document.getElementById('createBuzzForm');
@@ -144,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (event.key === 'Escape' && createBuzzModal && !createBuzzModal.classList.contains('hidden')) {
 			closeCreateBuzzModal();
 		}
+			if (event.key === 'Escape' && shareModal && !shareModal.classList.contains('hidden')) {
+				closeShareModal();
+			}
 	});
 
 	document.addEventListener('click', (event) => {

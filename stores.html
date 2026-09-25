@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="stores.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
@@ -58,7 +59,7 @@
             <p><strong>4.6</strong> Community Rating (120 ratings)</p>
         </div>
 
-        <button type="button" class="share-button" id="shareStoreButton">➣ Share</button>
+        <button type="button" class="share-button" id="shareStoreButton">Share</button>
         <button type="button" class="create-buzz-button">+ Create a Buzz</button>
     </section>
 
@@ -258,6 +259,30 @@
 
     </div>
     </main>
+
+    <div class="buzz-modal hidden" id="shareModal" aria-hidden="true">
+        <div class="buzz-modal-backdrop" data-close-share-modal></div>
+        <div class="share-dialog" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+            <button class="modal-close" type="button" data-close-share-modal aria-label="Close share dialog">×</button>
+            <div class="share-icon" aria-hidden="true"><i class="fi fi-rr-link"></i></div>
+            <h2 id="shareModalTitle">Share with Friends</h2>
+            <p class="share-subtitle">Help your friends discover useful finds and deals.</p>
+            <label class="share-label" for="shareLinkInput">Share your link</label>
+            <div class="share-link-row">
+                <input id="shareLinkInput" type="text" readonly aria-label="Share link">
+                <button type="button" id="copyShareLinkButton" aria-label="Copy share link" title="Copy link"><i class="fi fi-rr-copy"></i></button>
+            </div>
+            <small id="shareCopyStatus" class="share-copy-status" role="status"></small>
+            <p class="share-label share-to-label">Share to</p>
+            <div class="share-social-list">
+                <a class="share-social facebook" href="#" data-share-network="facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><span><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></span><small>Facebook</small></a>
+                <a class="share-social x-social" href="#" data-share-network="x" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><span><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></span><small>X</small></a>
+                <a class="share-social whatsapp" href="#" data-share-network="whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><span><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><small>WhatsApp</small></a>
+                <a class="share-social telegram" href="#" data-share-network="telegram" target="_blank" rel="noopener noreferrer" aria-label="Share on Telegram"><span><i class="fa-brands fa-telegram" aria-hidden="true"></i></span><small>Telegram</small></a>
+                <a class="share-social linkedin" href="#" data-share-network="linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><span><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></span><small>LinkedIn</small></a>
+            </div>
+        </div>
+    </div>
 
     <div class="buzz-modal hidden" id="createBuzzModal" aria-hidden="true">
         <div class="buzz-modal-backdrop" data-close-create-modal></div>
