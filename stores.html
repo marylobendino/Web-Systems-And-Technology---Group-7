@@ -58,16 +58,16 @@
             <p><strong>4.6</strong> Community Rating (120 ratings)</p>
         </div>
 
-        <button type="button" class="share-button" id="shareStoreButton">Share</button>
-        <button type="button" class="create-buzz-button">Create a Buzz</button>
+        <button type="button" class="share-button" id="shareStoreButton">➣ Share</button>
+        <button type="button" class="create-buzz-button">+ Create a Buzz</button>
     </section>
 
     <section class="store-tabs">
         <div class="tabs-list">
             <button class="tab-button active" type="button" data-category="latest" aria-selected="true">Latest Buzzes</button>
-            <button class="tab-button" type="button" data-category="sulit" aria-selected="false">Sulit Finds</button>
-            <button class="tab-button" type="button" data-category="sale" aria-selected="false">Sale / Promos</button>
-            <button class="tab-button" type="button" data-category="recommendation" aria-selected="false">Recommendations</button>
+            <button class="tab-button" type="button" data-category="sulit" aria-selected="false">Sulit Find</button>
+            <button class="tab-button" type="button" data-category="sale" aria-selected="false">Sale / Promo</button>
+            <button class="tab-button" type="button" data-category="recommendation" aria-selected="false">Recommendation</button>
             <button class="tab-button" type="button" data-category="advice" aria-selected="false">Advice</button>
         </div>
 
@@ -241,8 +241,8 @@
                         <li>Food <strong>(12)</strong></li>
                         <li>Shopping <strong>(10)</strong></li>
                         <li>Services <strong>(6)</strong></li>
-                        <li>Entertainment <strong>(5)</strong></li>
-                        <li>Personal Care <strong>(4)</strong></li>
+                        <li>Electronics <strong>(5)</strong></li>
+                        <li>Household <strong>(4)</strong></li>
                         <li>School Supplies <strong>(3)</strong></li>
                     </ol>
                 </div>
@@ -270,8 +270,19 @@
                 <form id="createBuzzForm">
                     <label for="buzzCategory">Category</label>
                     <select id="buzzCategory" name="category" required>
-                        <option value="sulit">Sulit Find</option>
-                        <option value="sale">Sale / Promo</option>
+                        <option value="grocery">🛒 Grocery</option>
+                        <option value="food">🍽️ Food</option>
+                        <option value="clothing">👗 Clothing</option>
+                        <option value="electronics">📱 Electronics</option>
+                        <option value="school supplies">📒 School Supplies</option>
+                        <option value="household">🏠 Household</option>
+                        <option value="services">⚙️ Services</option>
+                    </select>
+
+                    <label for="buzzType">Buzz Type</label>
+                    <select id="buzzType" name="buzzType" required>
+                        <option value="sulit find">Sulit Find</option>
+                        <option value="sale/promo">Sale/Promo</option>
                         <option value="recommendation">Recommendation</option>
                         <option value="advice">Advice</option>
                     </select>
@@ -280,11 +291,11 @@
                     <input id="buzzTitleInput" name="title" type="text" maxlength="80" placeholder="What did you discover?" required>
 
                     <label for="buzzDescriptionInput">Description</label>
-                    <textarea id="buzzDescriptionInput" name="description" maxlength="280" rows="4" placeholder="Tell the community what makes it useful..." required></textarea>
+                    <textarea id="buzzDescriptionInput" name="description" maxlength="280" rows="4" placeholder="Tell the community what makes it useful ..." required></textarea>
 
                     <label for="buzzImageInput">Image <span>(required)</span></label>
                     <input id="buzzImageInput" name="image" type="file" accept="image/jpeg,image/png,image/webp" required>
-                    <small class="form-hint">JPG, PNG, or WEBP | minimum 800 x 600 px | maximum 5 MB</small>
+                    <small class="form-hint">JPG, PNG, or WEBP | Min 800 x 600 px | Max 5 MB</small>
                     <small id="buzzImageError" class="form-error" role="alert" hidden></small>
 
                     <label for="buzzTagsInput">Place or tags <span>(optional)</span></label>
@@ -332,7 +343,13 @@
         <div class="footer-content">
 
             <div class="footer-column footer-brand">
-                <h2>KUMARITES</h2>
+                <a href="index.html">
+                    <img
+                        src="Images/BuzzFeed Images/Kumarites Logo.png"
+                        alt="Kumarites"
+                        width="200px"
+                    >
+                </a>
 
                 <p>
                     Real Finds. Real People. A More Sulit You.

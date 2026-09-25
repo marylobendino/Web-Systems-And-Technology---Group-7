@@ -21,39 +21,37 @@ body {
    LEFT SIDE
    ========================= */
 
+.logo img {
+    width: 420px;
+    max-width: 100%;
+    height: auto;
+}
+
 .welcome-section {
     width: 50%;
-    background-image: url("Images/login - background.png");
+    background-image: url("Images/login - background V2.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     color: #4f5b73;
 
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 60px;
+    
+    padding: 300px 80px;
 }
 
-.welcome-content {
+.logo {
     max-width: 500px;
 }
 
-.welcome-content h1 {
-    color: white;
-    font-size: 42px;
-    margin-bottom: 35px;
-}
-
-.welcome-content h2 {
-    font-size: 42px;
+.logo h2 {
+    font-size: 20px;
     line-height: 1.2;
     margin-bottom: 25px;
 }
 
-.welcome-content p {
-    font-size: 17px;
+.logo p {
+    font-size: 18px;
     line-height: 1.6;
 }
 

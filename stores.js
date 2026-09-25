@@ -1,33 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const shareButton = document.getElementById('shareStoreButton');
 
-	if (shareButton) {
-		shareButton.addEventListener('click', async () => {
-			const shareData = {
-				title: 'SM Mall of Asia Buzzes',
-				text: 'Check out the latest buzzes and deals at SM Mall of Asia on Kumarites.',
-				url: window.location.href
-			};
+    const shareButton = document.getElementById('shareStoreButton');
 
-			try {
-				if (navigator.share) {
-					await navigator.share(shareData);
-					return;
-				}
-				throw new Error('Native share not supported');
-			} catch (error) {
-				try {
-					await navigator.clipboard.writeText(shareData.url);
-					shareButton.textContent = 'Link copied';
-					setTimeout(() => {
-						shareButton.textContent = 'Share';
-					}, 1500);
-				} catch (copyError) {
-					alert('Share is not available in this browser. Copy this page link manually: ' + shareData.url);
-				}
-			}
-		});
-	}
+    if (!shareButton) return;
+
+    shareButton.addEventListener('click', async () => {
+
+        const shareUrl = window.location.href;
+
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+
+            shareButton.textContent = '✓ Link Copied';
+
+            setTimeout(() => {
+                shareButton.textContent = '➣ Share';
+            }, 1500);
+
+        } catch (error) {
+            alert('Unable to copy the link.');
+            console.error(error);
+        }
+    });
 
 	const createBuzzModal = document.getElementById('createBuzzModal');
 	const createBuzzForm = document.getElementById('createBuzzForm');
