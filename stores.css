@@ -15,7 +15,7 @@
 
 .store-banner {
     margin-top: 20px;
-    min-height: 260px;
+    min-height: 350px;
     padding: 34px 38px;
     background-color: #fafafd;
     border: 1px solid #e8e8f0;
@@ -24,7 +24,7 @@
 
 .store-banner h2 {
     margin: 0 0 5px;
-    font-size: 30px;
+    font-size: 35px;
     color: #222;
 }
 
