@@ -175,31 +175,130 @@ button:hover {
 
 
 /* =========================
-   RESPONSIVE
+   RESPONSIVE BREAKPOINTS
    ========================= */
 
-@media (max-width: 700px) {
+/* Tablets or Smaller Desktops */
+@media (max-width: 1200px) {
+
+    .welcome-section {
+        padding: 40px;
+    }
+
+    .form-section {
+        padding: 40px;
+    }
+
+    .logo img {
+        width: 400px;
+        max-width: 100%;
+    }
+
+    .logo h2 {
+        font-size: 22px;
+    }
+
+    .logo p {
+        font-size: 15px;
+    }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
 
     .auth-container {
         flex-direction: column;
+        min-height: 100vh;
     }
 
     .welcome-section {
         width: 100%;
-        min-height: 300px;
-        padding: 40px;
-    }
-
-    .welcome-content h1 {
-        font-size: 32px;
-    }
-
-    .welcome-content h2 {
-        font-size: 30px;
+        padding: 40px 30px 20px;
+        text-align: center;
     }
 
     .form-section {
         width: 100%;
-        padding: 40px 25px;
+        padding: 30px;
+    }
+
+    .logo img {
+        width: 320px;
+        max-width: 80%;
+    }
+
+    .logo h2 {
+        font-size: 20px;
+    }
+
+    .logo p {
+        font-size: 14px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+
+    .auth-container {
+        min-height: 100vh;
+    }
+
+    .welcome-section {
+        padding: 30px 20px 10px;
+    }
+
+    .form-section {
+        padding: 20px;
+    }
+
+    .logo img {
+        width: 250px;
+        max-width: 90%;
+    }
+
+    .logo h2 {
+        font-size: 18px;
+    }
+
+    .logo p {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-container h2 {
+        font-size: 22px;
+    }
+
+    .form-subtitle {
+        font-size: 14px;
+    }
+
+    input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .switch-form {
+        font-size: 13px;
+        text-align: center;
     }
 }
