@@ -3,7 +3,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Buzz Feed</title>
-        <link rel="stylesheet" href="buzzfeed.css">
+
+        <!-- CSS Link -->
+        <link rel="stylesheet" href="../CSS/buzzfeed.css">
     </head>
     <body>
 
@@ -11,12 +13,12 @@
         <header class="navbar">
             <div class="logo">
                 <a href="index.html">
-                    <img src="Images/BuzzFeed Images/Kumarites Logo.png" alt="Kumarites">
+                    <img src="../Images/BuzzFeed Images/Kumarites Logo.png" alt="Kumarites">
                 </a>
-                <p>Trusted finds na sulit at tipid, mula sa iyong mga Kumpare at Kumare.</p>
+                <p>Real Finds. Real People. A More Sulit You.</p>
             </div>
             <nav class="main-navigation">
-                <a href="index.html">Home</a>
+                <a href="../index.html">Home</a>
                 <a href="BuzzFeed.html" class="active">BuzzFeed</a>
                 <a href="stores.html">Stores</a>
                 <a href="categories.html">Categories</a>
@@ -25,7 +27,6 @@
                 <input type="search" id="searchInput" placeholder="Search stores, products, or buzzes">
             </div>
             <div class="nav-actions">
-
                 <a href="login.html" class="login-button">Log In</a>
                 <a href="signup.html" class="signup-button">Sign Up</a>
             </div>
@@ -38,7 +39,7 @@
             <section class="page-bee">
                 <div class="bee-content">
                     <div class="bee-image">
-                        <img src="Images/BuzzFeed Images/header pic.png" alt="People sharing trends and recommendations">
+                        <img src="../Images/BuzzFeed Images/header pic.png" alt="People sharing trends and recommendations">
                     </div>
                     <div class="bee-text">
                         <h2>
@@ -70,7 +71,6 @@
                     <!-- Modal Form -->
                     <form id="createBuzzForm">
                         <div class="modal-form">
-
                             <!-- Buzz Type -->
                             <div class="form-group">
                                 <label for="buzzType">Buzz Type</label>
@@ -183,6 +183,10 @@
                     <div class="filter-group">
                         <h4>Category</h4>
                         <label>
+                            <input type="radio" name="category" value="all" checked>
+                            All Categories
+                        </label>
+                        <label>
                             <input type="radio" name="category" value="food">
                             Food & Beverages
                         </label>
@@ -245,7 +249,7 @@
                         <!-- BUZZ CARD 1 -->
                         <article class="buzz-card" data-type="sulit" data-category="grocery">
                             <div class="buzz-image">
-                                <img src="Images/BuzzFeed Images/Cheap Rice.png" alt="Rice products displayed in a grocery store">
+                                <img src="../Images/BuzzFeed Images/Cheap Rice.png" alt="Rice products displayed in a grocery store">
                             </div>
                             <div class="buzz-card-content">
                                 <div class="buzz-meta">
@@ -281,7 +285,7 @@
                         <!-- BUZZ CARD 2 -->
                         <article class="buzz-card" data-type="sale" data-category="school">
                             <div class="buzz-image">
-                                <img src="Images/BuzzFeed Images/School Supplies.png" alt="School supplies">
+                                <img src="../Images/BuzzFeed Images/School Supplies.png" alt="School supplies">
                             </div>
                             <div class="buzz-card-content">
                                 <div class="buzz-meta">
@@ -317,7 +321,7 @@
                         <!-- BUZZ CARD 3 -->
                         <article class="buzz-card" data-type="recommendation" data-category="food">
                             <div class="buzz-image">
-                                <img src="Images/BuzzFeed Images/Food.png" alt="Food from a local restaurant">
+                                <img src="../Images/BuzzFeed Images/Food.png" alt="Food from a local restaurant">
                             </div>
                             <div class="buzz-card-content">
                                 <div class="buzz-meta">
@@ -420,7 +424,7 @@
                 <!-- Menu -->
                 <div class="footer-column">
                     <h3>Menu</h3>
-                    <a href="index.html">Home</a>
+                    <a href="../index.html">Home</a>
                     <a href="buzzfeed.html">Buzz Feed</a>
                     <a href="stores.html">Stores</a>
                     <a href="categories.html">Categories</a>
@@ -440,10 +444,10 @@
                     <h3>Follow Us</h3>
                     <div class="social-icons">
                         <a href="#" aria-label="Facebook">
-                            <img src="Images/footer - facebook icon.png" alt="Facebook">
+                            <img src="../Images/footer - facebook icon.png" alt="Facebook">
                         </a>
                         <a href="#" aria-label="Instagram">
-                            <img src="Images/footer - instagram icon.png" alt="Instagram">
+                            <img src="../Images/footer - instagram icon.png" alt="Instagram">
                         </a>
                     </div>
                 </div>
@@ -455,6 +459,6 @@
             </div>
         </footer>
         
-        <script src="buzzfeed.js"></script>
+        <script src="../JavaScript/buzzfeed.js"></script>
     </body>
 </html>

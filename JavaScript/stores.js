@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			sulit: 'Images/Stores%20Images/DoveBuy1Take1.png',
 			sale: 'Images/Stores%20Images/Mang%20Inasal.png',
 			recommendation: 'Images/Stores%20Images/Miniso.png',
-			advice: 'Images/Stores%20Images/SMMallOfAsia.png'
+			advice: '../Images/Stores%20Images/SMMallOfAsia.png'
 		};
 		const card = document.createElement('li');
 		card.className = 'buzz-card';

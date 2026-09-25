@@ -1222,7 +1222,7 @@ body.modal-open {
 .store-banner {
     background-image:
         linear-gradient(90deg, rgba(250, 250, 253, 1) 0%, rgba(250, 250, 253, 0.96) 38%, rgba(250, 250, 253, 0.25) 72%, rgba(250, 250, 253, 0.08) 100%),
-        url("Images/Stores%20Images/SMMallOfAsia.png");
+        url("../Images/Stores%20Images/SMMallOfAsia.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -1249,7 +1249,7 @@ body.modal-open {
     .store-banner {
         background-image:
             linear-gradient(180deg, rgba(250, 250, 253, 0.96) 0%, rgba(250, 250, 253, 0.78) 58%, rgba(250, 250, 253, 0.4) 100%),
-            url("Images/Stores%20Images/SMMallOfAsia.png");
+            url("../Images/Stores%20Images/SMMallOfAsia.png");
         background-position: center, center bottom;
         background-size: cover, 100% auto;
     }
