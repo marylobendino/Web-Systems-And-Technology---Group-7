@@ -8,10 +8,7 @@
     <title>Categories - Kumarites</title>
 
     <!-- Shared Website CSS -->
-    <link rel="stylesheet" href="../CSS/style.css">
-
-    <!-- Categories Page CSS -->
-    <link rel="stylesheet" href="../CSS/categories.css">
+    <link rel="stylesheet" href="../style.css">    
 </head>
 
 <body>
@@ -95,30 +92,32 @@
              HERO SECTION
              ================================================= -->
 
-        <section class="categories-hero">
+        <section class="page-bee categories-page-bee">
 
-            <!-- Barkada Mall Hero Image -->
-            <img
-                src="../Images/Categories Images/categories banner.png"
-                alt="Group of friends shopping together inside a modern mall"
-                class="categories-hero-image"
-            >
+            <div class="bee-content">
 
+                <div class="bee-image">
+                    <img
+                        src="../Images/Categories Images/categories banner.png"
+                        alt="Group of friends shopping together inside a modern mall"
+                    >
+                </div>
 
-            <!-- Hero Content -->
-            <div class="categories-hero-content">
+                <div class="bee-text">
 
-                <h1>
-                    Find What's
-                    <span>Sulit</span> <br>
-                    for <em>You</em>
-                </h1>
+                    <h1>
+                        Find What's
+                        <span>Sulit</span>
+                        for <em>You</em>
+                    </h1>
 
-                <p>
-                    Browse categories to discover sulit finds,
-                    deals, recommendations, and helpful tips
-                    shared by the Kumarites community.
-                </p>
+                    <p>
+                        Browse categories to discover sulit finds,
+                        deals, recommendations, and helpful tips
+                        shared by the Kumarites community.
+                    </p>
+
+                </div>
 
             </div>
 
@@ -172,10 +171,11 @@
 
 
                 <!-- Grocery -->
-                <a
-                    href="BuzzFeed.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="grocery supermarket essentials"
+                    data-category-key="grocery"
                 >
 
                     <span class="category-icon">
@@ -186,15 +186,16 @@
                         Grocery
                     </span>
 
-                </a>
+                </button>
 
 
 
                 <!-- Food -->
-                <a
-                    href="BuzzFeed.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="food meals restaurant dining"
+                    data-category-key="food"
                 >
 
                     <span class="category-icon">
@@ -205,15 +206,16 @@
                         Food & Beverages
                     </span>
 
-                </a>
+                </button>
 
 
 
                 <!-- Clothing -->
-                <a
-                    href="BuzzFeed.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="clothing fashion clothes apparel"
+                    data-category-key="fashion"
                 >
 
                     <span class="category-icon">
@@ -224,15 +226,16 @@
                         Fashion
                     </span>
 
-                </a>
+                </button>
 
 
 
                 <!-- Electronics -->
-                <a
-                    href="BuzzFeed.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="electronics gadgets technology devices"
+                    data-category-key="electronics"
                 >
 
                     <span class="category-icon">
@@ -243,15 +246,16 @@
                         Electronics
                     </span>
 
-                </a>
+                </button>
 
 
 
                 <!-- School Supplies -->
-                <a
-                    href="BuzzFeed.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="school supplies notebooks stationery"
+                    data-category-key="school-supplies"
                 >
 
                     <span class="category-icon">
@@ -259,18 +263,19 @@
                     </span>
 
                     <span class="category-name">
-                        Home & Living
+                        School Supplies
                     </span>
 
-                </a>
+                </button>
 
 
 
                 <!-- Household -->
-                <a
-                    href="BuzzFeed.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="household home living"
+                    data-category-key="home-living"
                 >
 
                     <span class="category-icon">
@@ -278,18 +283,19 @@
                     </span>
 
                     <span class="category-name">
-                        Household
+                        Home & Living
                     </span>
 
-                </a>
+                </button>
 
 
 
                 <!-- Services -->
-                <a
-                    href="stores.html"
+                <button
+                    type="button"
                     class="category-card"
                     data-category="services service repair assistance"
+                    data-category-key="services"
                 >
 
                     <span class="category-icon">
@@ -300,7 +306,7 @@
                         Services
                     </span>
 
-                </a>
+                </button>
 
             </div>
 
@@ -313,6 +319,65 @@
             >
                 No matching category found.
             </p>
+
+
+            <section
+                class="category-results"
+                id="categoryResults"
+                hidden
+                aria-live="polite"
+            >
+                <div class="category-results-header">
+                    <div>
+                        <p class="category-results-label">CATEGORY FINDS</p>
+                        <h3 id="categoryResultsTitle">Grocery</h3>
+                        <p id="categoryResultsDescription">
+                            Placeholder cards for community finds in this category.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="category-results-close"
+                        id="closeCategoryResults"
+                        aria-label="Close category results"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <div
+                    class="category-results-grid"
+                    id="categoryResultsGrid"
+                >
+                    <article class="category-result-card">
+                        <div class="category-result-image"></div>
+                        <div class="category-result-content">
+                            <span class="category-result-tag">PLACEHOLDER</span>
+                            <h4>Community Find</h4>
+                            <p>Product or buzz information will appear here.</p>
+                        </div>
+                    </article>
+
+                    <article class="category-result-card">
+                        <div class="category-result-image"></div>
+                        <div class="category-result-content">
+                            <span class="category-result-tag">PLACEHOLDER</span>
+                            <h4>Community Find</h4>
+                            <p>Product or buzz information will appear here.</p>
+                        </div>
+                    </article>
+
+                    <article class="category-result-card">
+                        <div class="category-result-image"></div>
+                        <div class="category-result-content">
+                            <span class="category-result-tag">PLACEHOLDER</span>
+                            <h4>Community Find</h4>
+                            <p>Product or buzz information will appear here.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
 
         </section>
 

@@ -1,155 +1,115 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kumarites</title>
-
-    <link rel="stylesheet" href="CSS/style.css">    
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-        <!-- Navigation Bar -->
-        <header class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <img
-                        src="Images/BuzzFeed Images/Kumarites Logo.png"
-                        alt="Kumarites"
-                    >                    
-                </a>
-                <p>Real Finds. Real People. A More Sulit You.</p>
-            </div>
-            <nav class="main-navigation">
-                <a href="index.html" class="active">Home</a>
-                <a href="HTML Pages/BuzzFeed.html">BuzzFeed</a>
-                <a href="HTML Pages/stores.html">Stores</a>
-                <a href="HTML Pages/categories.html">Categories</a>
-            </nav>
-            <div class="nav-search">
-                <input
-                    type="search"
-                    id="searchInput"
-                    placeholder="Search stores, products, or buzzes"
-                >
-            </div>
-            <div class="nav-actions">
-                <a href="login.html" class="login-button">Log In</a>
-                <a href="login.html?form=signup" class="signup-button">Sign Up</a>
-            </div>
-        </header>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="Images/BuzzFeed Images/Kumarites Logo.png" alt="Kumarites">
+            </a>
+            <p>Real Finds. Real People. A More Sulit You.</p>
+        </div>
+
+        <nav class="main-navigation">
+            <a href="index.html" class="active">Home</a>
+            <a href="HTML Pages/BuzzFeed.html">BuzzFeed</a>
+            <a href="HTML Pages/stores.html">Stores</a>
+            <a href="HTML Pages/categories.html">Categories</a>
+        </nav>
+
+        <div class="nav-search">
+            <input type="search" id="searchInput" placeholder="Search stores, products, or buzzes">
+        </div>
+
+        <div class="nav-actions">
+            <a href="HTML Pages/login.html" class="login-button">Log In</a>
+            <a href="HTML Pages/login.html?form=signup" class="signup-button">Sign Up</a>
+        </div>
+    </header>
 
     <!-- Banner Section -->
-    <section class="banner">
+    <section class="page-bee">
+        <div class="bee-content">
+            <div class="bee-image">
+                <img src="Images/Kumarites Banner V2.png" alt="Kumarites community sharing finds">
+            </div>
 
-        <div class="banner-content">
-
-            <img src="Images/Kumarites Banner V2.png"
-                alt="Kumarites Banner">
-
-            <div class="banner-text">
-
-                <h1>
-                    Good Finds Start with <br>
-                    <span><em>Good Tsika</em></span>
-                </h1>
+            <div class="bee-text">
+                <h2>
+                    Good Finds Start with
+                    <span>Good Tsika</span>
+                </h2>
 
                 <p>
-                    Kumarites is a community-driven platform where people share sulit finds,
-                    price updates, and store recommendations - because in today’s times,
+                    Kumarites is a community-driven platform where people share
+                    sulit finds, price updates, and store recommendations because
                     every little savings goes a long way.
                 </p>
 
                 <div class="banner-buttons">
-                    <a href="#" class="explore-button">Explore Buzzes →</a>
-                    <a href="#" class="browse-button">Browse Stores →</a>
+                    <a href="HTML Pages/BuzzFeed.html" class="primary-button">Explore Buzzes →</a>
+                    <a href="HTML Pages/stores.html" class="secondary-button">Browse Stores →</a>
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
     <!-- Browse by Category -->
     <section class="categories">
-
         <div class="categories-header">
             <h2>Browse by Category</h2>
         </div>
 
         <div class="categories-content">
+            <button type="button" class="category-card" data-category="grocery">
+                <span class="category-icon">🛒</span>
+                <span>Grocery</span>
+            </button>
 
-            <!-- Category Cards -->
-            <div class="category-list">
+            <button type="button" class="category-card" data-category="food">
+                <span class="category-icon">🍽️</span>
+                <span>Food &amp; Beverages</span>
+            </button>
 
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">🛒</span>
-                    <span>Grocery</span>
-                </a>
+            <button type="button" class="category-card" data-category="fashion">
+                <span class="category-icon">👗</span>
+                <span>Fashion</span>
+            </button>
 
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">🍽️</span>
-                    <span>Food & Beverages</span>
-                </a>
+            <button type="button" class="category-card" data-category="electronics">
+                <span class="category-icon">📱</span>
+                <span>Electronics</span>
+            </button>
 
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">👗</span>
-                    <span>Fashion</span>
-                </a>
+            <button type="button" class="category-card" data-category="school-supplies">
+                <span class="category-icon">📒</span>
+                <span>School Supplies</span>
+            </button>
 
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">📱</span>
-                    <span>Electronics</span>
-                </a>
+            <button type="button" class="category-card" data-category="home-living">
+                <span class="category-icon">🏠</span>
+                <span>Home &amp; Living</span>
+            </button>
 
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">📒</span>
-                    <span>School Supplies</span>
-                </a>
+            <button type="button" class="category-card" data-category="services">
+                <span class="category-icon">⚙️</span>
+                <span>Services</span>
+            </button>
 
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">🏠</span>
-                    <span>Home & Living</span>
-                </a>
-
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">⚙️</span>
-                    <span>Services</span>
-                </a>
-
-                <a href="categories.html" class="category-card">
-                    <span class="category-icon">🔍︎</span>
-                    <span>View All</span>
-                </a>
-
-            </div>
-
-            <!-- Community Card -->
-            <div class="community-card">
-
-                <div class="community-icon">
-                    🗣️
-                </div>
-
-                <div class="community-text">
-                    <h3>A community of smart shoppers</h3>
-                    <p>Sharing real finds to help everyone save more</p>
-                </div>
-
-                <div class="community-stat">
-                    <strong>1.2K+</strong>
-                    <span>Buzzes</span>
-                </div>
-
-                <div class="community-stat">
-                    <strong>150+</strong>
-                    <span>Stores</span>
-                </div>
-
-            </div>
-
+            <button type="button" class="category-card" data-category="all">
+                <span class="category-icon">🔍︎</span>
+                <span>View All</span>
+            </button>
         </div>
-
     </section>
 
     <!-- Latest Buzzes + Trending Stores -->
@@ -157,92 +117,20 @@
 
         <!-- Latest Buzzes -->
         <section class="latest-buzzes">
-
             <div class="latest-buzzes-header">
                 <h2>Latest Buzzes</h2>
-                <a href="BuzzFeed.html">View all buzzes →</a>
+                <a href="HTML Pages/BuzzFeed.html">View all buzzes →</a>
             </div>
 
-            <div class="latest-buzzes-list">
-
-                <div class="buzz-card">
-                    <div class="buzz-image">
-                        <span>💡SULIT FIND</span>
-                        <img src="Images/rice - latest buzzes.png" alt="Rice">
-                    </div>
-
-                    <h3>₱950 for 5kg Rice!</h3>
-                    <p>◉ SM Mall of Asia</p>
-                    <p>◷ 2 hours ago</p>
-
-                    <div class="buzz-actions">
-                        <span class="heart-button">❤︎ 24</span>
-                        <span class="save-button">⛉</span>
-                    </div>
-
-                </div>
-
-                <div class="buzz-card">
-                    <div class="buzz-image">
-                        <span>🏷️SALE / PROMO</span>
-                        <img src="Images/shoes - latest buzzes.png" alt="Shoes">
-                    </div>
-
-                    <h3>Up to 70% OFF on selected shoes!</h3>
-                    <p>◉ Gaisano Mall</p>
-                    <p>◷ 4 hours ago</p>
-
-                    <div class="buzz-actions">
-                        <span class="heart-button">❤︎ 18</span>
-                        <span class="save-button">⛉</span>
-                    </div>
-
-                </div>
-
-                <div class="buzz-card">
-                    <div class="buzz-image">
-                        <span>✍️RECOMMENDATION</span>
-                        <img src="Images/school supplies - latest buzzes.png" alt="School supplies">
-                    </div>
-
-                    <h3>Affordable school supplies here!</h3>
-                    <p>◉ Power Plant Mall</p>
-                    <p>◷ 6 hours ago</p>
-
-                    <div class="buzz-actions">
-                        <span class="heart-button">❤︎ 32</span>
-                        <span class="save-button">⛉</span>
-                    </div>
-
-                </div>
-
-                <div class="buzz-card">
-                    <div class="buzz-image">
-                        <span>🧠ADVICE</span>
-                        <img src="Images/less crowd - latest buzzess.png" alt="Less crowd">
-                    </div>
-
-                    <h3>Less crowd in the morning!</h3>
-                    <p>◉ SM Megamall</p>
-                    <p>◷ 8 hours ago</p>
-
-                    <div class="buzz-actions">
-                        <span class="heart-button">❤︎ 15</span>
-                        <span class="save-button">⛉</span>
-                    </div>
-                </div>
-
-            </div>
-
+            <!-- Cards are generated by script.js and home.js -->
+            <div class="latest-buzzes-list" id="buzzContainer"></div>
         </section>
-
 
         <!-- Trending Stores -->
         <section class="trending-stores">
-
             <div class="trending-stores-header">
                 <h2>Trending Stores</h2>
-                <a href="stores.html">View all stores →</a>
+                <a href="HTML Pages/stores.html">View all stores →</a>
             </div>
 
             <div class="trending-stores-list">
@@ -293,29 +181,20 @@
                 </div>
 
             </div>
-
         </section>
-
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-
         <div class="footer-content">
 
             <!-- Kumarites Information -->
             <div class="footer-column footer-brand">
                 <a href="index.html">
-                    <img
-                        src="Images/BuzzFeed Images/Kumarites Logo.png"
-                        alt="Kumarites"
-                        width="200px"
-                    >
+                    <img src="Images/BuzzFeed Images/Kumarites Logo.png" alt="Kumarites" width="200">
                 </a>
 
-                <p>
-                    Real Finds. Real People. A More Sulit You.
-                </p>
+                <p>Real Finds. Real People. A More Sulit You.</p>
 
                 <p>
                     A community-driven platform where people share
@@ -323,35 +202,29 @@
                 </p>
             </div>
 
-
             <!-- Menu -->
             <div class="footer-column">
                 <h3>Menu</h3>
-
                 <a href="index.html">Home</a>
                 <a href="HTML Pages/BuzzFeed.html">Buzz Feed</a>
                 <a href="HTML Pages/stores.html">Stores</a>
                 <a href="HTML Pages/categories.html">Categories</a>
-                <a href="HTML Pages/#">About Kumarites</a>
+                <a href="HTML Pages/about.html">About Kumarites</a>
             </div>
-
 
             <!-- Contact -->
             <div class="footer-column">
                 <h3>Contact</h3>
-                
                 <a href="#">Contact Us</a>
                 <a href="#">Community Guidelines</a>
                 <a href="#">Privacy Policy</a>
             </div>
-
 
             <!-- Social Media -->
             <div class="footer-column footer-social">
                 <h3>Follow Us</h3>
 
                 <div class="social-icons">
-
                     <a href="#" aria-label="Facebook">
                         <img src="Images/footer - facebook icon.png" alt="Facebook">
                     </a>
@@ -359,24 +232,19 @@
                     <a href="#" aria-label="Instagram">
                         <img src="Images/footer - instagram icon.png" alt="Instagram">
                     </a>
-
                 </div>
             </div>
-
         </div>
-
 
         <!-- Copyright -->
         <div class="footer-bottom">
-            <p>
-                © 2026 Kumarites. Community-powered consumer information.
-            </p>
+            <p>© 2026 Kumarites. Community-powered consumer information.</p>
         </div>
-
     </footer>
 
-    <!-- JavaScript Link -->
-    <script src="JavaScript/script.js"> </script>
-</body>
+    <!-- JavaScript -->
+    <script src="JavaScript/script.js"></script>
+    <script src="JavaScript/home.js"></script>
 
+</body>
 </html>

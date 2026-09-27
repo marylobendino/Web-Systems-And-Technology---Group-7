@@ -1,52 +1,52 @@
-// ========================================
-// LOGIN / SIGN UP FORM
-// ========================================
-
 const loginForm = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
-
 const showSignup = document.getElementById("showSignup");
 const showLogin = document.getElementById("showLogin");
 
+function showLoginForm() {
+    if (signupForm) {
+        signupForm.classList.add("hidden");
+    }
 
-// ========================================
-// CHECK WHICH FORM TO SHOW
-// ========================================
-
-const urlParams = new URLSearchParams(window.location.search);
-const form = urlParams.get("form");
-
-if (form === "signup") {
-
-    loginForm.classList.add("hidden");
-    signupForm.classList.remove("hidden");
-
+    if (loginForm) {
+        loginForm.classList.remove("hidden");
+    }
 }
 
+function showSignupForm() {
+    if (loginForm) {
+        loginForm.classList.add("hidden");
+    }
 
-// ========================================
-// SHOW SIGN UP
-// ========================================
+    if (signupForm) {
+        signupForm.classList.remove("hidden");
+    }
+}
 
-showSignup.addEventListener("click", function (event) {
+const urlParams = new URLSearchParams(
+    window.location.search
+);
 
-    event.preventDefault();
+if (urlParams.get("form") === "signup") {
+    showSignupForm();
+}
 
-    loginForm.classList.add("hidden");
-    signupForm.classList.remove("hidden");
+if (showSignup) {
+    showSignup.addEventListener(
+        "click",
+        function (event) {
+            event.preventDefault();
+            showSignupForm();
+        }
+    );
+}
 
-});
-
-
-// ========================================
-// SHOW LOGIN
-// ========================================
-
-showLogin.addEventListener("click", function (event) {
-
-    event.preventDefault();
-
-    signupForm.classList.add("hidden");
-    loginForm.classList.remove("hidden");
-
-});
+if (showLogin) {
+    showLogin.addEventListener(
+        "click",
+        function (event) {
+            event.preventDefault();
+            showLoginForm();
+        }
+    );
+}

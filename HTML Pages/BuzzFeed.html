@@ -1,464 +1,693 @@
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Buzz Feed</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzz Feed | Kumarites</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
 
-        <!-- CSS Link -->
-        <link rel="stylesheet" href="../CSS/buzzfeed.css">
-    </head>
-    <body>
+<body>
 
-        <!-- Navigation Bar -->
-        <header class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="../Images/BuzzFeed Images/Kumarites Logo.png" alt="Kumarites">
-                </a>
-                <p>Real Finds. Real People. A More Sulit You.</p>
-            </div>
-            <nav class="main-navigation">
-                <a href="../index.html">Home</a>
-                <a href="BuzzFeed.html" class="active">BuzzFeed</a>
-                <a href="stores.html">Stores</a>
-                <a href="categories.html">Categories</a>
-            </nav>
-            <div class="nav-search">
-                <input type="search" id="searchInput" placeholder="Search stores, products, or buzzes">
-            </div>
-            <div class="nav-actions">
-                <a href="login.html" class="login-button">Log In</a>
-                <a href="signup.html" class="signup-button">Sign Up</a>
-            </div>
-        </header>
+    <!-- Navigation -->
+    <header class="navbar">
 
-        <!-- Main Content -->
-        <div>
+        <div class="logo">
+            <a href="../index.html">
+                <img
+                    src="../Images/BuzzFeed Images/Kumarites Logo.png"
+                    alt="Kumarites"
+                >
+            </a>
 
-            <!-- The Bee -->
-            <section class="page-bee">
-                <div class="bee-content">
-                    <div class="bee-image">
-                        <img src="../Images/BuzzFeed Images/header pic.png" alt="People sharing trends and recommendations">
-                    </div>
-                    <div class="bee-text">
-                        <h2>
-                            What's
-                            <span>Buzzing?</span>
-                        </h2>
-                        <p>Discover real finds, deals, recommendations, and helpful tsika shared by the community.</p>
-                        <button type="button" class="primary-button create-buzz-trigger">+ Create a Buzz</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Create Buzz Modal -->
-            <div class="modal-overlay" id="createBuzzModal" hidden="">
-                <div class="create-buzz-modal">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <div class="modal-title">
-                            <h2>
-                                Create a
-                                <span>Buzz</span>
-                            </h2>
-                            <p>Share a sulit find, deal, or helpful recommendation.</p>
-                        </div>
-                        <button type="button" class="modal-close" id="closeBuzzModal" aria-label="Close">×</button>
-                    </div>
-
-                    <!-- Modal Form -->
-                    <form id="createBuzzForm">
-                        <div class="modal-form">
-                            <!-- Buzz Type -->
-                            <div class="form-group">
-                                <label for="buzzType">Buzz Type</label>
-                                <select id="buzzType" name="buzzType" required="">
-                                    <option value="">Select a buzz type</option>
-                                    <option value="sulit">Sulit Find</option>
-                                    <option value="sale">Sale / Promo</option>
-                                    <option value="recommendation">Recommendation</option>
-                                    <option value="advice">Advice</option>
-                                </select>
-                            </div>
-
-                            <!-- Category -->
-                            <div class="form-group">
-                                <label for="buzzCategory">Category</label>
-                                <select id="buzzCategory" name="buzzCategory" required="">
-                                    <option value="">Select a category</option>
-                                    <option value="grocery">Grocery</option>
-                                    <option value="food">Food</option>
-                                    <option value="clothing">Clothing</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="school-supplies">School Supplies</option>
-                                    <option value="household">Household</option>
-                                    <option value="services">Services</option>
-                                </select>
-                            </div>
-
-                            <!-- Store -->
-                            <div class="form-group">
-                                <label for="buzzStore">Store</label>
-                                <input type="text" id="buzzStore" name="buzzStore" placeholder="e.g. Gaisano, Shopee, Metro" required="">
-                            </div>
-
-                            <!-- Product -->
-                            <div class="form-group">
-                                <label for="buzzProduct">Product / Item</label>
-                                <input type="text" id="buzzProduct" name="buzzProduct" placeholder="What did you find?" required="">
-                            </div>
-
-                            <!-- Buzz Title -->
-                            <div class="form-group full-width">
-                                <label for="buzzTitle">Buzz Title</label>
-                                <input type="text" id="buzzTitle" name="buzzTitle" placeholder="Give your Buzz a short title" maxlength="80" required="">
-                            </div>
-
-                            <!-- Description -->
-                            <div class="form-group full-width">
-                                <label for="buzzDescription">Description</label>
-                                <textarea id="buzzDescription" name="buzzDescription" rows="4" placeholder="Tell the community about your find..." maxlength="500" required=""></textarea>
-                            </div>
-
-                            <!-- Price -->
-                            <div class="form-group">
-                                <label for="buzzPrice">Price</label>
-                                <div class="price-input">
-                                    <span>₱</span>
-                                    <input type="number" id="buzzPrice" name="buzzPrice" min="0" step="0.01" placeholder="0.00">
-                                </div>
-                            </div>
-
-                            <!-- Location -->
-                            <div class="form-group">
-                                <label for="buzzLocation">Location</label>
-                                <input type="text" id="buzzLocation" name="buzzLocation" placeholder="e.g. Cebu City">
-                            </div>
-                        </div>
-
-                        <!-- Modal Footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="secondary-button" id="cancelBuzzButton">Cancel</button>
-                            <button type="submit" class="primary-button">Post Buzz</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- BuzzFeed Layout -->
-            <section class="buzz-layout">
-
-                <!-- Left Filter Sidebar -->
-                <aside class="filter-sidebar">
-                    <h3>Filter Buzzes</h3>
-
-                    <!-- Buzz Type -->
-                    <div class="filter-group">
-                        <h4>Buzz Type</h4>
-                        <label>
-                            <input type="radio" name="buzzType" value="all" checked="">
-                            All Buzzes
-                        </label>
-                        <label>
-                            <input type="radio" name="buzzType" value="sulit">
-                            Sulit Find
-                        </label>
-                        <label>
-                            <input type="radio" name="buzzType" value="sale">
-                            Sale / Promo
-                        </label>
-                        <label>
-                            <input type="radio" name="buzzType" value="recommendation">
-                            Recommendation
-                        </label>
-                        <label>
-                            <input type="radio" name="buzzType" value="advice">
-                            Advice
-                        </label>
-                    </div>
-
-                    <!-- Category -->
-                    <div class="filter-group">
-                        <h4>Category</h4>
-                        <label>
-                            <input type="radio" name="category" value="all" checked>
-                            All Categories
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="food">
-                            Food & Beverages
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="grocery">
-                            Grocery
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="school">
-                            School Supplies
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="fashion">
-                            Fashion
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="electronics">
-                            Electronics
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="household">
-                            Home & Living
-                        </label>
-                    </div>
-
-                    <!-- Sort -->
-                    <div class="filter-group">
-                        <h4>Sort By</h4>
-                        <select id="sortBuzzes">
-                            <option value="latest">Latest</option>
-                            <option value="popular">Most Useful</option>
-                            <option value="price-low">Lowest Price</option>
-                            <option value="price-high">Highest Price</option>
-                        </select>
-                    </div>
-                    <button type="button" id="clearFilters" class="secondary-button">Clear Filters</button>
-                </aside>
-
-                <!-- Main Buzz Content -->
-                <section class="buzz-content">
-
-                    <!-- Feed Header -->
-                    <div class="feed-header">
-                        <div>
-                            <h3>Latest Buzzes</h3>
-                            <p>See what the community is sharing today.</p>
-                        </div>
-                        <div class="feed-sort">
-                            <label for="feedSort">Sort:</label>
-                            <select id="feedSort">
-                                <option value="latest">Latest</option>
-                                <option value="popular">Most Useful</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Buzz Cards -->
-                    <div class="buzz-list" id="buzzContainer">
-
-                        <!-- BUZZ CARD 1 -->
-                        <article class="buzz-card" data-type="sulit" data-category="grocery">
-                            <div class="buzz-image">
-                                <img src="../Images/BuzzFeed Images/Cheap Rice.png" alt="Rice products displayed in a grocery store">
-                            </div>
-                            <div class="buzz-card-content">
-                                <div class="buzz-meta">
-                                    <span class="buzz-type sulit">Sulit Find</span>
-                                    <span class="buzz-time">2 hours ago</span>
-                                </div>
-                                <h4>Rice is cheaper here!</h4>
-                                <p>Found regular rice for only ₱48 per kilo. Sharing this in case anyone is looking for a more affordable option.</p>
-                                <div class="buzz-store">
-                                    <strong>ABC Grocery</strong>
-                                    <span>Cebu City</span>
-                                </div>
-                                <div class="buzz-details">
-                                    <span>Grocery</span>
-                                    <span class="price">₱48/kg</span>
-                                </div>
-                                <div class="buzz-author">
-                                    <span>
-                                        Posted by
-                                        <strong>Maria S.</strong>
-                                    </span>
-                                </div>
-                                <div class="buzz-actions">
-                                    <button class="useful-button" data-buzz-id="1" aria-pressed="false">
-                                        ♡ Useful
-                                        <span>24</span>
-                                    </button>
-                                    <button class="save-button" data-buzz-id="1" aria-pressed="false">Save</button>
-                                </div>
-                            </div>
-                        </article>
-
-                        <!-- BUZZ CARD 2 -->
-                        <article class="buzz-card" data-type="sale" data-category="school">
-                            <div class="buzz-image">
-                                <img src="../Images/BuzzFeed Images/School Supplies.png" alt="School supplies">
-                            </div>
-                            <div class="buzz-card-content">
-                                <div class="buzz-meta">
-                                    <span class="buzz-type sale">Sale / Promo</span>
-                                    <span class="buzz-time">5 hours ago</span>
-                                </div>
-                                <h4>School supplies are on sale!</h4>
-                                <p>Several notebooks and writing materials are currently discounted. Good timing before the next semester.</p>
-                                <div class="buzz-store">
-                                    <strong>National Book Store</strong>
-                                    <span>Cebu City</span>
-                                </div>
-                                <div class="buzz-details">
-                                    <span>School Supplies</span>
-                                    <span class="price">Up to 30% OFF</span>
-                                </div>
-                                <div class="buzz-author">
-                                    <span>
-                                        Posted by
-                                        <strong>Juan D.</strong>
-                                    </span>
-                                </div>
-                                <div class="buzz-actions">
-                                    <button class="useful-button" data-buzz-id="2" aria-pressed="false">
-                                        ♡ Useful
-                                        <span>18</span>
-                                    </button>
-                                    <button class="save-button" data-buzz-id="2" aria-pressed="false">Save</button>
-                                </div>
-                            </div>
-                        </article>
-
-                        <!-- BUZZ CARD 3 -->
-                        <article class="buzz-card" data-type="recommendation" data-category="food">
-                            <div class="buzz-image">
-                                <img src="../Images/BuzzFeed Images/Food.png" alt="Food from a local restaurant">
-                            </div>
-                            <div class="buzz-card-content">
-                                <div class="buzz-meta">
-                                    <span class="buzz-type recommendation">Recommendation</span>
-                                    <span class="buzz-time">Yesterday</span>
-                                </div>
-                                <h4>Affordable meals near IT Park</h4>
-                                <p>If you're looking for budget-friendly meals around IT Park, this place has generous servings without spending too much.</p>
-                                <div class="buzz-store">
-                                    <strong>Local Eats</strong>
-                                    <span>Cebu City</span>
-                                </div>
-                                <div class="buzz-details">
-                                    <span>Food & Beverages</span>
-                                    <span class="price">₱99+</span>
-                                </div>
-                                <div class="buzz-author">
-                                    <span>
-                                        Posted by
-                                        <strong>Andrea R.</strong>
-                                    </span>
-                                </div>
-                                <div class="buzz-actions">
-                                    <button class="useful-button" data-buzz-id="3" aria-pressed="false">
-                                        ♡ Useful
-                                        <span>31</span>
-                                    </button>
-                                    <button class="save-button" data-buzz-id="3" aria-pressed="false">Save</button>
-                                </div>
-                            </div>
-                        </article>
-
-                        <!-- Placeholder JS will display this when there are no results. -->
-                        <div id="noResults" class="empty-state" hidden="">
-                            <h3>No Buzzes found</h3>
-                            <p>Try another search term or category.</p>
-                            <button type="button" id="resetSearch" class="primary-button">Clear Filters</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Right Sidebar -->
-                <aside class="right-sidebar">
-
-                    <!-- Trending Stores -->
-                    <section class="sidebar-card">
-                        <h3>Trending Stores</h3>
-                        <div class="trending-store">
-                            <div class="store-icon">A</div>
-                            <div>
-                                <strong>ABC Grocery</strong>
-                                <span>24 Buzzes</span>
-                            </div>
-                        </div>
-                        <div class="trending-store">
-                            <div class="store-icon">N</div>
-                            <div>
-                                <strong>National Book Store</strong>
-                                <span>18 Buzzes</span>
-                            </div>
-                        </div>
-                        <div class="trending-store">
-                            <div class="store-icon">S</div>
-                            <div>
-                                <strong>SM Seaside</strong>
-                                <span>15 Buzzes</span>
-                            </div>
-                        </div>
-                        <a href="stores.html" class="sidebar-link">View All Stores →</a>
-                    </section>
-
-                    <!-- Create Buzz CTA -->
-                    <section class="sidebar-cta">
-                        <h3>Got a sulit find?</h3>
-                        <p>Share it with the community. Your tsika might help someone save.</p>
-                        <button type="button" class="primary-button create-buzz-trigger">+ Create a Buzz</button>
-                    </section>
-
-                    <!-- Community Tip -->
-                    <section class="sidebar-card community-tip">
-                        <span class="tip-label">KUMARITES TIP</span>
-                        <h3>Share useful tsika.</h3>
-                        <p>Include the store, price, and relevant details so others can easily verify your find.</p>
-                    </section>
-                </aside>
-            </section>
+            <p>
+                Real Finds. Real People. A More Sulit You.
+            </p>
         </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
+        <nav class="main-navigation">
+            <a href="../index.html">
+                Home
+            </a>
 
-                <!-- Kumarites Information -->
-                <div class="footer-column footer-brand">
-                    <h2>KUMARITES</h2>
-                    <p>Real Finds. Real People. A More Sulit You.</p>
-                    <p>A community-driven platform where people share sulit finds, price updates, and store recommendations.</p>
+            <a href="BuzzFeed.html" class="active">
+                BuzzFeed
+            </a>
+
+            <a href="stores.html">
+                Stores
+            </a>
+
+            <a href="categories.html">
+                Categories
+            </a>
+        </nav>
+
+        <div class="nav-search">
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search stores, products, or buzzes"
+                aria-label="Search Buzzes"
+            >
+        </div>
+
+        <div class="nav-actions">
+            <a
+                href="login.html"
+                class="login-button"
+            >
+                Log In
+            </a>
+
+            <a
+                href="login.html?form=signup"
+                class="signup-button"
+            >
+                Sign Up
+            </a>
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- Hero -->
+        <section class="page-bee">
+
+            <div class="bee-content">
+
+                <div class="bee-image">
+                    <img
+                        src="../Images/BuzzFeed Images/header pic.png"
+                        alt="People sharing trends and recommendations"
+                    >
                 </div>
 
-                <!-- Menu -->
-                <div class="footer-column">
-                    <h3>Menu</h3>
-                    <a href="../index.html">Home</a>
-                    <a href="buzzfeed.html">Buzz Feed</a>
-                    <a href="stores.html">Stores</a>
-                    <a href="categories.html">Categories</a>
-                    <a href="about.html">About Kumarites</a>
+                <div class="bee-text">
+
+                    <h2>
+                        What's
+                        <span>Buzzing?</span>
+                    </h2>
+
+                    <p>
+                        Discover real finds, deals,
+                        recommendations, and helpful
+                        tsika shared by the community.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="primary-button create-buzz-trigger"
+                        data-create-buzz
+                    >
+                        + Create a Buzz
+                    </button>
+
                 </div>
 
-                <!-- Contact -->
-                <div class="footer-column">
-                    <h3>Contact</h3>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Community Guidelines</a>
-                    <a href="#">Privacy Policy</a>
+            </div>
+
+        </section>
+
+
+        <!-- BuzzFeed Layout -->
+        <section class="buzz-layout">
+
+            <!-- Filter Sidebar -->
+            <aside class="filter-sidebar">
+
+                <h3>
+                    Filter Buzzes
+                </h3>
+
+
+                <!-- Buzz Type -->
+                <div class="filter-group">
+
+                    <h4>
+                        Buzz Type
+                    </h4>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="buzzType"
+                            value="all"
+                            checked
+                        >
+
+                        <span>
+                            All Buzzes
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="buzzType"
+                            value="find"
+                        >
+
+                        <span>
+                            Sulit Find
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="buzzType"
+                            value="deal"
+                        >
+
+                        <span>
+                            Sale / Promo
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="buzzType"
+                            value="recommendation"
+                        >
+
+                        <span>
+                            Recommendation
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="buzzType"
+                            value="advice"
+                        >
+
+                        <span>
+                            Advice
+                        </span>
+                    </label>
+
                 </div>
 
-                <!-- Social Media -->
-                <div class="footer-column footer-social">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#" aria-label="Facebook">
-                            <img src="../Images/footer - facebook icon.png" alt="Facebook">
-                        </a>
-                        <a href="#" aria-label="Instagram">
-                            <img src="../Images/footer - instagram icon.png" alt="Instagram">
-                        </a>
+
+                <!-- Category -->
+                <div class="filter-group">
+
+                    <h4>
+                        Category
+                    </h4>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="all"
+                            checked
+                        >
+
+                        <span>
+                            All Categories
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="food"
+                        >
+
+                        <span>
+                            Food &amp; Beverages
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="grocery"
+                        >
+
+                        <span>
+                            Grocery
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="school-supplies"
+                        >
+
+                        <span>
+                            School Supplies
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="fashion"
+                        >
+
+                        <span>
+                            Fashion
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="electronics"
+                        >
+
+                        <span>
+                            Electronics
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="home-living"
+                        >
+
+                        <span>
+                            Home &amp; Living
+                        </span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="category"
+                            value="services"
+                        >
+
+                        <span>
+                            Services
+                        </span>
+                    </label>
+
+                </div>
+
+
+                <!-- Sort -->
+                <div class="filter-group">
+
+                    <h4>
+                        Sort By
+                    </h4>
+
+                    <select id="sortBuzzes">
+
+                        <option value="latest">
+                            Latest
+                        </option>
+
+                        <option value="popular">
+                            Most Useful
+                        </option>
+
+                        <option value="price-low">
+                            Lowest Price
+                        </option>
+
+                        <option value="price-high">
+                            Highest Price
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="clearFilters"
+                    class="secondary-button"
+                >
+                    Clear Filters
+                </button>
+
+            </aside>
+
+
+            <!-- Main Buzz Content -->
+            <section class="buzz-content">
+
+                <div class="feed-header">
+
+                    <div>
+
+                        <h3>
+                            Latest Buzzes
+                        </h3>
+
+                        <p>
+                            See what the community
+                            is sharing today.
+                        </p>
+
                     </div>
+
+                    <div class="feed-sort">
+
+                        <label for="feedSort">
+                            Sort:
+                        </label>
+
+                        <select id="feedSort">
+
+                            <option value="latest">
+                                Latest
+                            </option>
+
+                            <option value="popular">
+                                Most Useful
+                            </option>
+
+                            <option value="price-low">
+                                Lowest Price
+                            </option>
+
+                            <option value="price-high">
+                                Highest Price
+                            </option>
+
+                        </select>
+
+                    </div>
+
                 </div>
+
+
+                <!-- Dynamic Buzz Cards -->
+                <div
+                    class="buzz-list"
+                    id="buzzContainer"
+                ></div>
+
+
+                <!-- Empty State -->
+                <div
+                    id="noResults"
+                    class="empty-state"
+                    hidden
+                >
+
+                    <h3>
+                        No Buzzes found
+                    </h3>
+
+                    <p>
+                        Try another search term
+                        or category.
+                    </p>
+
+                    <button
+                        type="button"
+                        id="resetSearch"
+                        class="primary-button"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+
+
+                <!-- Trending Stores -->
+                <section class="sidebar-card">
+
+                    <h3>
+                        Trending Stores
+                    </h3>
+
+                    <div class="trending-store">
+
+                        <div class="store-icon">
+                            A
+                        </div>
+
+                        <div>
+                            <strong>
+                                ABC Grocery
+                            </strong>
+
+                            <span>
+                                24 Buzzes
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="trending-store">
+
+                        <div class="store-icon">
+                            N
+                        </div>
+
+                        <div>
+                            <strong>
+                                National Book Store
+                            </strong>
+
+                            <span>
+                                18 Buzzes
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="trending-store">
+
+                        <div class="store-icon">
+                            S
+                        </div>
+
+                        <div>
+                            <strong>
+                                SM Seaside
+                            </strong>
+
+                            <span>
+                                15 Buzzes
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="stores.html"
+                        class="sidebar-link"
+                    >
+                        View All Stores →
+                    </a>
+
+                </section>
+
+
+                <!-- Create Buzz CTA -->
+                <section class="sidebar-cta">
+
+                    <h3>
+                        Got a sulit find?
+                    </h3>
+
+                    <p>
+                        Share it with the community.
+                        Your tsika might help someone save.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="primary-button create-buzz-trigger"
+                        data-create-buzz
+                    >
+                        + Create a Buzz
+                    </button>
+
+                </section>
+
+
+                <!-- Community Tip -->
+                <section class="sidebar-card community-tip">
+
+                    <span class="tip-label">
+                        KUMARITES TIP
+                    </span>
+
+                    <h3>
+                        Share useful tsika.
+                    </h3>
+
+                    <p>
+                        Include the store, price,
+                        and relevant details so others
+                        can easily verify your find.
+                    </p>
+
+                </section>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <div class="footer-column footer-brand">
+
+                <a href="../index.html">
+
+                    <img
+                        src="../Images/BuzzFeed Images/Kumarites Logo.png"
+                        alt="Kumarites"
+                        width="200"
+                    >
+
+                </a>
+
+                <p>
+                    Real Finds. Real People.
+                    A More Sulit You.
+                </p>
+
+                <p>
+                    A community-driven platform
+                    where people share sulit finds,
+                    price updates, and store recommendations.
+                </p>
+
             </div>
 
-            <!-- Copyright -->
-            <div class="footer-bottom">
-                <p>© 2026 Kumarites. Community-powered consumer information.</p>
+
+            <div class="footer-column">
+
+                <h3>
+                    Menu
+                </h3>
+
+                <a href="../index.html">
+                    Home
+                </a>
+
+                <a href="BuzzFeed.html">
+                    Buzz Feed
+                </a>
+
+                <a href="stores.html">
+                    Stores
+                </a>
+
+                <a href="categories.html">
+                    Categories
+                </a>
+
+                <a href="about.html">
+                    About Kumarites
+                </a>
+
             </div>
-        </footer>
-        
-        <script src="../JavaScript/buzzfeed.js"></script>
-    </body>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Contact
+                </h3>
+
+                <a href="#">
+                    Contact Us
+                </a>
+
+                <a href="#">
+                    Community Guidelines
+                </a>
+
+                <a href="#">
+                    Privacy Policy
+                </a>
+
+            </div>
+
+
+            <div class="footer-column footer-social">
+
+                <h3>
+                    Follow Us
+                </h3>
+
+                <div class="social-icons">
+
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <img
+                            src="../Images/footer - facebook icon.png"
+                            alt="Facebook"
+                        >
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <img
+                            src="../Images/footer - instagram icon.png"
+                            alt="Instagram"
+                        >
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Kumarites.
+                Community-powered consumer information.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Shared Data + Buzz System -->
+    <script src="../JavaScript/script.js"></script>
+
+    <!-- BuzzFeed Page Logic -->
+    <script src="../JavaScript/buzzfeed.js"></script>
+
+</body>
 </html>

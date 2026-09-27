@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SM Mall of Asia - Kumarites</title>
-    <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/stores.css">
+
+    <link rel="stylesheet" href="../style.css">
+
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -21,15 +22,22 @@
             </a>
             <p>Real Finds. Real People. A More Sulit You.</p>
         </div>
+
         <nav class="main-navigation">
             <a href="../index.html">Home</a>
             <a href="BuzzFeed.html">BuzzFeed</a>
             <a href="stores.html" class="active">Stores</a>
             <a href="categories.html">Categories</a>
         </nav>
+
         <div class="nav-search">
-            <input type="search" id="searchInput" placeholder="Search stores, products, or buzzes">
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search stores, products, or buzzes"
+            >
         </div>
+
         <div class="nav-actions">
             <a href="login.html" class="login-button">Log In</a>
             <a href="login.html?form=signup" class="signup-button">Sign Up</a>
@@ -37,330 +45,493 @@
     </header>
 
     <main class="store-page">
-    <p class="breadcrumb"><a href="stores.html">Stores</a> &gt; SM Mall of Asia</p>
 
-    <section class="store-banner">
-        <h2>SM Mall of Asia</h2>
-        <p><em>Pasay City, Metro Manila</em></p>
-        <p>Shopping, dining, and more &mdash; discover the latest finds, promos, and experiences at SM Mall of Asia from the Kumarites community.</p>
+        <section class="store-banner">
+            <h2>SM Mall of Asia</h2>
 
-        <div class="store-tags">
-            <p>Mall | Shopping | Food | Entertainment | Services</p>
-        </div>
+            <p>
+                <em>Pasay City, Metro Manila</em>
+            </p>
 
-    </section>
+            <p>
+                Shopping, dining, and more &mdash; discover the latest finds,
+                promos, and experiences at SM Mall of Asia from the Kumarites community.
+            </p>
 
-    <section class="store-stats">
-        <h3>Store Stats</h3>
+            <div class="store-tags">
+                <p>Mall | Shopping | Food | Entertainment | Services</p>
+            </div>
+        </section>
 
-        <div class="stats-list">
-            <p><strong>42</strong> Community Buzzes</p>
-            <p><strong>1.2K</strong> Kumarites Visited</p>
-            <p><strong>4.6</strong> Community Rating (120 ratings)</p>
-        </div>
+        <section class="store-stats">
 
-        <button type="button" class="share-button" id="shareStoreButton">Share</button>
-        <button type="button" class="create-buzz-button">+ Create a Buzz</button>
-    </section>
+            <h3>Store Stats</h3>
 
-    <section class="store-tabs">
-        <div class="tabs-list">
-            <button class="tab-button active" type="button" data-category="latest" aria-selected="true">Latest Buzzes</button>
-            <button class="tab-button" type="button" data-category="sulit" aria-selected="false">Sulit Find</button>
-            <button class="tab-button" type="button" data-category="sale" aria-selected="false">Sale / Promo</button>
-            <button class="tab-button" type="button" data-category="recommendation" aria-selected="false">Recommendation</button>
-            <button class="tab-button" type="button" data-category="advice" aria-selected="false">Advice</button>
-        </div>
+            <div class="stats-list">
+                <p>
+                    <strong>42</strong>
+                    Community Buzzes
+                </p>
 
-        <div class="search-sort">
-            <input type="text" placeholder="Search buzzes in this store...">
+                <p>
+                    <strong>1.2K</strong>
+                    Kumarites Visited
+                </p>
 
-            <select>
-                <option>Latest</option>
-                <option>Oldest</option>
-                <option>Most Popular</option>
-            </select>
-        </div>
-    </section>
-
-        <div class="store-layout">
-
-        <section class="buzz-list">
-
-            <div class="buzz-list-header">
-                <h2>Buzzes at SM Mall of Asia</h2>
+                <p>
+                    <strong>4.6</strong>
+                    Community Rating (120 ratings)
+                </p>
             </div>
 
-            <ul class="buzz-list-items">
+            <div class="store-stats-actions">
+                <button
+                    type="button"
+                    class="share-button"
+                    id="shareStoreButton"
+                >
+                    Share
+                </button>
 
-                <li class="buzz-card" data-category="sulit">
-                    <div class="buzz-image">
-                        <img src="../Images/Stores%20Images/DoveBuy1Take1.png" alt="Dove Buy 1 Take 1 promo">
-                    </div>
-                    <div class="buzz-card-content">
-                        <div class="buzz-meta">
-                            <span class="buzz-type sulit">SULIT FIND</span>
-                            <span class="buzz-time" data-minutes-ago="120">2 hours ago</span>
-                        </div>
-                        <h3>Buy 1 Take 1 on Dove Shampoo!</h3>
-                        <p>Saw this at Watsons inside SM Mall of Asia. Buy 1 Take 1 on selected Dove variants. Until supplies last!</p>
-                        <p class="buzz-tags">Watsons (SM Mall of Asia) | Personal Care</p>
-                        <div class="buzz-footer">
-                            <span class="buzz-author">Posted by <strong>BudgetBuddy</strong></span>
-                        </div>
-                        <div class="buzz-actions">
-                            <button class="useful-button" type="button" data-count="24" aria-pressed="false">
-                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
-                                <span>Useful 24</span>
-                            </button>
-                            <button class="save-button" type="button">Save</button>
-                            <a class="view-button" href="#">View Buzz</a>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="buzz-card" data-category="sale">
-                    <div class="buzz-image">
-                        <img src="../Images/Stores%20Images/Mang%20Inasal.png" alt="Mang Inasal promo">
-                    </div>
-                    <div class="buzz-card-content">
-                        <div class="buzz-meta">
-                            <span class="buzz-type sale">SALE / PROMO</span>
-                            <span class="buzz-time" data-minutes-ago="300">5 hours ago</span>
-                        </div>
-                        <h3>Unli Rice for &#8369;99 at Mang Inasal!</h3>
-                        <p>Perfect for lunch! Unli rice promo is still ongoing at Mang Inasal, SM Mall of Asia. Sulit kaayo!</p>
-                        <p class="buzz-tags">Mang Inasal (SM Mall of Asia) | Food</p>
-                        <div class="buzz-footer">
-                            <span class="buzz-author">Posted by <strong>FoodieCebu</strong></span>
-                        </div>
-                        <div class="buzz-actions">
-                            <button class="useful-button" type="button" data-count="18" aria-pressed="false">
-                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
-                                <span>Useful 18</span>
-                            </button>
-                            <button class="save-button" type="button">Save</button>
-                            <a class="view-button" href="#">View Buzz</a>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="buzz-card" data-category="recommendation">
-                    <div class="buzz-image">
-                        <img src="../Images/Stores%20Images/Miniso.png" alt="Miniso finds">
-                    </div>
-                    <div class="buzz-card-content">
-                        <div class="buzz-meta">
-                            <span class="buzz-type recommendation">RECOMMENDATION</span>
-                            <span class="buzz-time" data-minutes-ago="1440">1 day ago</span>
-                        </div>
-                        <h3>Cute and affordable finds at Miniso</h3>
-                        <p>Lots of new items this week! Kawaii stuff, organizers, and school supplies. Prices are still affordable.</p>
-                        <p class="buzz-tags">Miniso (SM Mall of Asia) | School Supplies</p>
-                        <div class="buzz-footer">
-                            <span class="buzz-author">Posted by <strong>FindsPH</strong></span>
-                        </div>
-                        <div class="buzz-actions">
-                            <button class="useful-button" type="button" data-count="31" aria-pressed="false">
-                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
-                                <span>Useful 31</span>
-                            </button>
-                            <button class="save-button" type="button">Save</button>
-                            <a class="view-button" href="#">View Buzz</a>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="buzz-card" data-category="advice">
-                    <div class="buzz-image">
-                        <img src="../Images/Stores%20Images/MallOfAsia.png" alt="SM Mall of Asia parking area">
-                    </div>
-                    <div class="buzz-card-content">
-                        <div class="buzz-meta">
-                            <span class="buzz-type advice">ADVICE</span>
-                            <span class="buzz-time" data-minutes-ago="2880">2 days ago</span>
-                        </div>
-                        <h3>Go early to avoid parking hassle</h3>
-                        <p>Weekends get really crowded. Best to go before 11 AM if you're bringing a car. Parking fills up fast!</p>
-                        <p class="buzz-tags">Parking (SM Mall of Asia) | General</p>
-                        <div class="buzz-footer">
-                            <span class="buzz-author">Posted by <strong>FoodieeNakss</strong></span>
-                        </div>
-                        <div class="buzz-actions">
-                            <button class="useful-button" type="button" data-count="12" aria-pressed="false">
-                                <i class="fi fi-rr-heart" aria-hidden="true"></i>
-                                <span>Useful 12</span>
-                            </button>
-                            <button class="save-button" type="button">Save</button>
-                            <a class="view-button" href="#">View Buzz</a>
-                        </div>
-                    </div>
-                </li>
-
-            </ul>
-
-            <div class="load-more-wrapper">
-                <button type="button" id="loadMoreBuzzesButton" class="load-more-button">Load More Buzzes</button>
+                <button
+                    type="button"
+                    class="create-buzz-button"
+                    data-create-buzz
+                >
+                    + Create a Buzz
+                </button>
             </div>
 
         </section>
 
-        <aside class="store-sidebar">
+        <section class="store-tabs">
 
-            <section class="about-store">
-                <h2>About SM Mall of Asia</h2>
-                <p>SM Mall of Asia is one of the largest malls in the Philippines, offering a wide range of shopping, dining, entertainment, and essential services.</p>
+            <div
+                class="tabs-list"
+                role="tablist"
+                aria-label="Store Buzz categories"
+            >
 
-                <div class="store-details">
-                    <p class="detail-item"><i class="fi fi-rr-marker detail-icon" aria-hidden="true"></i><span>Seaside Blvd, Mall of Asia Complex, Pasay City, Metro Manila</span></p>
-                    <p class="detail-item"><i class="fi fi-rr-clock-three detail-icon" aria-hidden="true"></i><span>10:00 AM - 10:00 PM (Daily)</span></p>
-                    <p class="detail-item"><i class="fi fi-sr-phone-call detail-icon" aria-hidden="true"></i><span>(02) 8556-0680</span></p>
-                    <p class="detail-item"><i class="fi fi-rr-globe detail-icon" aria-hidden="true"></i><a href="https://www.smsupermalls.com" target="_blank" rel="noopener noreferrer">www.smsupermalls.com</a></p>
+                <button
+                    class="tab-button active"
+                    type="button"
+                    data-category="latest"
+                    aria-selected="true"
+                >
+                    Latest Buzzes
+                </button>
+
+                <button
+                    class="tab-button"
+                    type="button"
+                    data-category="sulit"
+                    aria-selected="false"
+                >
+                    Sulit Find
+                </button>
+
+                <button
+                    class="tab-button"
+                    type="button"
+                    data-category="sale"
+                    aria-selected="false"
+                >
+                    Sale / Promo
+                </button>
+
+                <button
+                    class="tab-button"
+                    type="button"
+                    data-category="recommendation"
+                    aria-selected="false"
+                >
+                    Recommendation
+                </button>
+
+                <button
+                    class="tab-button"
+                    type="button"
+                    data-category="advice"
+                    aria-selected="false"
+                >
+                    Advice
+                </button>
+
+            </div>
+
+            <div class="search-sort">
+
+                <input
+                    type="text"
+                    placeholder="Search buzzes in this store..."
+                    aria-label="Search buzzes in this store"
+                >
+
+                <select aria-label="Sort Buzzes">
+                    <option>Latest</option>
+                    <option>Oldest</option>
+                    <option>Most Popular</option>
+                </select>
+
+            </div>
+
+        </section>
+
+        <div class="store-layout">
+
+            <section class="buzz-list">
+
+                <div class="buzz-list-header">
+                    <h2>Buzzes at SM Mall of Asia</h2>
                 </div>
 
-                <a class="official-website-button" href="https://www.smsupermalls.com" target="_blank" rel="noopener noreferrer">Visit Official Website</a>
+                <!-- stores.js renders Buzz cards here -->
+                <ul class="buzz-list-items"></ul>              
+
             </section>
 
-            <section class="store-map">
-                <h3><i class="fi fi-rr-marker section-icon" aria-hidden="true"></i>Store Location</h3>
+            <aside class="store-sidebar">
 
-                <div class="map-frame">
-                    <iframe
-                        src="https://www.google.com/maps?q=SM+Mall+of+Asia&output=embed"
-                        title="Live map of SM Mall of Asia"
-                        loading="lazy"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            </section>
+                <section class="about-store">
 
-            <section class="popular-categories">
-                <h3>Popular Categories in this Store</h3>
+                    <h2>About SM Mall of Asia</h2>
 
-                <div class="category-list">
-                    <ol>
-                        <li>Food & Beverages<strong>(12)</strong></li>
-                        <li>Fashion <strong>(10)</strong></li>
-                        <li>Services <strong>(6)</strong></li>
-                        <li>Electronics <strong>(5)</strong></li>
-                        <li>Home & Living <strong>(4)</strong></li>
-                        <li>School Supplies <strong>(3)</strong></li>
-                    </ol>
-                </div>
-            </section>
+                    <p>
+                        SM Mall of Asia is one of the largest malls in the Philippines,
+                        offering a wide range of shopping, dining, entertainment,
+                        and essential services.
+                    </p>
 
-            <section class="cta-card">
-                <h3>Share your finds!</h3>
-                <p>Help other Kumarites discover great deals at SM Mall of Asia.</p>
-                <button type="button" class="create-buzz-button">Create a Buzz</button>
-            </section>
+                    <div class="store-details">
 
-        </aside>
+                        <p class="detail-item">
+                            <i
+                                class="fi fi-rr-marker detail-icon"
+                                aria-hidden="true"
+                            ></i>
 
-    </div>
+                            <span>
+                                Seaside Blvd, Mall of Asia Complex,
+                                Pasay City, Metro Manila
+                            </span>
+                        </p>
+
+                        <p class="detail-item">
+                            <i
+                                class="fi fi-rr-clock-three detail-icon"
+                                aria-hidden="true"
+                            ></i>
+
+                            <span>
+                                10:00 AM - 10:00 PM (Daily)
+                            </span>
+                        </p>
+
+                        <p class="detail-item">
+                            <i
+                                class="fi fi-sr-phone-call detail-icon"
+                                aria-hidden="true"
+                            ></i>
+
+                            <span>
+                                (02) 8556-0680
+                            </span>
+                        </p>
+
+                        <p class="detail-item">
+                            <i
+                                class="fi fi-rr-globe detail-icon"
+                                aria-hidden="true"
+                            ></i>
+
+                            <a
+                                href="https://www.smsupermalls.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                www.smsupermalls.com
+                            </a>
+                        </p>
+
+                    </div>
+
+                    <a
+                        class="official-website-button"
+                        href="https://www.smsupermalls.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Visit Official Website
+                    </a>
+
+                </section>
+
+                <section class="store-map">
+
+                    <h3>
+                        <i
+                            class="fi fi-rr-marker section-icon"
+                            aria-hidden="true"
+                        ></i>
+                        Store Location
+                    </h3>
+
+                    <div class="map-frame">
+
+                        <iframe
+                            src="https://www.google.com/maps?q=SM+Mall+of+Asia&output=embed"
+                            title="Live map of SM Mall of Asia"
+                            loading="lazy"
+                            allowfullscreen>
+                        </iframe>
+
+                    </div>
+
+                </section>
+
+                <section class="popular-categories">
+
+                    <h3>
+                        Popular Categories in this Store
+                    </h3>
+
+                    <div class="category-list">
+
+                        <ol>
+                            <li>
+                                Food &amp; Beverages
+                                <strong>(12)</strong>
+                            </li>
+
+                            <li>
+                                Fashion
+                                <strong>(10)</strong>
+                            </li>
+
+                            <li>
+                                Services
+                                <strong>(6)</strong>
+                            </li>
+
+                            <li>
+                                Electronics
+                                <strong>(5)</strong>
+                            </li>
+
+                            <li>
+                                Home &amp; Living
+                                <strong>(4)</strong>
+                            </li>
+
+                            <li>
+                                School Supplies
+                                <strong>(3)</strong>
+                            </li>
+                        </ol>
+
+                    </div>
+
+                </section>
+
+                <section class="cta-card">
+
+                    <h3>
+                        Share your finds!
+                    </h3>
+
+                    <p>
+                        Help other Kumarites discover great deals
+                        at SM Mall of Asia.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="create-buzz-button"
+                        data-create-buzz
+                    >
+                        Create a Buzz
+                    </button>
+
+                </section>
+
+            </aside>
+
+        </div>
+
     </main>
 
-    <div class="buzz-modal hidden" id="shareModal" aria-hidden="true">
-        <div class="buzz-modal-backdrop" data-close-share-modal></div>
-        <div class="share-dialog" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
-            <button class="modal-close" type="button" data-close-share-modal aria-label="Close share dialog">×</button>
-            <div class="share-icon" aria-hidden="true"><i class="fi fi-rr-link"></i></div>
-            <h2 id="shareModalTitle">Share with Friends</h2>
-            <p class="share-subtitle">Help your friends discover useful finds and deals.</p>
-            <label class="share-label" for="shareLinkInput">Share your link</label>
+    <!-- Share Modal -->
+    <div
+        class="buzz-modal hidden"
+        id="shareModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="buzz-modal-backdrop"
+            data-close-share-modal
+        ></div>
+
+        <div
+            class="share-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="shareModalTitle"
+        >
+
+            <button
+                class="modal-close"
+                type="button"
+                data-close-share-modal
+                aria-label="Close share dialog"
+            >
+                ×
+            </button>
+
+            <div
+                class="share-icon"
+                aria-hidden="true"
+            >
+                <i class="fi fi-rr-link"></i>
+            </div>
+
+            <h2 id="shareModalTitle">
+                Share with Friends
+            </h2>
+
+            <p class="share-subtitle">
+                Help your friends discover useful
+                finds and deals.
+            </p>
+
+            <label
+                class="share-label"
+                for="shareLinkInput"
+            >
+                Share your link
+            </label>
+
             <div class="share-link-row">
-                <input id="shareLinkInput" type="text" readonly aria-label="Share link">
-                <button type="button" id="copyShareLinkButton" aria-label="Copy share link" title="Copy link"><i class="fi fi-rr-copy"></i></button>
+
+                <input
+                    id="shareLinkInput"
+                    type="text"
+                    readonly
+                    aria-label="Share link"
+                >
+
+                <button
+                    type="button"
+                    id="copyShareLinkButton"
+                    aria-label="Copy share link"
+                    title="Copy link"
+                >
+                    <i class="fi fi-rr-copy"></i>
+                </button>
+
             </div>
-            <small id="shareCopyStatus" class="share-copy-status" role="status"></small>
-            <p class="share-label share-to-label">Share to</p>
+
+            <small
+                id="shareCopyStatus"
+                class="share-copy-status"
+                role="status"
+            ></small>
+
+            <p class="share-label share-to-label">
+                Share to
+            </p>
+
             <div class="share-social-list">
-                <a class="share-social facebook" href="#" data-share-network="facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><span><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></span><small>Facebook</small></a>
-                <a class="share-social x-social" href="#" data-share-network="x" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><span><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></span><small>X</small></a>
-                <a class="share-social whatsapp" href="#" data-share-network="whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><span><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><small>WhatsApp</small></a>
-                <a class="share-social telegram" href="#" data-share-network="telegram" target="_blank" rel="noopener noreferrer" aria-label="Share on Telegram"><span><i class="fa-brands fa-telegram" aria-hidden="true"></i></span><small>Telegram</small></a>
-                <a class="share-social linkedin" href="#" data-share-network="linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><span><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></span><small>LinkedIn</small></a>
+
+                <a
+                    class="share-social facebook"
+                    href="#"
+                    data-share-network="facebook"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on Facebook"
+                >
+                    <span>
+                        <i
+                            class="fa-brands fa-facebook-f"
+                            aria-hidden="true"
+                        ></i>
+                    </span>
+                    <small>Facebook</small>
+                </a>
+
+                <a
+                    class="share-social x-social"
+                    href="#"
+                    data-share-network="x"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on X"
+                >
+                    <span>
+                        <i
+                            class="fa-brands fa-x-twitter"
+                            aria-hidden="true"
+                        ></i>
+                    </span>
+                    <small>X</small>
+                </a>
+
+                <a
+                    class="share-social whatsapp"
+                    href="#"
+                    data-share-network="whatsapp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on WhatsApp"
+                >
+                    <span>
+                        <i
+                            class="fa-brands fa-whatsapp"
+                            aria-hidden="true"
+                        ></i>
+                    </span>
+                    <small>WhatsApp</small>
+                </a>
+
+                <a
+                    class="share-social telegram"
+                    href="#"
+                    data-share-network="telegram"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on Telegram"
+                >
+                    <span>
+                        <i
+                            class="fa-brands fa-telegram"
+                            aria-hidden="true"
+                        ></i>
+                    </span>
+                    <small>Telegram</small>
+                </a>
+
+                <a
+                    class="share-social linkedin"
+                    href="#"
+                    data-share-network="linkedin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on LinkedIn"
+                >
+                    <span>
+                        <i
+                            class="fa-brands fa-linkedin-in"
+                            aria-hidden="true"
+                        ></i>
+                    </span>
+                    <small>LinkedIn</small>
+                </a>
+
             </div>
+
         </div>
-    </div>
 
-    <div class="buzz-modal hidden" id="createBuzzModal" aria-hidden="true">
-        <div class="buzz-modal-backdrop" data-close-create-modal></div>
-        <div class="buzz-modal-dialog create-buzz-dialog" role="dialog" aria-modal="true" aria-labelledby="createBuzzTitle">
-            <button class="modal-close" type="button" data-close-create-modal aria-label="Close create a buzz form">×</button>
-            <div class="create-buzz-content">
-                <span class="form-eyebrow">Share with Kumarites</span>
-                <h3 id="createBuzzTitle">Create a Buzz</h3>
-                <p class="form-intro">Share a useful find, promo, recommendation, or advice from your selected store.</p>
-                <form id="createBuzzForm">
-                    <label for="buzzCategory">Category</label>
-                    <select id="buzzCategory" name="category" required>
-                        <option value="grocery">🛒 Grocery</option>
-                        <option value="food">🍽️ Food & Beverages</option>
-                        <option value="clothing">👗 Clothing</option>
-                        <option value="electronics">📱 Electronics</option>
-                        <option value="school supplies">📒 School Supplies</option>
-                        <option value="household">🏠 Home & Living</option>
-                        <option value="services">⚙️ Services</option>
-                    </select>
-
-                    <label for="buzzType">Buzz Type</label>
-                    <select id="buzzType" name="buzzType" required>
-                        <option value="sulit find">💡 Sulit Find</option>
-                        <option value="sale/promo">🏷️ Sale/Promo</option>
-                        <option value="recommendation">✍️ Recommendation</option>
-                        <option value="advice">🧠 Advice</option>
-                    </select>
-
-                    <label for="buzzTitleInput">Title</label>
-                    <input id="buzzTitleInput" name="title" type="text" maxlength="80" placeholder="What did you discover?" required>
-
-                    <label for="buzzDescriptionInput">Description</label>
-                    <textarea id="buzzDescriptionInput" name="description" maxlength="280" rows="4" placeholder="Tell the community what makes it useful ..." required></textarea>
-
-                    <label for="buzzImageInput">Image <span>(required)</span></label>
-                    <input id="buzzImageInput" name="image" type="file" accept="image/jpeg,image/png,image/webp" required>
-                    <small class="form-hint">JPG, PNG, or WEBP | Min 800 x 600 px | Max 5 MB</small>
-                    <small id="buzzImageError" class="form-error" role="alert" hidden></small>
-
-                    <label for="buzzTagsInput">Place or tags <span>(optional)</span></label>
-                    <input id="buzzTagsInput" name="tags" type="text" maxlength="80" placeholder="e.g. Food Court | Budget Meals">
-
-                    <div class="create-buzz-form-actions">
-                        <button type="button" class="form-cancel-button" data-close-create-modal>Cancel</button>
-                        <button type="submit" class="form-submit-button">Post Buzz</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="buzz-modal hidden" id="buzzModal" aria-hidden="true">
-        <div class="buzz-modal-backdrop" data-close-modal></div>
-        <div class="buzz-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="buzzModalTitle">
-            <button class="modal-close" type="button" aria-label="Close modal">×</button>
-            <div class="modal-visual">
-                <img id="modalImage" src="" alt="Buzz item preview">
-            </div>
-            <div class="modal-content">
-                <span id="modalCategory" class="buzz-type">SULIT FIND</span>
-                <h3 id="buzzModalTitle">Buzz title</h3>
-                <p id="modalMeta" class="modal-meta">Store | Category</p>
-                <p id="modalDescription" class="modal-description">Buzz description goes here.</p>
-                <div class="modal-footer">
-                    <span>Posted by <strong id="modalAuthor">Author</strong></span>
-                    <span id="modalTime">2 hours ago</span>
-                </div>
-                <div class="modal-actions">
-                    <button class="useful-button" type="button" aria-pressed="false">
-                        <i class="fi fi-rr-heart" aria-hidden="true"></i>
-                        <span>Useful 24</span>
-                    </button>
-                    <button class="save-button" type="button">Save</button>
-                    <button class="delete-button modal-delete-button" type="button" hidden>Delete</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <footer class="footer">
@@ -368,11 +539,12 @@
         <div class="footer-content">
 
             <div class="footer-column footer-brand">
+
                 <a href="../index.html">
                     <img
                         src="../Images/BuzzFeed Images/Kumarites Logo.png"
                         alt="Kumarites"
-                        width="200px"
+                        width="200"
                     >
                 </a>
 
@@ -384,54 +556,76 @@
                     A community-driven platform where people share
                     sulit finds, price updates, and store recommendations.
                 </p>
+
             </div>
 
             <div class="footer-column">
+
                 <h3>Menu</h3>
 
                 <a href="../index.html">Home</a>
-                <a href="buzzfeed.html">Buzz Feed</a>
+                <a href="BuzzFeed.html">Buzz Feed</a>
                 <a href="stores.html" class="active">Stores</a>
                 <a href="categories.html">Categories</a>
                 <a href="about.html">About Kumarites</a>
+
             </div>
 
             <div class="footer-column">
+
                 <h3>Contact</h3>
 
                 <a href="#">Contact Us</a>
                 <a href="#">Community Guidelines</a>
                 <a href="#">Privacy Policy</a>
+
             </div>
 
             <div class="footer-column footer-social">
+
                 <h3>Follow Us</h3>
 
                 <div class="social-icons">
 
-                    <a href="#" aria-label="Facebook">
-                        <img src="../Images/footer - facebook icon.png" alt="Facebook">
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <img
+                            src="../Images/footer - facebook icon.png"
+                            alt="Facebook"
+                        >
                     </a>
 
-                    <a href="#" aria-label="Instagram">
-                        <img src="../Images/footer - instagram icon.png" alt="Instagram">
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <img
+                            src="../Images/footer - instagram icon.png"
+                            alt="Instagram"
+                        >
                     </a>
 
                 </div>
+
             </div>
 
         </div>
 
         <div class="footer-bottom">
+
             <p>
-                &copy; 2026 Kumarites. Community-powered consumer information.
+                &copy; 2026 Kumarites.
+                Community-powered consumer information.
             </p>
+
         </div>
 
     </footer>
 
+    <script src="../JavaScript/script.js"></script>
     <script src="../JavaScript/stores.js"></script>
 
 </body>
-
 </html>
