@@ -5907,6 +5907,9 @@ body.modal-open {
 
 @media (max-width: 700px) {
     .store-banner {
+        background-image:
+            linear-gradient(180deg, rgba(250, 250, 253, 0.96) 0%, rgba(250, 250, 253, 0.78) 58%, rgba(250, 250, 253, 0.4) 100%),
+            url("Images/Stores%20Images/SMMallOfAsia.png");
         background-position: center, center bottom;
         background-size: cover, 100% auto;
     }
@@ -9306,10 +9309,22 @@ body.modal-open {
     width: 42px;
     height: 42px;
     border: 1px solid #ddd;
-    border-radius: 7px;
+    border-radius: 50%;
     background-color: white;
     color: #5b2dcc;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.share-link-row button svg,
+.share-link-row button i {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
 }
 
 .share-copy-status {
@@ -9573,4 +9588,38 @@ body.modal-open {
     .share-dialog h2 {
         font-size: 21px;
     }
+}
+
+/* Final fix: center the X inside the share modal close button */
+.share-dialog .modal-close {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    box-sizing: border-box !important;
+    border: 1px solid rgba(91, 45, 204, 0.15) !important;
+    border-radius: 50% !important;
+
+    background: #fff !important;
+    color: #5b2dcc !important;
+
+    font-family: Arial, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+
+    cursor: pointer;
+    z-index: 2;
 }
