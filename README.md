@@ -24,22 +24,23 @@
 Kumarites/
 │
 ├── HTML Pages/
-│   ├── login.html
 │   └── BuzzFeed.html
+│   ├── login.html
 │   └── stores.thml
 │   └── categories.html
 │
-├── JavaScript/
-│   ├── login.js
-│   └── BuzzFeed.js
-│   └── stores.js
-│   └── categories.js
-│   └── script.js
-│
 ├── Images/
 │   ├── BuzzFeed Images/
+│   └── Categories Images/
 │   └── Stores Images/
-│   └── Stores Images/
+│
+├── JavaScript/
+│   ├── buzzFeed.js
+│   └── categories.js
+│   └── home.js
+│   └── login.js
+│   └── script.js
+│   └── stores.js
 │
 └── index.html
 └── style.css
@@ -60,9 +61,7 @@ The website focuses on:
 
 ### Option 1: Access the Live Website
 
-Go to the Kumarites live website:
-
-[Visit Kumarites](https://marylobendino.github.io/Web-Systems-And-Technology---Group-7/)
+Go to the Kumarites live website: [Visit Kumarites](https://marylobendino.github.io/Web-Systems-And-Technology---Group-7/)
 
 ### Option 2: Run Locally
 
