@@ -5009,8 +5009,9 @@ button:hover {
 }
 
 .useful-button:hover {
-    border-color: #5b2dcc;
-    background-color: #f1ebff;
+    border-color: #d92d47;
+    background-color: #d92d47;
+    color: #ffffff;
 }
 
 .buzz-actions .save-button {
@@ -7892,18 +7893,48 @@ button:hover {
 .latest-buzzes .useful-button {
     min-height: 42px;
     padding: 8px 14px;
-    border: 1px solid #dcdce5;
+    border: 1px solid #e93450;
     border-radius: 9px;
-    background-color: #fafafa;
-    color: #666;
+    background-color: #e93450;
+    color: #ffffff;
     font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .latest-buzzes .useful-button span {
     margin-left: 4px;
-    color: #5b2dcc;
+    color: #ffffff;
     font-weight: 600;
+}
+
+.latest-buzzes .useful-button:hover {
+    background-color: #d92d47;
+    border-color: #d92d47;
+    color: #ffffff;
+}
+
+.latest-buzzes .useful-button:hover span {
+    color: #ffffff;
+}
+
+.latest-buzzes .useful-button:active {
+    transform: scale(0.97);
+}
+
+.latest-buzzes .useful-button[aria-pressed="true"] {
+    background-color: #e93450;
+    border-color: #e93450;
+    color: #ffffff;
+}
+
+.latest-buzzes .useful-button[aria-pressed="true"] span {
+    color: #ffffff;
 }
 
 .latest-buzzes .save-button {
@@ -9638,9 +9669,13 @@ button:hover {
 }
 
 .buzz-actions .useful-button:hover {
-    background-color: #fff0f4;
-    border-color: #ffb0c7;
-    color: #e63950;
+    background-color: #d92d47;
+    border-color: #d92d47;
+    color: #ffffff;
+}
+
+.buzz-actions .useful-button:hover span {
+    color: #ffffff;
 }
 
 .buzz-actions .useful-button[aria-pressed="true"] {
