@@ -1,3 +1,6 @@
+// Clear Local Storage when the application starts
+localStorage.clear();
+
 const KUMARITES_DB_NAME = "KumaritesDB";
 const KUMARITES_DB_VERSION = 1;
 
