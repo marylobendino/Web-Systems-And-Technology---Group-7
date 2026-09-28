@@ -299,30 +299,10 @@ function updateBuzz(buzz) {
         return new Promise(function(resolve, reject) {
             const transaction = db.transaction("buzzes", "readwrite");
             const store = transaction.objectStore("buzzes");
-            const request = store.get(Number(buzz.id));
+            const request = store.put(buzz);
 
             request.onsuccess = function() {
-                const existingBuzz = request.result;
-
-                if (!existingBuzz) {
-                    reject(new Error("Buzz not found."));
-                    return;
-                }
-
-                const updatedBuzz = {
-                    ...existingBuzz,
-                    usefulCount: Number(buzz.usefulCount || 0)
-                };
-
-                const updateRequest = store.put(updatedBuzz);
-
-                updateRequest.onsuccess = function() {
-                    resolve(updateRequest.result);
-                };
-
-                updateRequest.onerror = function() {
-                    reject(updateRequest.error);
-                };
+                resolve(request.result);
             };
 
             request.onerror = function() {
@@ -739,6 +719,10 @@ async function createBuzzCard(buzz) {
         content.querySelector(".save-button");
 
     if (usefulButton) {
+        usefulButton.disabled = true;
+        usefulButton.setAttribute("aria-disabled", "true");
+        usefulButton.title = "Useful is temporarily disabled";
+
         const usefulKey =
             `kumaritesUseful_${buzz.id}`;
 
@@ -1106,7 +1090,7 @@ function createBuzzModal() {
                         id="buzzLocation"
                         name="location"
                         maxlength="150"
-                        placeholder="Please input the city."
+                        placeholder="Where is it located?"
                     >
                 </div>
 
