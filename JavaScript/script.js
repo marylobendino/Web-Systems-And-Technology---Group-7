@@ -414,6 +414,53 @@ async function getBuzzImageURL(imageId) {
     return URL.createObjectURL(blob);
 }
 
+function updateBuzzUsefulCount(buzzId, usefulCount) {
+    return getKumaritesDB().then(function(db) {
+        return new Promise(function(resolve, reject) {
+            const transaction =
+                db.transaction("buzzes", "readwrite");
+
+            const store =
+                transaction.objectStore("buzzes");
+
+            const request =
+                store.get(Number(buzzId));
+
+            request.onsuccess = function() {
+                const existingBuzz =
+                    request.result;
+
+                if (!existingBuzz) {
+                    reject(
+                        new Error("Buzz not found.")
+                    );
+                    return;
+                }
+
+                const updatedBuzz = {
+                    ...existingBuzz,
+                    usefulCount: Number(usefulCount || 0)
+                };
+
+                const updateRequest =
+                    store.put(updatedBuzz);
+
+                updateRequest.onsuccess = function() {
+                    resolve(updateRequest.result);
+                };
+
+                updateRequest.onerror = function() {
+                    reject(updateRequest.error);
+                };
+            };
+
+            request.onerror = function() {
+                reject(request.error);
+            };
+        });
+    });
+}
+
 function resolveBuzzImagePath(imagePath) {
     if (!imagePath) {
         return null;
@@ -423,14 +470,12 @@ function resolveBuzzImagePath(imagePath) {
         imagePath.startsWith("blob:") ||
         imagePath.startsWith("data:") ||
         imagePath.startsWith("http://") ||
-        imagePath.startsWith("https://")
+        imagePath.startsWith("https://") ||
+        imagePath.startsWith("../") ||
+        imagePath.startsWith("/")
     ) {
         return imagePath;
     }
-
-    const cleanPath = imagePath
-        .replace(/^(\.\.\/)+/, "")
-        .replace(/^\/+/, "");
 
     const pathname = window.location.pathname;
 
@@ -439,10 +484,10 @@ function resolveBuzzImagePath(imagePath) {
         pathname.includes("HTML Pages");
 
     if (insideHTMLPages) {
-        return encodeURI("../" + cleanPath);
+        return "../" + imagePath;
     }
 
-    return encodeURI(cleanPath);
+    return imagePath;
 }
 
 async function hydrateBuzzImages(buzzes) {
@@ -721,74 +766,84 @@ async function createBuzzCard(buzz) {
         content.querySelector(".save-button");
 
     if (usefulButton) {
-        usefulButton.disabled = true;
-        usefulButton.setAttribute("aria-disabled", "true");
-        usefulButton.title = "Useful is temporarily disabled";
-
         const usefulKey =
             `kumaritesUseful_${buzz.id}`;
 
-        const alreadyUseful =
+        const countElement =
+            usefulButton.querySelector("span");
+
+        const baseCount =
+            Number(buzz.usefulCount || 0);
+
+        let isUseful =
             localStorage.getItem(usefulKey) === "true";
 
-        if (alreadyUseful) {
-            usefulButton.classList.add("active");
+        function updateUsefulButton() {
             usefulButton.setAttribute(
                 "aria-pressed",
-                "true"
+                String(isUseful)
             );
+
+            usefulButton.classList.toggle(
+                "active",
+                isUseful
+            );
+
+            if (countElement) {
+                countElement.textContent =
+                    baseCount + (isUseful ? 1 : 0);
+            }
         }
+
+        updateUsefulButton();
 
         usefulButton.addEventListener(
             "click",
             async function(event) {
+                event.preventDefault();
                 event.stopPropagation();
 
-                const currentlyUseful =
-                    usefulButton.getAttribute(
-                        "aria-pressed"
-                    ) === "true";
+                isUseful = !isUseful;
 
-                let count =
-                    Number(buzz.usefulCount || 0);
-
-                if (currentlyUseful) {
-                    count = Math.max(0, count - 1);
-                    localStorage.removeItem(usefulKey);
-                } else {
-                    count++;
+                if (isUseful) {
                     localStorage.setItem(
                         usefulKey,
                         "true"
                     );
+                } else {
+                    localStorage.removeItem(
+                        usefulKey
+                    );
                 }
 
-                buzz.usefulCount = count;
-
-                usefulButton.setAttribute(
-                    "aria-pressed",
-                    String(!currentlyUseful)
-                );
-
-                usefulButton.classList.toggle(
-                    "active",
-                    !currentlyUseful
-                );
-
-                const countElement =
-                    usefulButton.querySelector("span");
-
-                if (countElement) {
-                    countElement.textContent = count;
-                }
+                updateUsefulButton();
 
                 try {
-                    await updateBuzz(buzz);
+                    await updateBuzzUsefulCount(
+                        buzz.id,
+                        baseCount + (isUseful ? 1 : 0)
+                    );
                 } catch (error) {
                     console.error(
                         "Unable to update Useful count:",
                         error
                     );
+
+                    // Revert the UI if the database update fails.
+                    isUseful = !isUseful;
+
+                    if (isUseful) {
+                        localStorage.setItem(
+                            usefulKey,
+                            "true"
+                        );
+                    } else {
+                        localStorage.removeItem(
+                            usefulKey
+                        );
+                    }
+
+                    updateUsefulButton();
                 }
             }
         );
