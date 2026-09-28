@@ -414,53 +414,6 @@ async function getBuzzImageURL(imageId) {
     return URL.createObjectURL(blob);
 }
 
-function updateBuzzUsefulCount(buzzId, usefulCount) {
-    return getKumaritesDB().then(function(db) {
-        return new Promise(function(resolve, reject) {
-            const transaction =
-                db.transaction("buzzes", "readwrite");
-
-            const store =
-                transaction.objectStore("buzzes");
-
-            const request =
-                store.get(Number(buzzId));
-
-            request.onsuccess = function() {
-                const existingBuzz =
-                    request.result;
-
-                if (!existingBuzz) {
-                    reject(
-                        new Error("Buzz not found.")
-                    );
-                    return;
-                }
-
-                const updatedBuzz = {
-                    ...existingBuzz,
-                    usefulCount: Number(usefulCount || 0)
-                };
-
-                const updateRequest =
-                    store.put(updatedBuzz);
-
-                updateRequest.onsuccess = function() {
-                    resolve(updateRequest.result);
-                };
-
-                updateRequest.onerror = function() {
-                    reject(updateRequest.error);
-                };
-            };
-
-            request.onerror = function() {
-                reject(request.error);
-            };
-        });
-    });
-}
-
 function resolveBuzzImagePath(imagePath) {
     if (!imagePath) {
         return null;
@@ -767,83 +720,69 @@ async function createBuzzCard(buzz) {
 
     if (usefulButton) {
         const usefulKey =
-            `kumaritesUseful_${buzz.id}`;
+            `kumaritesUseful_v2_${buzz.id}`;
 
-        const countElement =
-            usefulButton.querySelector("span");
-
-        const baseCount =
-            Number(buzz.usefulCount || 0);
-
-        let isUseful =
+        const alreadyUseful =
             localStorage.getItem(usefulKey) === "true";
 
-        function updateUsefulButton() {
+        if (alreadyUseful) {
+            usefulButton.classList.add("active");
             usefulButton.setAttribute(
                 "aria-pressed",
-                String(isUseful)
+                "true"
             );
-
-            usefulButton.classList.toggle(
-                "active",
-                isUseful
-            );
-
-            if (countElement) {
-                countElement.textContent =
-                    baseCount + (isUseful ? 1 : 0);
-            }
         }
-
-        updateUsefulButton();
 
         usefulButton.addEventListener(
             "click",
             async function(event) {
-                event.preventDefault();
                 event.stopPropagation();
 
-                isUseful = !isUseful;
+                const currentlyUseful =
+                    usefulButton.getAttribute(
+                        "aria-pressed"
+                    ) === "true";
 
-                if (isUseful) {
+                let count =
+                    Number(buzz.usefulCount || 0);
+
+                if (currentlyUseful) {
+                    count = Math.max(0, count - 1);
+                    localStorage.removeItem(usefulKey);
+                } else {
+                    count++;
                     localStorage.setItem(
                         usefulKey,
                         "true"
                     );
-                } else {
-                    localStorage.removeItem(
-                        usefulKey
-                    );
                 }
 
-                updateUsefulButton();
+                buzz.usefulCount = count;
+
+                usefulButton.setAttribute(
+                    "aria-pressed",
+                    String(!currentlyUseful)
+                );
+
+                usefulButton.classList.toggle(
+                    "active",
+                    !currentlyUseful
+                );
+
+                const countElement =
+                    usefulButton.querySelector("span");
+
+                if (countElement) {
+                    countElement.textContent = count;
+                }
 
                 try {
-                    await updateBuzzUsefulCount(
-                        buzz.id,
-                        baseCount + (isUseful ? 1 : 0)
-                    );
+                    await updateBuzz(buzz);
                 } catch (error) {
                     console.error(
                         "Unable to update Useful count:",
                         error
                     );
-
-                    // Revert the UI if the database update fails.
-                    isUseful = !isUseful;
-
-                    if (isUseful) {
-                        localStorage.setItem(
-                            usefulKey,
-                            "true"
-                        );
-                    } else {
-                        localStorage.removeItem(
-                            usefulKey
-                        );
-                    }
-
-                    updateUsefulButton();
                 }
             }
         );
