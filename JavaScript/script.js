@@ -1,6 +1,3 @@
-// Clear Local Storage when the application starts
-localStorage.clear();
-
 const KUMARITES_DB_NAME = "KumaritesDB";
 const KUMARITES_DB_VERSION = 1;
 
@@ -532,8 +529,14 @@ async function hydrateBuzzImages(buzzes) {
 async function loadBuzzesIntoData() {
     const buzzes = await getBuzzes();
 
-    KUMARITES_DATA.buzzes =
-        await hydrateBuzzImages(buzzes);
+    /*
+     * Keep the original IndexedDB Buzz objects unchanged.
+     *
+     * Image paths are resolved only when a card is rendered.
+     * This prevents page-relative paths such as "../Images/..."
+     * from ever being stored back into IndexedDB.
+     */
+    KUMARITES_DATA.buzzes = buzzes;
 
     return KUMARITES_DATA.buzzes;
 }
@@ -662,7 +665,124 @@ function escapeHTML(value) {
         .replaceAll("'", "&#039;");
 }
 
+/* Useful State Synchronization */
+
+function getUsefulStorageKey(buzzId) {
+    return `kumaritesUseful_v2_${buzzId}`;
+}
+
+function applyUsefulButtonState(button, isUseful, usefulCount) {
+    if (!button) {
+        return;
+    }
+
+    button.classList.toggle("active", isUseful);
+    button.setAttribute("aria-pressed", String(isUseful));
+
+    const countElement = button.querySelector("span");
+
+    if (countElement && usefulCount !== undefined) {
+        countElement.textContent = String(usefulCount);
+    }
+
+    if (isUseful) {
+        button.style.setProperty("background-color", "#e63950", "important");
+        button.style.setProperty("border-color", "#e63950", "important");
+        button.style.setProperty("color", "#ffffff", "important");
+
+        if (countElement) {
+            countElement.style.setProperty("color", "#ffffff", "important");
+        }
+    } else {
+        button.style.setProperty("background-color", "#f5f5f7", "important");
+        button.style.setProperty("border-color", "#d8d8df", "important");
+        button.style.setProperty("color", "#2563eb", "important");
+
+        if (countElement) {
+            countElement.style.setProperty("color", "#2563eb", "important");
+        }
+    }
+}
+
+function syncUsefulButtons(buzzId, isUseful, usefulCount) {
+    const buttons = document.querySelectorAll(".useful-button");
+
+    buttons.forEach(function(button) {
+        if (String(button.dataset.buzzId) !== String(buzzId)) {
+            return;
+        }
+
+        applyUsefulButtonState(
+            button,
+            isUseful,
+            usefulCount
+        );
+    });
+}
+
+function broadcastUsefulState(buzzId, isUseful, usefulCount) {
+    window.dispatchEvent(new CustomEvent("kumarites:useful-changed", {
+        detail: {
+            buzzId: buzzId,
+            isUseful: isUseful,
+            usefulCount: usefulCount
+        }
+    }));
+}
+
+window.addEventListener("kumarites:useful-changed", function(event) {
+    const detail = event.detail;
+
+    if (!detail || detail.buzzId === undefined) {
+        return;
+    }
+
+    syncUsefulButtons(detail.buzzId, detail.isUseful, detail.usefulCount);
+});
+
+window.addEventListener("storage", function(event) {
+    if (!event.key || !event.key.startsWith("kumaritesUseful_v2_")) {
+        return;
+    }
+
+    const buzzId = event.key.replace("kumaritesUseful_v2_", "");
+    const isUseful = event.newValue === "true";
+
+    getBuzzes()
+        .then(function(buzzes) {
+            const buzz = buzzes.find(function(item) {
+                return String(item.id) === String(buzzId);
+            });
+
+            syncUsefulButtons(
+                buzzId,
+                isUseful,
+                buzz ? Number(buzz.usefulCount || 0) : undefined
+            );
+        })
+        .catch(function(error) {
+            console.error("Unable to synchronize Useful state:", error);
+            syncUsefulButtons(buzzId, isUseful);
+        });
+});
+
 /* Buzz Cards */
+
+function restoreUsefulStates() {
+    document.querySelectorAll(".useful-button").forEach(function(button) {
+        const buzzId = button.dataset.buzzId;
+
+        if (buzzId === undefined) {
+            return;
+        }
+
+        const isUseful =
+            localStorage.getItem(getUsefulStorageKey(buzzId)) === "true";
+
+        button.classList.toggle("active", isUseful);
+        button.setAttribute("aria-pressed", String(isUseful));
+    });
+}
 
 async function createBuzzCard(buzz) {
     const card = document.createElement("article");
@@ -824,122 +944,87 @@ async function createBuzzCard(buzz) {
         content.querySelector(".save-button");
 
     if (usefulButton) {
-        const usefulKey =
-            `kumaritesUseful_v2_${buzz.id}`;
+        const usefulKey = getUsefulStorageKey(buzz.id);
+        const alreadyUseful = localStorage.getItem(usefulKey) === "true";
 
-        const alreadyUseful =
-            localStorage.getItem(usefulKey) === "true";
+        applyUsefulButtonState(
+            usefulButton,
+            alreadyUseful,
+            usefulCount
+        );
 
-        if (alreadyUseful) {
-            usefulButton.classList.add("active");
-            usefulButton.setAttribute(
-                "aria-pressed",
-                "true"
+        usefulButton.addEventListener("click", async function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const currentlyUseful =
+                usefulButton.getAttribute("aria-pressed") === "true";
+
+            const nextUseful = !currentlyUseful;
+            let count = Number(buzz.usefulCount || 0);
+
+            if (nextUseful) {
+                count++;
+                localStorage.setItem(usefulKey, "true");
+            } else {
+                count = Math.max(0, count - 1);
+                localStorage.removeItem(usefulKey);
+            }
+
+            buzz.usefulCount = count;
+
+            applyUsefulButtonState(
+                usefulButton,
+                nextUseful,
+                count
             );
-        }
 
-        usefulButton.addEventListener(
-            "click",
-            async function(event) {
-                event.preventDefault();
-                event.stopPropagation();
+            syncUsefulButtons(
+                buzz.id,
+                nextUseful,
+                count
+            );
 
-                const currentlyUseful =
-                    usefulButton.getAttribute(
-                        "aria-pressed"
-                    ) === "true";
+            broadcastUsefulState(
+                buzz.id,
+                nextUseful,
+                count
+            );
 
-                let count =
-                    Number(buzz.usefulCount || 0);
+            try {
+                await updateBuzzUsefulCount(buzz.id, count);
+            } catch (error) {
+                console.error("Unable to update Useful count:", error);
 
                 if (currentlyUseful) {
-                    count = Math.max(0, count - 1);
-                    localStorage.removeItem(usefulKey);
+                    localStorage.setItem(usefulKey, "true");
                 } else {
-                    count++;
-                    localStorage.setItem(
-                        usefulKey,
-                        "true"
-                    );
+                    localStorage.removeItem(usefulKey);
                 }
 
-                buzz.usefulCount = count;
+                buzz.usefulCount = currentlyUseful
+                    ? count + 1
+                    : Math.max(0, count - 1);
 
-                usefulButton.setAttribute(
-                    "aria-pressed",
-                    String(!currentlyUseful)
+                applyUsefulButtonState(
+                    usefulButton,
+                    currentlyUseful,
+                    buzz.usefulCount
                 );
 
-                usefulButton.classList.toggle(
-                    "active",
-                    !currentlyUseful
+                syncUsefulButtons(
+                    buzz.id,
+                    currentlyUseful,
+                    buzz.usefulCount
                 );
 
-                const countElement =
-                    usefulButton.querySelector("span");
-
-                if (countElement) {
-                    countElement.textContent = count;
-                }
-
-                try {
-                    /*
-                     * Do NOT call updateBuzz(buzz) here.
-                     *
-                     * buzz is the hydrated display object and may
-                     * contain a page-relative image path such as
-                     * "../Images/...". Saving it would corrupt the
-                     * stored image path for the Home page.
-                     *
-                     * Only the Useful count is persisted.
-                     */
-                    await updateBuzzUsefulCount(
-                        buzz.id,
-                        count
-                    );
-                } catch (error) {
-                    console.error(
-                        "Unable to update Useful count:",
-                        error
-                    );
-
-                    /*
-                     * Revert the local state if the database
-                     * update fails.
-                     */
-                    if (currentlyUseful) {
-                        localStorage.setItem(
-                            usefulKey,
-                            "true"
-                        );
-                    } else {
-                        localStorage.removeItem(
-                            usefulKey
-                        );
-                    }
-
-                    buzz.usefulCount =
-                        currentlyUseful
-                            ? count + 1
-                            : Math.max(0, count - 1);
-
-                    usefulButton.setAttribute(
-                        "aria-pressed",
-                        String(currentlyUseful)
-                    );
-
-                    usefulButton.classList.toggle(
-                        "active",
-                        currentlyUseful
-                    );
-
-                    if (countElement) {
-                        countElement.textContent =
-                            buzz.usefulCount;
-                    }
-                }
+                broadcastUsefulState(
+                    buzz.id,
+                    currentlyUseful,
+                    buzz.usefulCount
+                );
             }
-        );
+        });
     }
 
     if (saveButton) {
@@ -1791,6 +1876,7 @@ document.addEventListener(
             await loadBuzzesIntoData();
 
             initializeCreateBuzzButtons();
+            restoreUsefulStates();
 
             document.dispatchEvent(
                 new CustomEvent(
