@@ -1,37 +1,27 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const searchInput =
-        document.getElementById("searchInput");
+    const searchInput = document.getElementById("searchInput");
 
-    const buzzContainer =
-        document.getElementById("buzzContainer");
+    const buzzContainer = document.getElementById("buzzContainer");
 
-    const noResults =
-        document.getElementById("noResults");
+    const noResults = document.getElementById("noResults");
 
-    const resetSearch =
-        document.getElementById("resetSearch");
+    const resetSearch = document.getElementById("resetSearch");
 
-    const buzzTypeFilters =
-        document.querySelectorAll(
+    const buzzTypeFilters = document.querySelectorAll(
             'input[name="buzzType"]'
         );
 
-    const categoryFilters =
-        document.querySelectorAll(
+    const categoryFilters = document.querySelectorAll(
             'input[name="category"]'
         );
 
-    const clearFilters =
-        document.getElementById("clearFilters");
+    const clearFilters = document.getElementById("clearFilters");
 
-    const sortBuzzes =
-        document.getElementById("sortBuzzes");
+    const sortBuzzes = document.getElementById("sortBuzzes");
 
-    const feedSort =
-        document.getElementById("feedSort");
+    const feedSort = document.getElementById("feedSort");
 
-    const buzzHeading =
-        document.querySelector(
+    const buzzHeading = document.querySelector(
             ".feed-header h3"
         );
 
@@ -53,16 +43,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function loadBuzzes() {
         try {
-            const buzzes =
-                await getBuzzes();
+            const buzzes = await getBuzzes();
 
-            currentBuzzes =
-                await hydrateBuzzImages(
+            currentBuzzes = await hydrateBuzzImages(
                     buzzes
                 );
 
-            KUMARITES_DATA.buzzes =
-                currentBuzzes;
+            KUMARITES_DATA.buzzes = currentBuzzes;
 
             await filterBuzzes();
         } catch (error) {
@@ -80,39 +67,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     /* Filter Buzzes */
 
     async function filterBuzzes() {
-        const typeValue =
-            document.querySelector(
+        const typeValue = document.querySelector(
                 'input[name="buzzType"]:checked'
             )?.value || "all";
 
-        const categoryValue =
-            document.querySelector(
+        const categoryValue = document.querySelector(
                 'input[name="category"]:checked'
             )?.value || "all";
 
-        const searchTerm =
-            searchInput?.value
+        const searchTerm = searchInput?.value
                 .toLowerCase()
                 .trim() || "";
 
-        let filteredBuzzes =
-            [...currentBuzzes];
+        let filteredBuzzes = [...currentBuzzes];
 
         if (typeValue !== "all") {
-            filteredBuzzes =
-                filteredBuzzes.filter(
+            filteredBuzzes = filteredBuzzes.filter(
                     function (buzz) {
                         return (
-                            buzz.type ===
-                            typeValue
+                            buzz.type === typeValue
                         );
                     }
                 );
         }
 
         if (categoryValue !== "all") {
-            filteredBuzzes =
-                filteredBuzzes.filter(
+            filteredBuzzes = filteredBuzzes.filter(
                     function (buzz) {
                         return matchesCategory(
                             buzz,
@@ -122,33 +102,19 @@ document.addEventListener("DOMContentLoaded", async function () {
                 );
         }
 
+        /* Search */
         if (searchTerm) {
-            filteredBuzzes =
-                filteredBuzzes.filter(
+            filteredBuzzes = filteredBuzzes.filter(
                     function (buzz) {
-                        const searchableText = [
-                            buzz.type,
-                            buzz.category,
-                            buzz.store,
-                            buzz.product,
-                            buzz.title,
-                            buzz.description,
-                            buzz.location,
-                            buzz.author
-                        ]
-                            .filter(Boolean)
-                            .join(" ")
-                            .toLowerCase();
-
-                        return searchableText.includes(
+                        return matchesBuzzSearch(
+                            buzz,
                             searchTerm
                         );
                     }
                 );
         }
 
-        filteredBuzzes =
-            sortBuzzList(
+        filteredBuzzes = sortBuzzList(
                 filteredBuzzes,
                 getSelectedSort()
             );
@@ -170,34 +136,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     ) {
         if (
             categoryValue === "school" ||
-            categoryValue ===
-                "school-supplies"
+            categoryValue === "school-supplies"
         ) {
             return (
-                buzz.category ===
-                    "school" ||
-                buzz.category ===
-                    "school-supplies"
+                buzz.category === "school" ||
+                buzz.category === "school-supplies"
             );
         }
 
         if (
-            categoryValue ===
-                "household" ||
-            categoryValue ===
-                "home-living"
+            categoryValue === "household" ||
+            categoryValue === "home-living"
         ) {
             return (
-                buzz.category ===
-                    "household" ||
-                buzz.category ===
-                    "home-living"
+                buzz.category === "household" ||
+                buzz.category === "home-living"
             );
         }
 
         return (
-            buzz.category ===
-            categoryValue
+            buzz.category === categoryValue
         );
     }
 
@@ -225,8 +183,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         buzzes,
         sortValue
     ) {
-        const sorted =
-            [...buzzes];
+        const sorted = [...buzzes];
 
         if (sortValue === "popular") {
             sorted.sort(
@@ -248,13 +205,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (sortValue === "price-low") {
             sorted.sort(
                 function (a, b) {
-                    const priceA =
-                        Number(
+                    const priceA = Number(
                             a.price ?? Infinity
                         );
 
-                    const priceB =
-                        Number(
+                    const priceB = Number(
                             b.price ?? Infinity
                         );
 
@@ -268,13 +223,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (sortValue === "price-high") {
             sorted.sort(
                 function (a, b) {
-                    const priceA =
-                        Number(
+                    const priceA = Number(
                             a.price ?? -Infinity
                         );
 
-                    const priceB =
-                        Number(
+                    const priceB = Number(
                             b.price ?? -Infinity
                         );
 
@@ -325,8 +278,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         for (const buzz of buzzes) {
-            const card =
-                await createBuzzCard(
+            const card = await createBuzzCard(
                     buzz
                 );
 
@@ -362,14 +314,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (
             categoryValue === "all"
         ) {
-            buzzHeading.textContent =
-                "Latest Buzzes";
+            buzzHeading.textContent = "Latest Buzzes";
 
             return;
         }
 
-        buzzHeading.textContent =
-            `${
+        buzzHeading.textContent = `${
                 categoryNames[
                     categoryValue
                 ] ||
@@ -382,8 +332,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     /* Reset Filters */
 
     function resetFilters() {
-        const allType =
-            document.querySelector(
+        const allType = document.querySelector(
                 'input[name="buzzType"][value="all"]'
             );
 
@@ -391,24 +340,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             allType.checked = true;
         }
 
-        const allCategory =
-            document.querySelector(
+        const allCategory = document.querySelector(
                 'input[name="category"][value="all"]'
             );
 
         if (allCategory) {
-            allCategory.checked =
-                true;
+            allCategory.checked = true;
         }
 
         categoryFilters.forEach(
             function (filter) {
                 if (
-                    filter.value !==
-                    "all"
+                    filter.value !== "all"
                 ) {
-                    filter.checked =
-                        false;
+                    filter.checked = false;
                 }
             }
         );
@@ -418,13 +363,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         if (sortBuzzes) {
-            sortBuzzes.value =
-                "latest";
+            sortBuzzes.value = "latest";
         }
 
         if (feedSort) {
-            feedSort.value =
-                "latest";
+            feedSort.value = "latest";
         }
 
         filterBuzzes();
@@ -468,8 +411,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "change",
             function () {
                 if (feedSort) {
-                    feedSort.value =
-                        sortBuzzes.value;
+                    feedSort.value = sortBuzzes.value;
                 }
 
                 filterBuzzes();
@@ -484,8 +426,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "change",
             function () {
                 if (sortBuzzes) {
-                    sortBuzzes.value =
-                        feedSort.value;
+                    sortBuzzes.value = feedSort.value;
                 }
 
                 filterBuzzes();

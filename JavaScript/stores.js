@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let storeBuzzes = [];
     const currentStore = "SM Mall of Asia";
 
-
     /* Share Store */
 
     function closeShareModal() {
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function() {
         shareModal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-open");
     }
-
 
     if (shareButton) {
         shareButton.addEventListener("click", function() {
@@ -47,11 +45,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-
     document.querySelectorAll("[data-close-share-modal]").forEach(function(element) {
         element.addEventListener("click", closeShareModal);
     });
-
 
     if (copyShareLinkButton) {
         copyShareLinkButton.addEventListener("click", async function() {
@@ -65,39 +61,32 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
 
                 if (shareCopyStatus) {
-                    shareCopyStatus.textContent =
-                        "Link copied";
+                    shareCopyStatus.textContent = "Link copied";
                 }
 
             } catch (error) {
                 shareLinkInput.select();
 
                 if (shareCopyStatus) {
-                    shareCopyStatus.textContent =
-                        "Select and copy the link manually.";
+                    shareCopyStatus.textContent = "Select and copy the link manually.";
                 }
             }
         });
     }
 
-
     /* Social Sharing */
 
     document.querySelectorAll("[data-share-network]").forEach(function(link) {
         link.addEventListener("click", function() {
-            const encodedUrl =
-                encodeURIComponent(
+            const encodedUrl = encodeURIComponent(
                     window.location.href
                 );
 
-            const encodedText =
-                encodeURIComponent(
+            const encodedText = encodeURIComponent(
                     "Check out this Kumarites store page."
                 );
 
-            const network =
-                link.dataset.shareNetwork;
-
+            const network = link.dataset.shareNetwork;
 
             const networkUrls = {
                 facebook:
@@ -116,24 +105,19 @@ document.addEventListener("DOMContentLoaded", function() {
                     `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
             };
 
-
             if (networkUrls[network]) {
-                link.href =
-                    networkUrls[network];
+                link.href = networkUrls[network];
             }
         });
     });
-
 
     /* Load Store Buzzes */
 
     async function loadStoreBuzzes() {
         try {
-            const buzzes =
-                await getBuzzes();
+            const buzzes = await getBuzzes();
 
-            storeBuzzes =
-                await hydrateBuzzImages(
+            storeBuzzes = await hydrateBuzzImages(
                     buzzes
                 );
 
@@ -151,73 +135,42 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-
     /* Filter Buzzes */
 
     function getFilteredBuzzes() {
-        const activeTab =
-            document.querySelector(
+        const activeTab = document.querySelector(
                 ".tab-button.active"
             );
 
-        const selectedCategory =
-            activeTab?.dataset.category ||
+        const selectedCategory = activeTab?.dataset.category ||
             "latest";
 
-        const searchTerm =
-            buzzSearch?.value
+        const searchTerm = buzzSearch?.value
                 .trim()
                 .toLowerCase() ||
             "";
 
-
-        let filteredBuzzes =
-            [...storeBuzzes];
-
+        let filteredBuzzes = [...storeBuzzes];
 
         if (selectedCategory !== "latest") {
-            filteredBuzzes =
-                filteredBuzzes.filter(
+            filteredBuzzes = filteredBuzzes.filter(
                     function(buzz) {
                         return (
-                            buzz.type?.toLowerCase() ===
-                            selectedCategory.toLowerCase()
+                            buzz.type?.toLowerCase() === selectedCategory.toLowerCase()
                         );
                     }
                 );
         }
 
-
+        /* Search */
         if (searchTerm) {
-            filteredBuzzes =
-                filteredBuzzes.filter(
-                    function(buzz) {
-                        const text = [
-                            buzz.type,
-                            buzz.category,
-                            buzz.store,
-                            buzz.product,
-                            buzz.title,
-                            buzz.description,
-                            buzz.location,
-                            buzz.author
-                        ]
-                            .filter(Boolean)
-                            .join(" ")
-                            .toLowerCase();
-
-                        return text.includes(
-                            searchTerm
-                        );
-                    }
-                );
+            filteredBuzzes = filteredBuzzes.filter(function(buzz) {
+                return matchesBuzzSearch(buzz, searchTerm);
+            });
         }
 
-
-        const selectedSort =
-            sortSelect?.value ||
+        const selectedSort = sortSelect?.value ||
             "Latest";
-
 
         if (selectedSort === "Oldest") {
 
@@ -255,10 +208,8 @@ document.addEventListener("DOMContentLoaded", function() {
             );
         }
 
-
         return filteredBuzzes;
     }
-
 
     /* Update Buzzes */
 
@@ -267,20 +218,17 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const filteredBuzzes =
-            getFilteredBuzzes();
+        const filteredBuzzes = getFilteredBuzzes();
 
         await renderStoreBuzzes(
             filteredBuzzes
         );
     }
 
-
     /* Render Buzzes */
 
     async function renderStoreBuzzes(buzzes) {
         buzzList.innerHTML = "";
-
 
         if (
             !buzzes ||
@@ -293,10 +241,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-
         for (const buzz of buzzes) {
-            const card =
-                await createBuzzCard(
+            const card = await createBuzzCard(
                     buzz
                 );
 
@@ -305,7 +251,6 @@ document.addEventListener("DOMContentLoaded", function() {
             );
         }
     }
-
 
     /* Empty State */
 
@@ -316,22 +261,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         buzzList.innerHTML = "";
 
+        const empty = document.createElement("p");
 
-        const empty =
-            document.createElement("p");
+        empty.className = "no-buzz-results";
 
-        empty.className =
-            "no-buzz-results";
-
-        empty.textContent =
-            message;
-
+        empty.textContent = message;
 
         buzzList.appendChild(
             empty
         );
     }
-
 
     /* Navigation Search */
 
@@ -341,15 +280,13 @@ document.addEventListener("DOMContentLoaded", function() {
             function() {
 
                 if (buzzSearch) {
-                    buzzSearch.value =
-                        navigationSearch.value;
+                    buzzSearch.value = navigationSearch.value;
                 }
 
                 updateBuzzes();
             }
         );
     }
-
 
     /* Store Search */
 
@@ -361,7 +298,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         );
     }
-
 
     /* Category Tabs */
 
@@ -383,7 +319,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 );
 
-
                 button.classList.add(
                     "active"
                 );
@@ -393,12 +328,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     "true"
                 );
 
-
                 updateBuzzes();
             }
         );
     });
-
 
     /* Sorting */
 
@@ -411,21 +344,17 @@ document.addEventListener("DOMContentLoaded", function() {
         );
     }
 
-
     /* New Buzz */
 
     document.addEventListener(
         "kumarites:buzz-created",
         async function(event) {
 
-            const newBuzz =
-                event.detail;
-
+            const newBuzz = event.detail;
 
             if (!newBuzz) {
                 return;
             }
-
 
             storeBuzzes = [
                 newBuzz,
@@ -433,18 +362,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 ...storeBuzzes.filter(
                     function(buzz) {
                         return (
-                            buzz.id !==
-                            newBuzz.id
+                            buzz.id !== newBuzz.id
                         );
                     }
                 )
             ];
 
-
             await updateBuzzes();
         }
     );
-
 
     /* Database Ready */
 

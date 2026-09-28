@@ -13,47 +13,39 @@ const closeCategoryResults = document.getElementById("closeCategoryResults");
 const categoryData = {
     grocery: {
         name: "Grocery",
-        description:
-            "Discover grocery finds, essentials, deals, and price updates shared by the Kumarites community."
+        description: "Discover grocery finds, essentials, deals, and price updates shared by the Kumarites community."
     },
 
     food: {
         name: "Food & Beverages",
-        description:
-            "Find food spots, affordable meals, drinks, and sulit dining recommendations."
+        description: "Find food spots, affordable meals, drinks, and sulit dining recommendations."
     },
 
     fashion: {
         name: "Fashion",
-        description:
-            "Explore clothing, accessories, and fashion finds shared by the community."
+        description: "Explore clothing, accessories, and fashion finds shared by the community."
     },
 
     electronics: {
         name: "Electronics",
-        description:
-            "Discover gadgets, devices, accessories, and technology deals."
+        description: "Discover gadgets, devices, accessories, and technology deals."
     },
 
     "school-supplies": {
         name: "School Supplies",
-        description:
-            "Find affordable school supplies, stationery, notebooks, and student essentials."
+        description: "Find affordable school supplies, stationery, notebooks, and student essentials."
     },
 
     "home-living": {
         name: "Home & Living",
-        description:
-            "Explore household products, home essentials, and useful living finds."
+        description: "Explore household products, home essentials, and useful living finds."
     },
 
     services: {
         name: "Services",
-        description:
-            "Discover useful services, recommendations, repairs, and community finds."
+        description: "Discover useful services, recommendations, repairs, and community finds."
     }
 };
-
 
 /* =========================================================
    CATEGORY SEARCH
@@ -64,24 +56,20 @@ function filterCategories() {
         return;
     }
 
-    const searchValue =
-        categorySearch.value.toLowerCase().trim();
-
+    const searchValue = categorySearch.value.toLowerCase().trim();
+    const searchTerms = searchValue.split(/\s+/).filter(Boolean);
     let visibleCategories = 0;
 
-    categoryCards.forEach(function (card) {
-        const categoryKeywords =
-            (card.dataset.category || "").toLowerCase();
+    categoryCards.forEach(function(card) {
+        const categoryKeywords = (card.dataset.category || "").toLowerCase();
+        const categoryName = card.textContent.toLowerCase().trim();
+        const searchableText = `${categoryKeywords} ${categoryName}`;
 
-        const categoryName =
-            card.textContent.toLowerCase().trim();
+        const matchesSearch = searchTerms.every(function(term) {
+            return searchableText.includes(term);
+        });
 
-        const matchesSearch =
-            categoryKeywords.includes(searchValue) ||
-            categoryName.includes(searchValue);
-
-        card.style.display =
-            matchesSearch ? "" : "none";
+        card.style.display = matchesSearch ? "" : "none";
 
         if (matchesSearch) {
             visibleCategories++;
@@ -89,11 +77,9 @@ function filterCategories() {
     });
 
     if (noCategoryResult) {
-        noCategoryResult.style.display =
-            visibleCategories === 0 ? "block" : "none";
+        noCategoryResult.style.display = visibleCategories === 0 ? "block" : "none";
     }
 }
-
 
 /* =========================================================
    LOAD CATEGORY BUZZES
@@ -102,22 +88,16 @@ function filterCategories() {
 async function showCategoryResults(categoryId) {
     const category = categoryData[categoryId];
 
-    if (
-        !category ||
-        !categoryResults ||
-        !categoryResultsGrid
-    ) {
+    if (!category || !categoryResults || !categoryResultsGrid) {
         return;
     }
 
     if (categoryResultsTitle) {
-        categoryResultsTitle.textContent =
-            category.name;
+        categoryResultsTitle.textContent = category.name;
     }
 
     if (categoryResultsDescription) {
-        categoryResultsDescription.textContent =
-            category.description;
+        categoryResultsDescription.textContent = category.description;
     }
 
     categoryResultsGrid.innerHTML = "";
@@ -125,42 +105,21 @@ async function showCategoryResults(categoryId) {
     try {
         const buzzes = await getBuzzes();
 
-        const categoryBuzzes =
-            buzzes.filter(function (buzz) {
-                return (
-                    String(buzz.category || "")
-                        .trim()
-                        .toLowerCase() ===
-                    categoryId.toLowerCase()
-                );
-            });
+        const categoryBuzzes = buzzes.filter(function(buzz) {
+            return String(buzz.category || "").trim().toLowerCase() === categoryId.toLowerCase();
+        });
 
         if (categoryBuzzes.length === 0) {
-            const emptyMessage =
-                document.createElement("p");
-
-            emptyMessage.className =
-                "no-buzz-results";
-
-            emptyMessage.textContent =
-                "No Buzzes found in this category.";
-
-            categoryResultsGrid.appendChild(
-                emptyMessage
-            );
+            const emptyMessage = document.createElement("p");
+            emptyMessage.className = "no-buzz-results";
+            emptyMessage.textContent = "No Buzzes found in this category.";
+            categoryResultsGrid.appendChild(emptyMessage);
         } else {
-            const hydratedBuzzes =
-                await hydrateBuzzImages(
-                    categoryBuzzes
-                );
+            const hydratedBuzzes = await hydrateBuzzImages(categoryBuzzes);
 
             for (const buzz of hydratedBuzzes) {
-                const card =
-                    await createBuzzCard(buzz);
-
-                categoryResultsGrid.appendChild(
-                    card
-                );
+                const card = await createBuzzCard(buzz);
+                categoryResultsGrid.appendChild(card);
             }
         }
 
@@ -172,157 +131,116 @@ async function showCategoryResults(categoryId) {
         });
 
     } catch (error) {
-        console.error(
-            "Unable to load category Buzzes:",
-            error
-        );
+        console.error("Unable to load category Buzzes:", error);
 
         categoryResultsGrid.innerHTML = "";
 
-        const errorMessage =
-            document.createElement("p");
-
-        errorMessage.className =
-            "no-buzz-results";
-
-        errorMessage.textContent =
-            "Unable to load Buzzes.";
-
-        categoryResultsGrid.appendChild(
-            errorMessage
-        );
+        const errorMessage = document.createElement("p");
+        errorMessage.className = "no-buzz-results";
+        errorMessage.textContent = "Unable to load Buzzes.";
+        categoryResultsGrid.appendChild(errorMessage);
 
         categoryResults.hidden = false;
     }
 }
 
-
 /* =========================================================
    CATEGORY CARD CLICK
    ========================================================= */
 
-categoryCards.forEach(function (card) {
-    card.addEventListener(
-        "click",
-        function () {
-            const categoryId =
-                card.dataset.categoryKey ||
-                card.dataset.category;
+categoryCards.forEach(function(card) {
+    card.addEventListener("click", function() {
+        const categoryId = card.dataset.categoryKey || card.dataset.category;
 
-            if (!categoryId) {
-                return;
-            }
-
-            /*
-             * data-category contains search keywords such as:
-             * "grocery supermarket essentials"
-             *
-             * data-category-key contains the actual
-             * category ID such as:
-             * "grocery"
-             *
-             * Use category-key whenever available.
-             */
-            const normalizedCategoryId =
-                card.dataset.categoryKey ||
-                categoryId;
-
-            showCategoryResults(
-                normalizedCategoryId
-            );
+        if (!categoryId) {
+            return;
         }
-    );
-});
 
+        /*
+         * data-category contains search keywords such as:
+         * "grocery supermarket essentials"
+         *
+         * data-category-key contains the actual
+         * category ID such as:
+         * "grocery"
+         *
+         * Use category-key whenever available.
+         */
+        const normalizedCategoryId = card.dataset.categoryKey || categoryId;
+
+        showCategoryResults(normalizedCategoryId);
+    });
+});
 
 /* =========================================================
    FEATURED CATEGORY LINKS
    ========================================================= */
 
-featuredLinks.forEach(function (link) {
-    link.addEventListener(
-        "click",
-        function (event) {
-            event.preventDefault();
+featuredLinks.forEach(function(link) {
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
 
-            const selectedCategory =
-                link.dataset.featuredCategory;
+        const selectedCategory = link.dataset.featuredCategory;
 
-            if (!categorySearch) {
-                return;
-            }
-
-            categorySearch.value =
-                selectedCategory || "";
-
-            filterCategories();
-
-            if (exploreCategories) {
-                exploreCategories.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            }
-
-            setTimeout(function () {
-                categorySearch.focus();
-            }, 500);
+        if (!categorySearch) {
+            return;
         }
-    );
-});
 
+        categorySearch.value = selectedCategory || "";
+        filterCategories();
+
+        if (exploreCategories) {
+            exploreCategories.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+        setTimeout(function() {
+            categorySearch.focus();
+        }, 500);
+    });
+});
 
 /* =========================================================
    CLOSE CATEGORY RESULTS
    ========================================================= */
 
 if (closeCategoryResults) {
-    closeCategoryResults.addEventListener(
-        "click",
-        function () {
-            if (categoryResults) {
-                categoryResults.hidden = true;
-            }
+    closeCategoryResults.addEventListener("click", function() {
+        if (categoryResults) {
+            categoryResults.hidden = true;
         }
-    );
+    });
 }
-
 
 /* =========================================================
    ESCAPE KEY
    ========================================================= */
 
-document.addEventListener(
-    "keydown",
-    function (event) {
-        if (event.key !== "Escape") {
-            return;
-        }
-
-        if (categorySearch) {
-            categorySearch.value = "";
-            filterCategories();
-            categorySearch.blur();
-        }
-
-        if (categoryResults) {
-            categoryResults.hidden = true;
-        }
+document.addEventListener("keydown", function(event) {
+    if (event.key !== "Escape") {
+        return;
     }
-);
 
+    if (categorySearch) {
+        categorySearch.value = "";
+        filterCategories();
+        categorySearch.blur();
+    }
+
+    if (categoryResults) {
+        categoryResults.hidden = true;
+    }
+});
 
 /* =========================================================
    NEW BUZZ
    ========================================================= */
 
-document.addEventListener(
-    "kumarites:buzz-created",
-    function () {
-        filterCategories();
-    }
-);
-
+document.addEventListener("kumarites:buzz-created", function() {
+    filterCategories();
+});
 
 /* =========================================================
    INITIALIZE

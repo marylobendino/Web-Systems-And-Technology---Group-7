@@ -538,6 +538,50 @@ async function loadBuzzesIntoData() {
     return KUMARITES_DATA.buzzes;
 }
 
+/* Search Helpers */
+
+/*
+ * Match every search keyword against the relevant Buzz information.
+ *
+ * Examples:
+ * "rice" -> Rice-related results only
+ * "school supplies" -> Results containing both keywords
+ * "rice school supplies" -> Results containing rice AND school AND supplies
+ *
+ * Only relevant Buzz fields are searched:
+ * product, title, category, category name, and store.
+ * Description is intentionally excluded so incidental words in a
+ * description do not cause an unrelated card to appear.
+ */
+function matchesBuzzSearch(buzz, searchTerm) {
+    const normalizedSearch = String(searchTerm || "")
+        .toLowerCase()
+        .trim();
+
+    if (!normalizedSearch) {
+        return true;
+    }
+
+    const searchTerms = normalizedSearch
+        .split(/\s+/)
+        .filter(Boolean);
+
+    const searchableText = [
+        buzz.product,
+        buzz.title,
+        buzz.category,
+        getCategoryName(buzz.category),
+        buzz.store
+    ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+    return searchTerms.every(function(term) {
+        return searchableText.includes(term);
+    });
+}
+
 /* Buzz Helpers */
 
 function getLatestBuzzes(buzzes, limit) {

@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const searchTerm = searchInput.value.toLowerCase().trim();
+        const searchTerm = searchInput.value.trim();
 
         if (!searchTerm) {
             renderLatestBuzzes(allBuzzes);
@@ -109,32 +109,38 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
+        /*
+         * Use the shared search function from script.js.
+         *
+         * Every keyword must match the relevant Buzz information.
+         *
+         * Example:
+         * "rice" -> Rice-related results
+         * "school supplies" -> Results matching both words
+         * "rice school supplies" -> Results matching all three words
+         */
         const matchingBuzzes = allBuzzes.filter(function(buzz) {
-            const buzzText = [
-                buzz.type,
-                buzz.category,
-                buzz.store,
-                buzz.product,
-                buzz.title,
-                buzz.description,
-                buzz.location,
-                buzz.author
-            ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-            return buzzText.includes(searchTerm);
+            return matchesBuzzSearch(buzz, searchTerm);
         });
 
         renderLatestBuzzes(matchingBuzzes);
 
+        /*
+         * Filter the store cards using every keyword from the search.
+         */
+        const searchTerms = searchTerm
+            .toLowerCase()
+            .split(/\s+/)
+            .filter(Boolean);
+
         storeItems.forEach(function(store) {
             const storeText = store.textContent.toLowerCase();
 
-            store.style.display = storeText.includes(searchTerm)
-                ? ""
-                : "none";
+            const matchesStore = searchTerms.every(function(term) {
+                return storeText.includes(term);
+            });
+
+            store.style.display = matchesStore ? "" : "none";
         });
     }
 
