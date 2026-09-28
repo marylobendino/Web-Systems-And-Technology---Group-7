@@ -1,4 +1,4 @@
-# README – Kumarites
+# Kumarites | Group 7 - A3101
 
 ## Overview
 
