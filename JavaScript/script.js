@@ -429,22 +429,20 @@ function resolveBuzzImagePath(imagePath) {
     }
 
     const cleanPath = imagePath
-        .replace(/^\.\.\//, "")
+        .replace(/^(\.\.\/)+/, "")
         .replace(/^\/+/, "");
 
-    const currentPath = window.location.pathname;
-    const htmlPagesFolder = "/HTML%20Pages/";
-    const htmlPagesFolderDecoded = "/HTML Pages/";
+    const pathname = window.location.pathname;
 
     const insideHTMLPages =
-        currentPath.includes(htmlPagesFolder) ||
-        currentPath.includes(htmlPagesFolderDecoded);
+        pathname.includes("HTML%20Pages") ||
+        pathname.includes("HTML Pages");
 
-    const relativePath = insideHTMLPages
-        ? "../" + cleanPath
-        : cleanPath;
+    if (insideHTMLPages) {
+        return encodeURI("../" + cleanPath);
+    }
 
-    return encodeURI(relativePath);
+    return encodeURI(cleanPath);
 }
 
 async function hydrateBuzzImages(buzzes) {
