@@ -13,33 +13,51 @@ const closeCategoryResults = document.getElementById("closeCategoryResults");
 const categoryData = {
     grocery: {
         name: "Grocery",
-        description: "Discover grocery finds, essentials, deals, and price updates shared by the Kumarites community."
+        description:
+            "Discover grocery finds, essentials, deals, and price updates shared by the Kumarites community."
     },
+
     food: {
         name: "Food & Beverages",
-        description: "Find food spots, affordable meals, drinks, and sulit dining recommendations."
+        description:
+            "Find food spots, affordable meals, drinks, and sulit dining recommendations."
     },
+
     fashion: {
         name: "Fashion",
-        description: "Explore clothing, accessories, and fashion finds shared by the community."
+        description:
+            "Explore clothing, accessories, and fashion finds shared by the community."
     },
+
     electronics: {
         name: "Electronics",
-        description: "Discover gadgets, devices, accessories, and technology deals."
+        description:
+            "Discover gadgets, devices, accessories, and technology deals."
     },
+
     "school-supplies": {
         name: "School Supplies",
-        description: "Find affordable school supplies, stationery, notebooks, and student essentials."
+        description:
+            "Find affordable school supplies, stationery, notebooks, and student essentials."
     },
+
     "home-living": {
         name: "Home & Living",
-        description: "Explore household products, home essentials, and useful living finds."
+        description:
+            "Explore household products, home essentials, and useful living finds."
     },
+
     services: {
         name: "Services",
-        description: "Discover useful services, recommendations, repairs, and community finds."
+        description:
+            "Discover useful services, recommendations, repairs, and community finds."
     }
 };
+
+
+/* =========================================================
+   CATEGORY SEARCH
+   ========================================================= */
 
 function filterCategories() {
     if (!categorySearch) {
@@ -76,10 +94,19 @@ function filterCategories() {
     }
 }
 
-function showCategoryResults(categoryId) {
+
+/* =========================================================
+   LOAD CATEGORY BUZZES
+   ========================================================= */
+
+async function showCategoryResults(categoryId) {
     const category = categoryData[categoryId];
 
-    if (!category || !categoryResults) {
+    if (
+        !category ||
+        !categoryResults ||
+        !categoryResultsGrid
+    ) {
         return;
     }
 
@@ -93,66 +120,86 @@ function showCategoryResults(categoryId) {
             category.description;
     }
 
-    if (categoryResultsGrid) {
-        categoryResultsGrid.innerHTML = `
-            <article class="category-result-card">
-                <div class="category-result-image"></div>
-                <div class="category-result-content">
-                    <span class="category-result-tag">
-                        ${category.name.toUpperCase()}
-                    </span>
-                    <h4>Community Find</h4>
-                    <p>
-                        Placeholder for a community Buzz
-                        from this category.
-                    </p>
-                </div>
-            </article>
+    categoryResultsGrid.innerHTML = "";
 
-            <article class="category-result-card">
-                <div class="category-result-image"></div>
-                <div class="category-result-content">
-                    <span class="category-result-tag">
-                        ${category.name.toUpperCase()}
-                    </span>
-                    <h4>Sulit Deal</h4>
-                    <p>
-                        Placeholder for a deal or
-                        price update in this category.
-                    </p>
-                </div>
-            </article>
+    try {
+        const buzzes = await getBuzzes();
 
-            <article class="category-result-card">
-                <div class="category-result-image"></div>
-                <div class="category-result-content">
-                    <span class="category-result-tag">
-                        ${category.name.toUpperCase()}
-                    </span>
-                    <h4>Community Recommendation</h4>
-                    <p>
-                        Placeholder for a Kumarites
-                        recommendation.
-                    </p>
-                </div>
-            </article>
-        `;
+        const categoryBuzzes =
+            buzzes.filter(function (buzz) {
+                return (
+                    String(buzz.category || "")
+                        .trim()
+                        .toLowerCase() ===
+                    categoryId.toLowerCase()
+                );
+            });
+
+        if (categoryBuzzes.length === 0) {
+            const emptyMessage =
+                document.createElement("p");
+
+            emptyMessage.className =
+                "no-buzz-results";
+
+            emptyMessage.textContent =
+                "No Buzzes found in this category.";
+
+            categoryResultsGrid.appendChild(
+                emptyMessage
+            );
+        } else {
+            const hydratedBuzzes =
+                await hydrateBuzzImages(
+                    categoryBuzzes
+                );
+
+            for (const buzz of hydratedBuzzes) {
+                const card =
+                    await createBuzzCard(buzz);
+
+                categoryResultsGrid.appendChild(
+                    card
+                );
+            }
+        }
+
+        categoryResults.hidden = false;
+
+        categoryResults.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    } catch (error) {
+        console.error(
+            "Unable to load category Buzzes:",
+            error
+        );
+
+        categoryResultsGrid.innerHTML = "";
+
+        const errorMessage =
+            document.createElement("p");
+
+        errorMessage.className =
+            "no-buzz-results";
+
+        errorMessage.textContent =
+            "Unable to load Buzzes.";
+
+        categoryResultsGrid.appendChild(
+            errorMessage
+        );
+
+        categoryResults.hidden = false;
     }
-
-    categoryResults.hidden = false;
-
-    categoryResults.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
 }
 
-if (categorySearch) {
-    categorySearch.addEventListener(
-        "input",
-        filterCategories
-    );
-}
+
+/* =========================================================
+   CATEGORY CARD CLICK
+   ========================================================= */
 
 categoryCards.forEach(function (card) {
     card.addEventListener(
@@ -162,14 +209,35 @@ categoryCards.forEach(function (card) {
                 card.dataset.categoryKey ||
                 card.dataset.category;
 
-            if (categoryId) {
-                showCategoryResults(
-                    categoryId
-                );
+            if (!categoryId) {
+                return;
             }
+
+            /*
+             * data-category contains search keywords such as:
+             * "grocery supermarket essentials"
+             *
+             * data-category-key contains the actual
+             * category ID such as:
+             * "grocery"
+             *
+             * Use category-key whenever available.
+             */
+            const normalizedCategoryId =
+                card.dataset.categoryKey ||
+                categoryId;
+
+            showCategoryResults(
+                normalizedCategoryId
+            );
         }
     );
 });
+
+
+/* =========================================================
+   FEATURED CATEGORY LINKS
+   ========================================================= */
 
 featuredLinks.forEach(function (link) {
     link.addEventListener(
@@ -185,7 +253,7 @@ featuredLinks.forEach(function (link) {
             }
 
             categorySearch.value =
-                selectedCategory;
+                selectedCategory || "";
 
             filterCategories();
 
@@ -203,6 +271,11 @@ featuredLinks.forEach(function (link) {
     );
 });
 
+
+/* =========================================================
+   CLOSE CATEGORY RESULTS
+   ========================================================= */
+
 if (closeCategoryResults) {
     closeCategoryResults.addEventListener(
         "click",
@@ -214,23 +287,34 @@ if (closeCategoryResults) {
     );
 }
 
+
+/* =========================================================
+   ESCAPE KEY
+   ========================================================= */
+
 document.addEventListener(
     "keydown",
     function (event) {
-        if (
-            event.key === "Escape" &&
-            categorySearch
-        ) {
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        if (categorySearch) {
             categorySearch.value = "";
             filterCategories();
             categorySearch.blur();
+        }
 
-            if (categoryResults) {
-                categoryResults.hidden = true;
-            }
+        if (categoryResults) {
+            categoryResults.hidden = true;
         }
     }
 );
+
+
+/* =========================================================
+   NEW BUZZ
+   ========================================================= */
 
 document.addEventListener(
     "kumarites:buzz-created",
@@ -238,5 +322,10 @@ document.addEventListener(
         filterCategories();
     }
 );
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
 
 filterCategories();

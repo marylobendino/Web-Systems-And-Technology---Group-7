@@ -9623,3 +9623,177 @@ body.modal-open {
     cursor: pointer;
     z-index: 2;
 }
+
+/* ============================================================
+   CATEGORY RESULTS
+   Uses the same BuzzFeed card styling
+   One Buzz per row
+   ============================================================ */
+
+.category-results-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Make every Buzz card occupy the full row */
+.category-results-grid .buzz-card {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    min-height: 240px;
+
+    background-color: #fff;
+    border: 1px solid #e5e5ed;
+    border-radius: 9px;
+    overflow: hidden;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.category-results-grid .buzz-card:hover {
+    border-color: #5b2dcc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Product image */
+.category-results-grid .buzz-image {
+    width: 240px;
+    height: 100%;
+    min-height: 240px;
+    overflow: hidden;
+}
+
+.category-results-grid .buzz-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+/* Product information */
+.category-results-grid .buzz-card-content {
+    min-width: 0;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Category label */
+.category-results-grid .buzz-category {
+    display: inline-block;
+    width: fit-content;
+    margin-bottom: 8px;
+}
+
+/* Title */
+.category-results-grid .buzz-card h3 {
+    margin: 0 0 8px;
+    font-size: 21px;
+    line-height: 1.3;
+}
+
+/* Product name */
+.category-results-grid .buzz-product {
+    margin: 0 0 5px;
+}
+
+/* Store */
+.category-results-grid .buzz-store {
+    margin: 0 0 8px;
+}
+
+/* Price */
+.category-results-grid .buzz-price {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+/* Description */
+.category-results-grid .buzz-description {
+    margin: 0 0 10px;
+    line-height: 1.5;
+}
+
+/* Location */
+.category-results-grid .buzz-location {
+    margin: 0 0 8px;
+}
+
+/* Author */
+.category-results-grid .buzz-author {
+    margin-top: auto;
+}
+
+/* Buttons/actions */
+.category-results-grid .buzz-actions {
+    margin-top: 12px;
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 800px) {
+
+    .category-results-grid .buzz-card {
+        grid-template-columns: 190px minmax(0, 1fr);
+        min-height: 210px;
+    }
+
+    .category-results-grid .buzz-image {
+        width: 190px;
+        min-height: 210px;
+    }
+
+    .category-results-grid .buzz-card-content {
+        padding: 18px;
+    }
+
+    .category-results-grid .buzz-card h3 {
+        font-size: 19px;
+    }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .category-results-grid {
+        gap: 12px;
+    }
+
+    .category-results-grid .buzz-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .category-results-grid .buzz-image {
+        width: 100%;
+        height: 220px;
+        min-height: 220px;
+    }
+
+    .category-results-grid .buzz-card-content {
+        padding: 16px;
+    }
+
+    .category-results-grid .buzz-card h3 {
+        font-size: 18px;
+    }
+}
