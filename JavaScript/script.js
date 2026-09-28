@@ -299,10 +299,48 @@ function updateBuzz(buzz) {
         return new Promise(function(resolve, reject) {
             const transaction = db.transaction("buzzes", "readwrite");
             const store = transaction.objectStore("buzzes");
-            const request = store.put(buzz);
+
+            const request = store.get(Number(buzz.id));
 
             request.onsuccess = function() {
-                resolve(request.result);
+                const existingBuzz = request.result;
+
+                if (!existingBuzz) {
+                    reject(new Error("Buzz not found."));
+                    return;
+                }
+
+                /*
+                 * Preserve the original database image reference.
+                 * A hydrated Buzz may contain a temporary blob URL
+                 * used only for displaying the image. That URL must
+                 * never replace the stored imageId.
+                 */
+                const updatedBuzz = {
+                    ...existingBuzz,
+                    ...buzz
+                };
+
+                if (existingBuzz.imageId) {
+                    updatedBuzz.imageId = existingBuzz.imageId;
+                }
+
+                /*
+                 * The image property is only a display value.
+                 * Remove it before saving so IndexedDB keeps the
+                 * persistent imageId/image relationship intact.
+                 */
+                delete updatedBuzz.image;
+
+                const updateRequest = store.put(updatedBuzz);
+
+                updateRequest.onsuccess = function() {
+                    resolve(updateRequest.result);
+                };
+
+                updateRequest.onerror = function() {
+                    reject(updateRequest.error);
+                };
             };
 
             request.onerror = function() {
