@@ -312,6 +312,64 @@ function updateBuzz(buzz) {
     });
 }
 
+/*
+ * Update only the Useful count.
+ *
+ * IMPORTANT:
+ * This reads the original Buzz directly from IndexedDB instead of
+ * saving the hydrated/display version of the Buzz object.
+ *
+ * This prevents image paths such as "../Images/..." from being
+ * written back into the database when the Useful button is clicked
+ * on pages inside the HTML Pages folder.
+ */
+function updateBuzzUsefulCount(buzzId, usefulCount) {
+    return getKumaritesDB().then(function(db) {
+        return new Promise(function(resolve, reject) {
+            const transaction =
+                db.transaction("buzzes", "readwrite");
+
+            const store =
+                transaction.objectStore("buzzes");
+
+            const request =
+                store.get(Number(buzzId));
+
+            request.onsuccess = function() {
+                const existingBuzz =
+                    request.result;
+
+                if (!existingBuzz) {
+                    reject(
+                        new Error("Buzz not found.")
+                    );
+                    return;
+                }
+
+                const updatedBuzz = {
+                    ...existingBuzz,
+                    usefulCount: Number(usefulCount || 0)
+                };
+
+                const updateRequest =
+                    store.put(updatedBuzz);
+
+                updateRequest.onsuccess = function() {
+                    resolve(updateRequest.result);
+                };
+
+                updateRequest.onerror = function() {
+                    reject(updateRequest.error);
+                };
+            };
+
+            request.onerror = function() {
+                reject(request.error);
+            };
+        });
+    });
+}
+
 function deleteBuzz(id) {
     return getKumaritesDB().then(function(db) {
         return new Promise(function(resolve, reject) {
@@ -736,6 +794,7 @@ async function createBuzzCard(buzz) {
         usefulButton.addEventListener(
             "click",
             async function(event) {
+                event.preventDefault();
                 event.stopPropagation();
 
                 const currentlyUseful =
@@ -777,12 +836,60 @@ async function createBuzzCard(buzz) {
                 }
 
                 try {
-                    await updateBuzz(buzz);
+                    /*
+                     * Do NOT call updateBuzz(buzz) here.
+                     *
+                     * buzz is the hydrated display object and may
+                     * contain a page-relative image path such as
+                     * "../Images/...". Saving it would corrupt the
+                     * stored image path for the Home page.
+                     *
+                     * Only the Useful count is persisted.
+                     */
+                    await updateBuzzUsefulCount(
+                        buzz.id,
+                        count
+                    );
                 } catch (error) {
                     console.error(
                         "Unable to update Useful count:",
                         error
                     );
+
+                    /*
+                     * Revert the local state if the database
+                     * update fails.
+                     */
+                    if (currentlyUseful) {
+                        localStorage.setItem(
+                            usefulKey,
+                            "true"
+                        );
+                    } else {
+                        localStorage.removeItem(
+                            usefulKey
+                        );
+                    }
+
+                    buzz.usefulCount =
+                        currentlyUseful
+                            ? count + 1
+                            : Math.max(0, count - 1);
+
+                    usefulButton.setAttribute(
+                        "aria-pressed",
+                        String(currentlyUseful)
+                    );
+
+                    usefulButton.classList.toggle(
+                        "active",
+                        currentlyUseful
+                    );
+
+                    if (countElement) {
+                        countElement.textContent =
+                            buzz.usefulCount;
+                    }
                 }
             }
         );
