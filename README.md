@@ -58,6 +58,14 @@ The website focuses on:
 
 ## How to Run
 
+### Option 1: Access the Live Website
+
+Go to the Kumarites live website:
+
+[Visit Kumarites](https://marylobendino.github.io/Web-Systems-And-Technology---Group-7/)
+
+### Option 2: Run Locally
+
 1. Download or clone the Kumarites project.
 2. Open the project folder.
 3. Open `index.html` in a web browser.
