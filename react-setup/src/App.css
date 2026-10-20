@@ -1,0 +1,19 @@
+
+/* Remove Vite starter layout constraints */
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Keep the homepage centered and responsive */
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+img {
+  max-width: 100%;
+}
