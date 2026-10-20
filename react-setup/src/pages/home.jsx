@@ -28,7 +28,7 @@ const stores = [
 const menuLinks = [
   { label: 'Home', href: '/' },
   { label: 'Buzz Feed', href: '/HTML%20Pages/BuzzFeed.html' },
-  { label: 'Stores', href: '/HTML%20Pages/stores.html' },
+  { label: 'Stores', href: '/stores' },
   { label: 'Categories', href: '/HTML%20Pages/categories.html' },
   { label: 'About Kumarites', href: '/HTML%20Pages/about.html' },
 ];
@@ -64,7 +64,7 @@ export default function Home() {
         <nav className="main-navigation" aria-label="Main navigation">
           <a href="/" className="active">Home</a>
           <a href="/HTML%20Pages/BuzzFeed.html">BuzzFeed</a>
-          <a href="/HTML%20Pages/stores.html">Stores</a>
+          <a href="/stores">Stores</a>
           <a href="/HTML%20Pages/categories.html">Categories</a>
         </nav>
 
@@ -115,7 +115,7 @@ export default function Home() {
                   Explore Buzzes →
                 </a>
                 <a
-                  href="/HTML%20Pages/stores.html"
+                  href="/stores"
                   className="secondary-button"
                 >
                   Browse Stores →
@@ -170,7 +170,7 @@ export default function Home() {
           <section className="trending-stores">
             <div className="trending-stores-header">
               <h2>Trending Stores</h2>
-              <a href="/HTML%20Pages/stores.html">
+              <a href="/stores">
                 View all stores →
               </a>
             </div>
