@@ -2,6 +2,7 @@
 import Home from './pages/home.jsx';
 import Login from './pages/login.jsx';
 import Categories from './pages/categories.jsx';
+import Stores from './pages/stores.jsx';
 import './App.css';
 
 export default function App() {
@@ -11,6 +12,10 @@ export default function App() {
 
   if (path === '/categories') {
     return <Categories />;
+  }
+
+  if (path === '/stores') {
+    return <Stores />;
   }
 
   return isLoginPage ? <Login /> : <Home />;

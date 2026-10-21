@@ -1,4 +1,6 @@
 
+import { useEffect, useState } from 'react';
+import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
 import '../kumarites.css';
 
 const categories = [
@@ -33,7 +35,232 @@ const menuLinks = [
   { label: 'About Kumarites', href: '/HTML%20Pages/about.html' },
 ];
 
+const categoryNames = {
+  grocery: 'Grocery',
+  food: 'Food & Beverages',
+  fashion: 'Fashion',
+  electronics: 'Electronics',
+  'school-supplies': 'School Supplies',
+  'home-living': 'Home & Living',
+  services: 'Services',
+};
+
+function readPreference(key) {
+  try {
+    return localStorage.getItem(key) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+function removeDuplicateBuzzes(buzzes) {
+  const uniqueBuzzes = new Map();
+
+  buzzes.forEach((buzz) => {
+    const identity = [
+      buzz.type,
+      buzz.category,
+      buzz.store,
+      buzz.product,
+      buzz.title,
+    ]
+      .map((value) => String(value || '').trim().toLowerCase())
+      .join('|');
+
+    if (!uniqueBuzzes.has(identity)) {
+      uniqueBuzzes.set(identity, buzz);
+    }
+  });
+
+  return [...uniqueBuzzes.values()];
+}
+
+function HomeBuzzCard({ buzz, onUseful }) {
+  const usefulKey = `kumaritesUseful_v2_${buzz.id}`;
+  const savedKey = `kumaritesSaved_${buzz.id}`;
+  const [isUseful, setIsUseful] = useState(() => readPreference(usefulKey));
+  const [isSaved, setIsSaved] = useState(() => readPreference(savedKey));
+  const [actionError, setActionError] = useState('');
+  const postedDate = buzz.createdAt
+    ? new Date(buzz.createdAt).toLocaleDateString('en-PH', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : '';
+
+  function handleUseful() {
+    const nextValue = !isUseful;
+    const nextCount = Math.max(
+      0,
+      Number(buzz.usefulCount || 0) + (nextValue ? 1 : -1)
+    );
+
+    setActionError('');
+    setIsUseful(nextValue);
+    try {
+      if (nextValue) {
+        localStorage.setItem(usefulKey, 'true');
+      } else {
+        localStorage.removeItem(usefulKey);
+      }
+      onUseful(buzz, nextCount, isUseful).catch((error) => {
+        console.error('Unable to save the Buzz Useful action:', error);
+        setIsUseful(!nextValue);
+        setActionError('Unable to save this action. Please try again.');
+      });
+    } catch (error) {
+      console.error('Unable to update the Buzz Useful state:', error);
+      setIsUseful(!nextValue);
+      setActionError('Unable to save this action. Please try again.');
+    }
+  }
+
+  function handleSave() {
+    const nextValue = !isSaved;
+    setActionError('');
+
+    try {
+      if (nextValue) {
+        localStorage.setItem(savedKey, 'true');
+      } else {
+        localStorage.removeItem(savedKey);
+      }
+      setIsSaved(nextValue);
+    } catch (error) {
+      console.error('Unable to update the Buzz saved state:', error);
+      setActionError('Unable to save this action. Please try again.');
+    }
+  }
+
+  const imageSrc = buzz.image || '';
+
+  return (
+    <article className="buzz-card">
+      <div className={`buzz-image${imageSrc ? '' : ' buzz-image-placeholder'}`}>
+        {imageSrc && <img src={imageSrc} alt={buzz.product || buzz.title} loading="lazy" />}
+      </div>
+
+      <div className="buzz-card-content">
+        <span className="buzz-category">
+          {categoryNames[buzz.category] || buzz.category || 'Category'}
+        </span>
+        <h3>{buzz.title || 'Untitled Buzz'}</h3>
+        {buzz.product && <p className="buzz-product">{buzz.product}</p>}
+        <p className="buzz-store">
+          <strong>{buzz.store || 'Community Find'}</strong>
+          {buzz.location && <span>{buzz.location}</span>}
+        </p>
+        {(buzz.price || buzz.category) && (
+          <div className="buzz-details">
+            <span>{categoryNames[buzz.category] || buzz.category}</span>
+            {buzz.price && (
+              <strong className="price">
+                {buzz.price.toString().includes('₱') ? buzz.price : `₱${buzz.price}`}
+              </strong>
+            )}
+          </div>
+        )}
+        {buzz.description && <p className="buzz-description">{buzz.description}</p>}
+        <p className="buzz-author">
+          Posted by <strong>{buzz.author || 'Kumarite'}</strong>
+          {postedDate && ` · ${postedDate}`}
+        </p>
+        <div className="buzz-actions">
+          <button
+            type="button"
+            className={`useful-button${isUseful ? ' liked' : ''}`}
+            aria-pressed={isUseful}
+            onClick={handleUseful}
+          >
+            {isUseful ? '♥' : '♡'} Useful <span>{Number(buzz.usefulCount || 0)}</span>
+          </button>
+          <button
+            type="button"
+            className={`save-button${isSaved ? ' saved' : ''}`}
+            aria-pressed={isSaved}
+            onClick={handleSave}
+          >
+            {isSaved ? 'Saved' : 'Save'}
+          </button>
+        </div>
+        {actionError && <p role="alert">{actionError}</p>}
+      </div>
+    </article>
+  );
+}
+
 export default function Home() {
+  const [buzzes, setBuzzes] = useState([]);
+  const [buzzesLoading, setBuzzesLoading] = useState(true);
+  const [buzzesError, setBuzzesError] = useState('');
+
+  useEffect(() => {
+    let isMounted = true;
+    let loadedBuzzes = [];
+
+    getStoreBuzzes()
+      .then((loaded) => {
+        loadedBuzzes = loaded;
+        if (isMounted) {
+          setBuzzes(removeDuplicateBuzzes(loaded));
+        } else {
+          loaded.forEach((buzz) => {
+            if (buzz.image?.startsWith('blob:')) {
+              URL.revokeObjectURL(buzz.image);
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Unable to load Home Buzzes:', error);
+        if (isMounted) {
+          setBuzzesError('Unable to load Buzzes. Please refresh the page and try again.');
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setBuzzesLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+      loadedBuzzes.forEach((buzz) => {
+        if (buzz.image?.startsWith('blob:')) {
+          URL.revokeObjectURL(buzz.image);
+        }
+      });
+    };
+  }, []);
+
+  function handleUseful(buzz, usefulCount, wasUseful) {
+    setBuzzes((currentBuzzes) => currentBuzzes.map((item) => (
+      item.id === buzz.id ? { ...item, usefulCount } : item
+    )));
+
+    return updateBuzzUsefulCount(buzz.id, usefulCount).catch((error) => {
+      console.error('Unable to update the Buzz Useful count:', error);
+      const previousCount = Number(buzz.usefulCount || 0);
+      const storageKey = `kumaritesUseful_v2_${buzz.id}`;
+
+      try {
+        if (wasUseful) {
+          localStorage.setItem(storageKey, 'true');
+        } else {
+          localStorage.removeItem(storageKey);
+        }
+      } catch (storageError) {
+        console.error('Unable to restore the Buzz Useful state:', storageError);
+      }
+
+      setBuzzes((currentBuzzes) => currentBuzzes.map((item) => (
+        item.id === buzz.id ? { ...item, usefulCount: previousCount } : item
+      )));
+      throw error;
+    });
+  }
+
   function handleSearch(event) {
     event.preventDefault();
     const query = event.currentTarget.elements.searchInput.value.trim();
@@ -160,10 +387,21 @@ export default function Home() {
             </div>
 
             <div className="latest-buzzes-list" id="buzzContainer">
-              <p>
-                Latest buzzes will appear here when the existing
-                buzz data is connected.
-              </p>
+              {buzzesLoading ? (
+                <p role="status">Loading latest Buzzes…</p>
+              ) : buzzesError ? (
+                <p role="alert">{buzzesError}</p>
+              ) : buzzes.length > 0 ? (
+                buzzes.map((buzz) => (
+                  <HomeBuzzCard
+                    key={buzz.id}
+                    buzz={buzz}
+                    onUseful={handleUseful}
+                  />
+                ))
+              ) : (
+                <p className="no-buzz-results">No Buzzes found.</p>
+              )}
             </div>
           </section>
 
