@@ -1,4 +1,3 @@
-
 export const defaultBuzzes = [
   {
     type: 'sulit',

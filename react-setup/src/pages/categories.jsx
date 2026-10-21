@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import '../kumarites.css';
 import '../categories.css';

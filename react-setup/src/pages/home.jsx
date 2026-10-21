@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
 import '../kumarites.css';
