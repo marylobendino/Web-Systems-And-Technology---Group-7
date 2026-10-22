@@ -4,11 +4,9 @@ import Login from './pages/login.jsx';
 import Categories from './pages/categories.jsx';
 import Stores from './pages/stores.jsx';
 import BuzzFeed from './pages/BuzzFeed.jsx';
-import './App.css';
-
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
-  const isLoginPage = path === '/login' || path.endsWith('/login.html');
+  const isLoginPage = path === '/login' || path === '/signup' || path.endsWith('/login.html') || path.endsWith('/signup.html');
 
   if (
     path === '/categories' || path.endsWith('/categories.html')) {
@@ -19,7 +17,7 @@ export default function App() {
     return <Stores />;
   }
 
-  if (path === '/buzzfeed' || path.endsWith('/BuzzFeed.html') ||path.endsWith('/buzzfeed.tml')
+  if (path === '/buzzfeed' || path.endsWith('/BuzzFeed.html') ||path.endsWith('/buzzfeed.html')
   ) {
     return <BuzzFeed />;
   }

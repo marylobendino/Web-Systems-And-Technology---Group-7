@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import '../kumarites.css';
-
+import Footer from '../components/Footer.jsx';
 export default function Login() {
   const [showSignup, setShowSignup] = useState(
+    window.location.pathname.replace(/\/+$/, '') === '/signup' ||
     new URLSearchParams(window.location.search).get('form') === 'signup'
   );
 
   function switchForm(signup) {
     setShowSignup(signup);
 
-    const url = signup ? '/login?form=signup' : '/login';
+    const url = signup ? '/signup' : '/login';
     window.history.replaceState({}, '', url);
   }
 
@@ -24,7 +24,8 @@ export default function Login() {
   }
 
   return (
-    <main className="auth-container">
+    <>
+      <main className="auth-container">
       {/* Left Side: Welcome Panel */}
       <section className="welcome-section">
         <div className="logo">
@@ -141,6 +142,8 @@ export default function Login() {
           </div>
         )}
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
-import '../kumarites.css';
-
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 const categories = [
   { id: 'grocery', icon: '🛒', label: 'Grocery' },
   { id: 'food', icon: '🍽️', label: 'Food & Beverages' },
@@ -275,40 +275,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Navigation Bar */}
-      <header className="navbar">
-        <div className="logo">
-          <a href="/">
-            <img
-              src="/Images/BuzzFeed%20Images/Kumarites%20Logo.png"
-              alt="Kumarites"
-            />
-          </a>
-          <p>Real Finds. Real People. A More Sulit You.</p>
-        </div>
-
-        <nav className="main-navigation" aria-label="Main navigation">
-          <a href="/" className="active">Home</a>
-          <a href="/HTML%20Pages/BuzzFeed.html">BuzzFeed</a>
-          <a href="/HTML%20Pages/stores.html">Stores</a>
-          <a href="/HTML%20Pages/categories.html">Categories</a>
-        </nav>
-
-        <form className="nav-search" onSubmit={handleSearch}>
-          <input
-            type="search"
-            id="searchInput"
-            name="searchInput"
-            placeholder="Search stores, products, or buzzes"
-            aria-label="Search stores, products, or buzzes"
-          />
-        </form>
-
-        <div className="nav-actions">
-          <a href="/login" className="login-button">Log In</a>
-          <a href="/login?form=signup" className="signup-button">Sign Up</a>
-        </div>
-      </header>
+      <Header activePage="home" />
 
       <main>
         {/* Banner Section */}
@@ -432,69 +399,7 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-column footer-brand">
-            <a href="/">
-              <img
-                src="/Images/BuzzFeed%20Images/Kumarites%20Logo.png"
-                alt="Kumarites"
-                width="200"
-              />
-            </a>
-
-            <p>Real Finds. Real People. A More Sulit You.</p>
-
-            <p>
-              A community-driven platform where people share
-              sulit finds, price updates, and store recommendations.
-            </p>
-          </div>
-
-          <div className="footer-column">
-            <h3>Menu</h3>
-            {menuLinks.map((link) => (
-              <a href={link.href} key={link.label}>
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          <div className="footer-column">
-            <h3>Contact</h3>
-            <a href="#">Contact Us</a>
-            <a href="#">Community Guidelines</a>
-            <a href="#">Privacy Policy</a>
-          </div>
-
-          <div className="footer-column footer-social">
-            <h3>Follow Us</h3>
-
-            <div className="social-icons">
-              <a href="#" aria-label="Facebook">
-                <img
-                  src="/Images/footer%20-%20facebook%20icon.png"
-                  alt="Facebook"
-                />
-              </a>
-
-              <a href="#" aria-label="Instagram">
-                <img
-                  src="/Images/footer%20-%20instagram%20icon.png"
-                  alt="Instagram"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <p>
-            © 2026 Kumarites. Community-powered consumer information.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import '../kumarites.css';
-import '../categories.css';
 import { defaultBuzzes } from '../data/defaultBuzzes.js';
 import CategoryBuzzCard from '../components/CategoryBuzzCard.jsx';
 import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 
 // Category information
 const categories = [
@@ -408,6 +407,7 @@ const selectedBuzzes = selectedCategory
       </section>
 
         </main>
+    <Footer />
   </>
   );
 }

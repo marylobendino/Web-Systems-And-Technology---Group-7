@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { defaultBuzzes } from '../data/defaultBuzzes.js';
-import './BuzzFeed.css';
-
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 const TYPES = [
   { value: 'all', label: 'All Buzzes' },
   { value: 'find', label: 'Sulit Finds', matches: ['sulit', 'find'] },
@@ -127,12 +127,7 @@ export default function BuzzFeed() {
   function requestCreateBuzz() { setShowCreateNotice(true); }
 
   return <div className="buzzfeed-page">
-    <header className="bf-navbar">
-      <a className="bf-brand" href="/" aria-label="Kumarites home"><span className="bf-brand-mark">K</span><span><strong>KuMarites</strong><small>Real Finds. Real People. A More Sulit You.</small></span></a>
-      <nav aria-label="Main navigation"><a href="/">Home</a><a href="/buzzfeed" className="active" aria-current="page">BuzzFeed</a><a href="/stores">Stores</a><a href="/categories">Categories</a></nav>
-      <form className="bf-nav-search" role="search" onSubmit={(event) => { event.preventDefault(); document.getElementById('bf-search')?.focus(); }}><input type="search" aria-label="Search buzzes" placeholder="Search stores, products, or buzzes" value={query} onChange={(event) => setQuery(event.target.value)} /></form>
-      <div className="bf-auth"><a href="/login">Log In</a><a className="bf-signup" href="/login?form=signup">Sign Up</a></div>
-    </header>
+    <Header activePage="buzzfeed" searchValue={query} onSearchChange={setQuery} />
 
     <main>
       <section className="bf-hero"><div><p className="bf-eyebrow">THE COMMUNITY FEED</p><h1>What's <span>Buzzing?</span></h1><p>Discover real finds, deals, recommendations, and helpful tsika shared by the community.</p><button className="bf-primary" type="button" onClick={requestCreateBuzz}>＋ Create a Buzz</button></div><div className="bf-hero-art" aria-hidden="true"><span className="bf-art-bubble bf-bubble-one">Sulit!</span><span className="bf-art-bubble bf-bubble-two">₱</span><span className="bf-art-bubble bf-bubble-three">★</span><div className="bf-art-card"><span>COMMUNITY FINDS</span><strong>Good deals are better when shared.</strong><div className="bf-art-bars"><i/><i/><i/></div></div></div></section>
@@ -145,6 +140,6 @@ export default function BuzzFeed() {
         <aside className="bf-right-sidebar"><section className="bf-side-card"><h2>Trending Stores</h2><div className="bf-trending-store"><span className="bf-store-icon">W</span><div><strong>Watsons</strong><span>Beauty & personal care</span></div></div><div className="bf-trending-store"><span className="bf-store-icon">N</span><div><strong>National Book Store</strong><span>Books & school supplies</span></div></div><div className="bf-trending-store"><span className="bf-store-icon">M</span><div><strong>Mang Inasal</strong><span>Food & dining</span></div></div><a className="bf-side-link" href="/stores">Explore all stores →</a></section><section className="bf-side-cta"><h2>Know a sulit find?</h2><p>Help the community discover useful deals, local finds, and practical tips.</p><button type="button" className="bf-primary" onClick={requestCreateBuzz}>＋ Share a Buzz</button></section><section className="bf-side-card bf-tip"><span>COMMUNITY TIP</span><h2>Share the details</h2><p>Include the store, price, location, and date so other Kumarites can verify whether a deal is still available.</p></section></aside>
       </section>
     </main>
-    <footer className="bf-footer"><strong>KuMarites</strong><span>Real Finds. Real People. A More Sulit You.</span><span>© {new Date().getFullYear()} Kumarites</span></footer>
+    <Footer />
   </div>;
 }

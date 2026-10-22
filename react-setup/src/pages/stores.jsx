@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import '../kumarites.css';
-import './stores.css';
 import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
 
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 const tabs = [
   { id: 'latest', label: 'Latest Buzzes' },
   { id: 'sulit', label: 'Sulit Find' },
@@ -172,7 +172,7 @@ export default function Stores() {
     try {
       await navigator.clipboard.writeText(window.location.href);
       setCopyStatus('Link copied.');
-    } catch (error) {
+    } catch {
       setCopyStatus('Unable to copy automatically. Copy the page URL from your browser.');
     }
   }
@@ -193,39 +193,7 @@ export default function Stores() {
 
   return (
     <>
-      <header className="navbar">
-        <div className="logo">
-          <a href="/">
-            <img
-              src="/Images/BuzzFeed%20Images/Kumarites%20Logo.png"
-              alt="Kumarites"
-            />
-          </a>
-          <p>Real Finds. Real People. A More Sulit You.</p>
-        </div>
-
-        <nav className="main-navigation" aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="/HTML%20Pages/BuzzFeed.html">BuzzFeed</a>
-          <a href="/stores" className="active" aria-current="page">Stores</a>
-          <a href="/HTML%20Pages/categories.html">Categories</a>
-        </nav>
-
-        <form className="nav-search" onSubmit={(event) => event.preventDefault()}>
-          <input
-            type="search"
-            value={searchTerm}
-            onChange={handleNavigationSearch}
-            placeholder="Search stores, products, or buzzes"
-            aria-label="Search stores, products, or buzzes"
-          />
-        </form>
-
-        <div className="nav-actions">
-          <a href="/login" className="login-button">Log In</a>
-          <a href="/login?form=signup" className="signup-button">Sign Up</a>
-        </div>
-      </header>
+      <Header activePage="stores" searchValue={searchTerm} onSearchChange={handleNavigationSearch} />
 
       <main className="store-page">
         <section className="store-banner">
@@ -485,6 +453,7 @@ export default function Stores() {
           </section>
         </div>
       )}
+      <Footer />
     </>
   );
 }

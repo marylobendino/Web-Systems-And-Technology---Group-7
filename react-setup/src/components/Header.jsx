@@ -1,15 +1,18 @@
 
-export default function Header() {
+import { useState } from 'react';
+
+export default function Header({ activePage = 'categories', searchValue, onSearchChange }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isControlledSearch = typeof onSearchChange === 'function';
+
   function handleSearch(event) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const query = String(formData.get('searchInput') || '').trim();
 
-    if (query) {
-      alert(
-        `Search functionality will be connected next. Search: ${query}`
-      );
+    if (query && !isControlledSearch) {
+      alert(`Search functionality will be connected next. Search: ${query}`);
     }
   }
 
@@ -26,25 +29,57 @@ export default function Header() {
         <p>Real Finds. Real People. A More Sulit You.</p>
       </div>
 
+      <button
+        type="button"
+        className="nav-toggle"
+        aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-controls="primary-navigation-panel"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <div
+        id="primary-navigation-panel"
+        className={`navbar-collapse${menuOpen ? ' is-open' : ''}`}
+      >
       {/* Main Navigation */}
       <nav
         className="main-navigation"
         aria-label="Main navigation"
       >
-        <a href="/">Home</a>
-
-        <a href="/HTML%20Pages/BuzzFeed.html">
+        <a
+          href="/"
+          onClick={() => setMenuOpen(false)}
+          className={activePage === 'home' ? 'active' : undefined}
+          aria-current={activePage === 'home' ? 'page' : undefined}
+        >
+          Home
+        </a>
+        <a
+          href="/buzzfeed"
+          onClick={() => setMenuOpen(false)}
+          className={activePage === 'buzzfeed' ? 'active' : undefined}
+          aria-current={activePage === 'buzzfeed' ? 'page' : undefined}
+        >
           BuzzFeed
         </a>
-
-        <a href="/HTML%20Pages/stores.html">
+        <a
+          href="/stores"
+          onClick={() => setMenuOpen(false)}
+          className={activePage === 'stores' ? 'active' : undefined}
+          aria-current={activePage === 'stores' ? 'page' : undefined}
+        >
           Stores
         </a>
-
         <a
           href="/categories"
-          className="active"
-          aria-current="page"
+          onClick={() => setMenuOpen(false)}
+          className={activePage === 'categories' ? 'active' : undefined}
+          aria-current={activePage === 'categories' ? 'page' : undefined}
         >
           Categories
         </a>
@@ -61,6 +96,8 @@ export default function Header() {
           name="searchInput"
           placeholder="Search stores, products, or buzzes"
           aria-label="Search stores, products, or buzzes"
+          value={isControlledSearch ? searchValue : undefined}
+          onChange={isControlledSearch ? (event) => onSearchChange(event.target.value) : undefined}
         />
       </form>
 
@@ -68,6 +105,7 @@ export default function Header() {
       <div className="nav-actions">
         <a
           href="/login"
+          onClick={() => setMenuOpen(false)}
           className="login-button"
         >
           Log In
@@ -75,10 +113,12 @@ export default function Header() {
 
         <a
           href="/login?form=signup"
+          onClick={() => setMenuOpen(false)}
           className="signup-button"
         >
           Sign Up
         </a>
+      </div>
       </div>
     </header>
   );
