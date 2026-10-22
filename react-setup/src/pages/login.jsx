@@ -35,13 +35,12 @@ export default function Login() {
             />
           </a>
 
-          <h2>Real Finds. Real People. A More Sulit You.</h2>
+          <h5>Real Finds. Real People. A More Sulit You.</h5>
           <br />
 
           <p>
             <em>
-              Discover sulit finds, share recommendations, <br />
-              and connect with your community.
+              Discover sulit finds, share recommendations, and connect with your community.
             </em>
           </p>
         </div>

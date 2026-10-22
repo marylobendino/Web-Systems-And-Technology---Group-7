@@ -11857,6 +11857,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background-color: #f0ebff;
   background-size: cover;
 }
+.auth-container .welcome-section .logo {
+  transform: translate(-180px, -130px);
+}
 .auth-container .logo { width: 100%; max-width: 480px; min-width: 0; }
 .auth-container .logo img { width: min(100%, 340px); max-height: none; object-fit: contain; }
 .auth-container .logo h2 { margin: 28px 0 14px; color: #2b2149; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.25; }
