@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
-const categories = [
-  { id: 'grocery', icon: '🛒', label: 'Grocery' },
-  { id: 'food', icon: '🍽️', label: 'Food & Beverages' },
-  { id: 'fashion', icon: '👗', label: 'Fashion' },
-  { id: 'electronics', icon: '📱', label: 'Electronics' },
-  { id: 'school-supplies', icon: '📒', label: 'School Supplies' },
-  { id: 'home-living', icon: '🏠', label: 'Home & Living' },
-  { id: 'services', icon: '⚙️', label: 'Services' },
-  { id: 'all', icon: '🔍︎', label: 'View All' },
-];
+const CATEGORY_ICONS = {
+  grocery: '🛒',
+  food: '🍽️',
+  fashion: '👗',
+  electronics: '📱',
+  'school-supplies': '📒',
+  'home-living': '🏠',
+  services: '⚙️',
+  all: '🔍︎',
+};
 
 const stores = [
   { name: 'SM Mall of Asia', buzzes: 42, initials: 'SM' },
@@ -194,6 +194,54 @@ export default function Home() {
   const [buzzesLoading, setBuzzesLoading] = useState(true);
   const [buzzesError, setBuzzesError] = useState('');
 
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [categoriesError, setCategoriesError] = useState('');
+
+  
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch('http://localhost:3001/api/categories')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to load categories.');
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        if (isMounted) {
+          const apiCategories = data.categories.map((category) => ({
+            ...category,
+            label: category.name,
+            icon: CATEGORY_ICONS[category.id] || '🔍',
+          }));
+
+          setCategories([
+            ...apiCategories,
+            { id: 'all', label: 'View All', icon: CATEGORY_ICONS.all },
+          ]);
+        }
+      })
+      .catch((error) => {
+        console.error('Unable to load categories:', error);
+
+        if (isMounted) {
+          setCategoriesError('Unable to load categories. Please try again.');
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setCategoriesLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   useEffect(() => {
     let isMounted = true;
     let loadedBuzzes = [];
@@ -323,22 +371,27 @@ export default function Home() {
           <div className="categories-header">
             <h2>Browse by Category</h2>
           </div>
-
           <div className="categories-content">
-            {categories.map((category) => (
-              <button
-                type="button"
-                className="category-card"
-                data-category={category.id}
-                key={category.id}
-                onClick={() => handleCategory(category.label)}
-              >
-                <span className="category-icon" aria-hidden="true">
-                  {category.icon}
-                </span>
-                <span>{category.label}</span>
-              </button>
-            ))}
+            {categoriesLoading ? (
+              <p role="status">Loading categories...</p>
+            ) : categoriesError ? (
+              <p role="alert">{categoriesError}</p>
+            ) : (
+              categories.map((category) => (
+                <button
+                  type="button"
+                  className="category-card"
+                  data-category={category.id}
+                  key={category.id}
+                  onClick={() => handleCategory(category.label)}
+                >
+                  <span className="category-icon" aria-hidden="true">
+                    {category.icon}
+                  </span>
+                  <span>{category.label}</span>
+                </button>
+              ))
+            )}
           </div>
         </section>
 
