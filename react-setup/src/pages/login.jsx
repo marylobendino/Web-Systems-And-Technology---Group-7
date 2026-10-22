@@ -1,30 +1,91 @@
+
 import { useState } from 'react';
+
+const API_URL = 'http://localhost:3001/api/auth';
+
 export default function Login() {
   const [showSignup, setShowSignup] = useState(
     window.location.pathname.replace(/\/+$/, '') === '/signup' ||
     new URLSearchParams(window.location.search).get('form') === 'signup'
   );
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   function switchForm(signup) {
     setShowSignup(signup);
+    setName('');
+    setEmail('');
+    setPassword('');
+    setMessage('');
+    setError('');
 
-    const url = signup ? '/signup' : '/login';
-    window.history.replaceState({}, '', url);
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    alert(
-      showSignup
-        ? 'Signup form submitted. Account creation is not connected yet.'
-        : 'Login form submitted. Authentication is not connected yet.'
+    window.history.replaceState(
+      {},
+      '',
+      signup ? '/signup' : '/login'
     );
   }
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    setMessage('');
+    setError('');
+    setLoading(true);
+
+    const endpoint = showSignup ? '/signup' : '/login';
+
+    const payload = showSignup
+      ? { name, email, password }
+      : { email, password };
+
+    try {
+      const response = await fetch(`${API_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong.');
+      }
+
+      // Keep the login session for this browser tab.
+      sessionStorage.setItem('kumaritesToken', data.token);
+      sessionStorage.setItem(
+        'kumaritesUser',
+        JSON.stringify(data.user)
+      );
+
+      setMessage(
+        showSignup
+          ? 'Account created successfully! You are now logged in.'
+          : 'Login successful!'
+      );
+
+      setPassword('');
+    } catch (err) {
+      setError(
+        err.message === 'Failed to fetch'
+          ? 'Unable to connect to the server. Please try again.'
+          : err.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <>
-      <main className="auth-container">
+    <main className="auth-container">
       {/* Left Side: Welcome Panel */}
       <section className="welcome-section">
         <div className="logo">
@@ -40,7 +101,8 @@ export default function Login() {
 
           <p>
             <em>
-              Discover sulit finds, share recommendations, and connect with your community.
+              Discover sulit finds, share recommendations, and connect
+              with your community.
             </em>
           </p>
         </div>
@@ -62,6 +124,9 @@ export default function Login() {
                 type="email"
                 id="loginEmail"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="email"
                 required
               />
 
@@ -70,10 +135,18 @@ export default function Login() {
                 type="password"
                 id="loginPassword"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="current-password"
                 required
               />
 
-              <button type="submit">Log In</button>
+              {error && <p role="alert">{error}</p>}
+              {message && <p role="status">{message}</p>}
+
+              <button type="submit" disabled={loading}>
+                {loading ? 'Logging in...' : 'Log In'}
+              </button>
             </form>
 
             <p className="switch-form">
@@ -103,6 +176,9 @@ export default function Login() {
                 type="text"
                 id="signupName"
                 placeholder="Enter your name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                autoComplete="name"
                 required
               />
 
@@ -111,6 +187,9 @@ export default function Login() {
                 type="email"
                 id="signupEmail"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="email"
                 required
               />
 
@@ -118,11 +197,21 @@ export default function Login() {
               <input
                 type="password"
                 id="signupPassword"
-                placeholder="Create a password"
+                placeholder="Create a password (at least 8 characters)"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="new-password"
+                minLength={8}
+                maxLength={72}
                 required
               />
 
-              <button type="submit">Sign Up</button>
+              {error && <p role="alert">{error}</p>}
+              {message && <p role="status">{message}</p>}
+
+              <button type="submit" disabled={loading}>
+                {loading ? 'Creating account...' : 'Sign Up'}
+              </button>
             </form>
 
             <p className="switch-form">
@@ -140,7 +229,6 @@ export default function Login() {
           </div>
         )}
       </section>
-      </main>
-    </>
+    </main>
   );
 }
