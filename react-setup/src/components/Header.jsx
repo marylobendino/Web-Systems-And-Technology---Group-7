@@ -1,8 +1,23 @@
-
 import { useState } from 'react';
 
-export default function Header({ activePage = 'categories', searchValue, onSearchChange }) {
+export default function Header({
+  activePage = 'categories',
+  searchValue,
+  onSearchChange
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Get the logged-in user's information
+  const [user] = useState(() => {
+    try {
+      return JSON.parse(
+        sessionStorage.getItem('kumaritesUser') || 'null'
+      );
+    } catch {
+      return null;
+    }
+  });
+
   const isControlledSearch = typeof onSearchChange === 'function';
 
   function handleSearch(event) {
@@ -103,21 +118,43 @@ export default function Header({ activePage = 'categories', searchValue, onSearc
 
       {/* Authentication */}
       <div className="nav-actions">
-        <a
-          href="/login"
-          onClick={() => setMenuOpen(false)}
-          className="login-button"
-        >
-          Log In
-        </a>
+        {user ? (
+          <>
+            <span className="user-greeting">
+              Hi, {user.name}!
+            </span>
 
-        <a
-          href="/login?form=signup"
-          onClick={() => setMenuOpen(false)}
-          className="signup-button"
-        >
-          Sign Up
-        </a>
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => {
+                sessionStorage.removeItem('kumaritesToken');
+                sessionStorage.removeItem('kumaritesUser');
+                window.location.assign('/');
+              }}
+            >
+              Log Out
+            </button>
+          </>
+        ) : (
+          <>
+            <a
+              href="/login"
+              onClick={() => setMenuOpen(false)}
+              className="login-button"
+            >
+              Log In
+            </a>
+
+            <a
+              href="/login?form=signup"
+              onClick={() => setMenuOpen(false)}
+              className="signup-button"
+            >
+              Sign Up
+            </a>
+          </>
+        )}
       </div>
       </div>
     </header>
