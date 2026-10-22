@@ -66,13 +66,7 @@ export default function Login() {
         JSON.stringify(data.user)
       );
 
-      setMessage(
-        showSignup
-          ? 'Account created successfully! You are now logged in.'
-          : 'Login successful!'
-      );
-
-      setPassword('');
+    window.location.assign('/');
     } catch (err) {
       setError(
         err.message === 'Failed to fetch'
