@@ -11842,9 +11842,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .auth-container {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  min-height: 620px;
-  max-height: 820px;
-  height: calc(100vh - 150px);
+  min-height: 100vh;
+  height: 100vh;
+  max-height: none;
   background: #fff;
   overflow: hidden;
 }

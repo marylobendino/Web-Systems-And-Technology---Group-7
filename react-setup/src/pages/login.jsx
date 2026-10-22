@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Footer from '../components/Footer.jsx';
 export default function Login() {
   const [showSignup, setShowSignup] = useState(
     window.location.pathname.replace(/\/+$/, '') === '/signup' ||
@@ -143,7 +142,6 @@ export default function Login() {
         )}
       </section>
       </main>
-      <Footer />
     </>
   );
 }
