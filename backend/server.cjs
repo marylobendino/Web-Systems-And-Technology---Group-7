@@ -31,6 +31,39 @@ const categories = [
   { id: "services", name: "Services" }
 ];
 
+const stores = [
+  {
+    id: "moa",
+    name: "SM Mall of Asia",
+    location: "Pasay City, Metro Manila",
+    description:
+      "Shopping, dining, and more — discover the latest finds, promos, and experiences at SM Mall of Asia from the Kumarites community.",
+    tags: ["Mall", "Shopping", "Food", "Entertainment", "Services"],
+    stats: {
+      buzzes: 42,
+      visitors: "1.2K",
+      rating: 4.6,
+      ratings: 120
+    },
+    about:
+      "SM Mall of Asia is one of the largest malls in the Philippines, offering a wide range of shopping, dining, entertainment, and essential services.",
+    address:
+      "Seaside Blvd, Mall of Asia Complex, Pasay City, Metro Manila",
+    hours: "10:00 AM - 10:00 PM (Daily)",
+    phone: "(02) 8556-0680",
+    website: "https://www.smsupermalls.com",
+    mapUrl: "https://www.google.com/maps?q=SM+Mall+of+Asia&output=embed",
+    popularCategories: [
+      { name: "Food & Beverages", count: 12 },
+      { name: "Fashion", count: 10 },
+      { name: "Services", count: 6 },
+      { name: "Electronics", count: 5 },
+      { name: "Home & Living", count: 4 },
+      { name: "School Supplies", count: 3 }
+    ]
+  }
+];
+
 // Read local development accounts
 async function readUsers() {
   const data = await fs.readFile(USERS_FILE, "utf8");
@@ -58,6 +91,25 @@ app.get("/api/categories", (req, res) => {
     count: categories.length,
     categories
   });
+});
+
+app.get("/api/stores", (req, res) => {
+  res.json({
+    count: stores.length,
+    stores
+  });
+});
+
+app.get("/api/stores/:slug", (req, res) => {
+  const store = stores.find(item => item.id === req.params.slug);
+
+  if (!store) {
+    return res.status(404).json({
+      message: "Store not found."
+    });
+  }
+
+  return res.json({ store });
 });
 
 app.get("/api/auth/test", (req, res) => {
