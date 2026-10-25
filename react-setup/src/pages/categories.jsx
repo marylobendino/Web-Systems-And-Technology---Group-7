@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { defaultBuzzes } from '../data/defaultBuzzes.js';
+import { useEffect, useState } from 'react';
+import { getCommunityBuzzes } from '../data/buzzes.js';
 import CategoryBuzzCard from '../components/CategoryBuzzCard.jsx';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
+import CreateBuzzModal from '../components/CreateBuzzModal.jsx';
 
 // Category information
 const categories = [
@@ -84,6 +85,36 @@ export default function Categories() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [ctaMessage, setCtaMessage] = useState('');
+  const [createBuzzOpen, setCreateBuzzOpen] = useState(false);
+  const [buzzes, setBuzzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadBuzzes() {
+      try {
+        const loadedBuzzes = await getCommunityBuzzes();
+        if (isMounted) {
+          setBuzzes(loadedBuzzes);
+          setLoadError('');
+        }
+      } catch (error) {
+        console.error('Unable to load category Buzzes:', error);
+        if (isMounted) setLoadError('Unable to load Buzzes. Please try again.');
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    loadBuzzes();
+    const intervalId = window.setInterval(loadBuzzes, 5000);
+    return () => {
+      isMounted = false;
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
   // Search and filter categories
   const searchTerms = search
@@ -120,15 +151,16 @@ export default function Categories() {
     });
   }
 const selectedBuzzes = selectedCategory
-  ? defaultBuzzes.filter(
-      (buzz) => buzz.category === selectedCategory.id
-    )
-  : [];
+    ? buzzes.filter((buzz) => String(buzz.category || '').toLowerCase() === selectedCategory.id)
+    : [];
   // Handle Create a Buzz button
   function handleCreateBuzz() {
-    setCtaMessage(
-      'Create a Buzz will be connected in a future integration step.'
-    );
+    if (!localStorage.getItem('kumaritesToken')) {
+      window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}`;
+      return;
+    }
+    setCtaMessage('');
+    setCreateBuzzOpen(true);
   }
 
   return (
@@ -265,19 +297,24 @@ const selectedBuzzes = selectedCategory
 
     </div>
 
-    {selectedBuzzes.length > 0 ? (
+    {loading ? (
+      <p className="no-buzz-results" role="status">Loading community Buzzes...</p>
+    ) : loadError ? (
+      <div className="no-buzz-results" role="alert">
+        <p>{loadError}</p>
+        <button type="button" onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    ) : selectedBuzzes.length > 0 ? (
       <div className="category-buzz-list">
-        {selectedBuzzes.map((buzz) => (
+        {selectedBuzzes.map((buzz, index) => (
           <CategoryBuzzCard
-            key={`${buzz.title}-${buzz.createdAt}`}
+            key={buzz.id || buzz._id || `${buzz.title}-${buzz.createdAt || index}`}
             buzz={buzz}
           />
         ))}
       </div>
     ) : (
-      <p className="no-buzz-results">
-        No Buzzes found in this category.
-      </p>
+      <p className="no-buzz-results">No Buzzes found in this category.</p>
     )}
 
   </section>
@@ -407,6 +444,7 @@ const selectedBuzzes = selectedCategory
       </section>
 
         </main>
+    {createBuzzOpen && <CreateBuzzModal onClose={() => setCreateBuzzOpen(false)} onPublished={async () => { setCtaMessage('Your Buzz was published successfully.'); try { setBuzzes(await getCommunityBuzzes()); setLoadError(''); } catch (error) { console.error('Unable to refresh Buzzes after publishing:', error); setLoadError('Buzz published, but the list could not refresh.'); } }} />}
     <Footer />
   </>
   );

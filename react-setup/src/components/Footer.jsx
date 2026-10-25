@@ -1,5 +1,3 @@
-import React from 'react';
-
 const menuLinks = [
   { label: 'Home', href: '/' },
   { label: 'Buzz Feed', href: '/buzzfeed' },

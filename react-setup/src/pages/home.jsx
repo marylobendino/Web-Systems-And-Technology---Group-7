@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
+import { getCommunityBuzzes, updateBuzzUsefulCount, updateBuzzSaved } from '../data/buzzes.js';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 const CATEGORY_ICONS = {
@@ -26,14 +26,6 @@ const stores = [
   { name: 'SM Bacoor', buzzes: 19, initials: 'SM' },
 ];
 
-const menuLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Buzz Feed', href: '/HTML%20Pages/BuzzFeed.html' },
-  { label: 'Stores', href: '/HTML%20Pages/stores.html' },
-  { label: 'Categories', href: '/HTML%20Pages/categories.html' },
-  { label: 'About Kumarites', href: '/HTML%20Pages/about.html' },
-];
-
 const categoryNames = {
   grocery: 'Grocery',
   food: 'Food & Beverages',
@@ -52,33 +44,11 @@ function readPreference(key) {
   }
 }
 
-function removeDuplicateBuzzes(buzzes) {
-  const uniqueBuzzes = new Map();
-
-  buzzes.forEach((buzz) => {
-    const identity = [
-      buzz.type,
-      buzz.category,
-      buzz.store,
-      buzz.product,
-      buzz.title,
-    ]
-      .map((value) => String(value || '').trim().toLowerCase())
-      .join('|');
-
-    if (!uniqueBuzzes.has(identity)) {
-      uniqueBuzzes.set(identity, buzz);
-    }
-  });
-
-  return [...uniqueBuzzes.values()];
-}
-
 function HomeBuzzCard({ buzz, onUseful }) {
   const usefulKey = `kumaritesUseful_v2_${buzz.id}`;
   const savedKey = `kumaritesSaved_${buzz.id}`;
-  const [isUseful, setIsUseful] = useState(() => readPreference(usefulKey));
-  const [isSaved, setIsSaved] = useState(() => readPreference(savedKey));
+  const [isUseful, setIsUseful] = useState(() => typeof buzz.isUsefulByMe === 'boolean' ? buzz.isUsefulByMe : readPreference(usefulKey));
+  const [isSaved, setIsSaved] = useState(() => typeof buzz.isSavedByMe === 'boolean' ? buzz.isSavedByMe : readPreference(savedKey));
   const [actionError, setActionError] = useState('');
   const postedDate = buzz.createdAt
     ? new Date(buzz.createdAt).toLocaleDateString('en-PH', {
@@ -115,20 +85,16 @@ function HomeBuzzCard({ buzz, onUseful }) {
     }
   }
 
-  function handleSave() {
+  async function handleSave() {
     const nextValue = !isSaved;
     setActionError('');
-
     try {
-      if (nextValue) {
-        localStorage.setItem(savedKey, 'true');
-      } else {
-        localStorage.removeItem(savedKey);
-      }
+      await updateBuzzSaved(buzz.id, nextValue);
+      if (nextValue) localStorage.setItem(savedKey, 'true');
+      else localStorage.removeItem(savedKey);
       setIsSaved(nextValue);
     } catch (error) {
-      console.error('Unable to update the Buzz saved state:', error);
-      setActionError('Unable to save this action. Please try again.');
+      setActionError(error.message || 'Unable to save this Buzz. Please sign in and try again.');
     }
   }
 
@@ -202,7 +168,7 @@ export default function Home() {
   useEffect(() => {
     let isMounted = true;
 
-    fetch('http://localhost:3001/api/categories')
+    fetch('/api/categories')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to load categories.');
@@ -244,40 +210,29 @@ export default function Home() {
 
   useEffect(() => {
     let isMounted = true;
-    let loadedBuzzes = [];
 
-    getStoreBuzzes()
-      .then((loaded) => {
-        loadedBuzzes = loaded;
+    async function loadBuzzes() {
+      try {
+        const loaded = await getCommunityBuzzes();
         if (isMounted) {
-          setBuzzes(removeDuplicateBuzzes(loaded));
-        } else {
-          loaded.forEach((buzz) => {
-            if (buzz.image?.startsWith('blob:')) {
-              URL.revokeObjectURL(buzz.image);
-            }
-          });
+          setBuzzes(loaded);
+          setBuzzesError('');
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Unable to load Home Buzzes:', error);
         if (isMounted) {
-          setBuzzesError('Unable to load Buzzes. Please refresh the page and try again.');
+          setBuzzesError('Unable to load Buzzes. Please try again.');
         }
-      })
-      .finally(() => {
-        if (isMounted) {
-          setBuzzesLoading(false);
-        }
-      });
+      } finally {
+        if (isMounted) setBuzzesLoading(false);
+      }
+    }
 
+    loadBuzzes();
+    const intervalId = window.setInterval(loadBuzzes, 5000);
     return () => {
       isMounted = false;
-      loadedBuzzes.forEach((buzz) => {
-        if (buzz.image?.startsWith('blob:')) {
-          URL.revokeObjectURL(buzz.image);
-        }
-      });
+      window.clearInterval(intervalId);
     };
   }, []);
 
@@ -286,7 +241,11 @@ export default function Home() {
       item.id === buzz.id ? { ...item, usefulCount } : item
     )));
 
-    return updateBuzzUsefulCount(buzz.id, usefulCount).catch((error) => {
+    return updateBuzzUsefulCount(buzz.id, wasUseful ? -1 : 1).then((updatedBuzz) => {
+      setBuzzes((currentBuzzes) => currentBuzzes.map((item) => (
+        item.id === buzz.id ? { ...item, usefulCount: updatedBuzz.usefulCount, isUsefulByMe: updatedBuzz.isUsefulByMe } : item
+      )));
+    }).catch((error) => {
       console.error('Unable to update the Buzz Useful count:', error);
       const previousCount = Number(buzz.usefulCount || 0);
       const storageKey = `kumaritesUseful_v2_${buzz.id}`;
@@ -308,14 +267,6 @@ export default function Home() {
     });
   }
 
-  function handleSearch(event) {
-    event.preventDefault();
-    const query = event.currentTarget.elements.searchInput.value.trim();
-
-    if (query) {
-      alert(`Search functionality will be connected next. Search: ${query}`);
-    }
-  }
 
   function handleCategory(category) {
     alert(`Category selected: ${category}. Filtering will be connected next.`);

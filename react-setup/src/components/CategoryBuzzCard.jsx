@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { updateBuzzUsefulCount, updateBuzzSaved } from '../data/buzzes.js';
 
 // Read saved preferences from this browser.
 function readPreference(key) {
@@ -35,35 +35,51 @@ export default function CategoryBuzzCard({ buzz }) {
 
   // Useful and Save state
   const [isUseful, setIsUseful] = useState(
-    () => readPreference(usefulStorageKey)
+    () => typeof buzz.isUsefulByMe === 'boolean' ? buzz.isUsefulByMe : readPreference(usefulStorageKey)
   );
 
   const [isSaved, setIsSaved] = useState(
-    () => readPreference(savedStorageKey)
+    () => typeof buzz.isSavedByMe === 'boolean' ? buzz.isSavedByMe : readPreference(savedStorageKey)
   );
+  const [actionError, setActionError] = useState('');
+  const [imageFailed, setImageFailed] = useState(false);
+  const [actionUsefulCount, setActionUsefulCount] = useState(Number(buzz.usefulCount || 0));
 
-  const usefulCount =
-    Number(buzz.usefulCount || 0) + (isUseful ? 1 : 0);
+  const usefulCount = actionUsefulCount;
 
   // Toggle Useful
-  function handleUseful() {
+  async function handleUseful() {
     const nextValue = !isUseful;
-
-    setIsUseful(nextValue);
-    savePreference(usefulStorageKey, nextValue);
+    setActionError('');
+    try {
+      const updated = await updateBuzzUsefulCount(buzz.id, nextValue ? 1 : -1);
+      setIsUseful(nextValue);
+      savePreference(usefulStorageKey, nextValue);
+      if (updated) setActionUsefulCount(Number(updated.usefulCount || 0));
+    } catch (error) {
+      setActionError(error.message || 'Unable to update Useful. Please sign in and try again.');
+    }
   }
 
-  // Toggle Save
-  function handleSave() {
+  // Save state is stored on the account, not just in this browser.
+  async function handleSave() {
     const nextValue = !isSaved;
-
-    setIsSaved(nextValue);
-    savePreference(savedStorageKey, nextValue);
+    setActionError('');
+    try {
+      await updateBuzzSaved(buzz.id, nextValue);
+      setIsSaved(nextValue);
+      savePreference(savedStorageKey, nextValue);
+    } catch (error) {
+      setActionError(error.message || 'Unable to save this Buzz. Please sign in and try again.');
+    }
   }
 
   // Buzz image
-  const imageSrc = buzz.image
-    ? '/' + buzz.image.split('/').map(encodeURIComponent).join('/')
+  const rawImage = buzz.imageData || buzz.image || '';
+  const imageSrc = rawImage
+    ? (/^(https?:|data:|blob:)/i.test(rawImage) || rawImage.startsWith('/')
+        ? rawImage
+        : `/${rawImage.split('/').map(encodeURIComponent).join('/')}`)
     : null;
 
   // Format the posting date
@@ -80,11 +96,12 @@ export default function CategoryBuzzCard({ buzz }) {
 
       {/* Buzz Image */}
       <div className="category-buzz-image">
-        {imageSrc ? (
+        {imageSrc && !imageFailed ? (
           <img
             src={imageSrc}
-            alt={buzz.product || buzz.title}
+            alt={buzz.product || buzz.title || 'Community find'}
             loading="lazy"
+            onError={() => setImageFailed(true)}
           />
         ) : (
           <div className="category-buzz-no-image">
@@ -142,6 +159,7 @@ export default function CategoryBuzzCard({ buzz }) {
         </div>
 
         {/* Useful and Save */}
+        {actionError && <p role="alert">{actionError}</p>}
         <div className="category-buzz-actions">
 
           <button

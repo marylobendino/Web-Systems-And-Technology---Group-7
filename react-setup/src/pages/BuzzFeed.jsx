@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
-import { defaultBuzzes } from '../data/defaultBuzzes.js';
+import { useEffect, useMemo, useState } from 'react';
+import { getCommunityBuzzes, updateBuzzUsefulCount, updateBuzzSaved } from '../data/buzzes.js';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
+import CreateBuzzModal from '../components/CreateBuzzModal.jsx';
 const TYPES = [
   { value: 'all', label: 'All Buzzes' },
   { value: 'find', label: 'Sulit Finds', matches: ['sulit', 'find'] },
@@ -29,6 +30,9 @@ const SORTS = [
 function getImagePath(image) {
   if (!image) return '';
   if (/^(https?:|data:|blob:)/i.test(image)) return image;
+  // getCommunityBuzzes already normalizes local paths to a leading slash
+  // and URL-encodes path segments. Do not encode those segments twice.
+  if (image.startsWith('/')) return image;
   return `/${image.split('/').map(encodeURIComponent).join('/')}`;
 }
 function numericPrice(price) {
@@ -42,6 +46,8 @@ function postedLabel(date) {
   return Number.isNaN(parsed.getTime()) ? 'Community post' : parsed.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 function preferenceKey(buzz, kind) {
+  if (kind === 'useful' && buzz.id) return `kumaritesUseful_v2_${buzz.id}`;
+  if (kind === 'saved' && buzz.id) return `kumaritesSaved_${buzz.id}`;
   return `kumarites:buzzfeed:${kind}:${buzz.id ?? `${buzz.category}-${buzz.title}-${buzz.createdAt}`}`;
 }
 function readPreference(key) {
@@ -54,25 +60,41 @@ function savePreference(key, value) {
   } catch { /* Keep this session usable when storage is unavailable. */ }
 }
 
-function BuzzCard({ buzz }) {
+function BuzzCard({ buzz, onUseful }) {
   const usefulKey = preferenceKey(buzz, 'useful');
   const savedKey = preferenceKey(buzz, 'saved');
-  const [useful, setUseful] = useState(() => readPreference(usefulKey));
-  const [saved, setSaved] = useState(() => readPreference(savedKey));
+  const [useful, setUseful] = useState(() => typeof buzz.isUsefulByMe === 'boolean' ? buzz.isUsefulByMe : readPreference(usefulKey));
+  const [saved, setSaved] = useState(() => typeof buzz.isSavedByMe === 'boolean' ? buzz.isSavedByMe : readPreference(savedKey));
   const [imageFailed, setImageFailed] = useState(false);
+  const [actionError, setActionError] = useState('');
   const type = String(buzz.type || 'find').toLowerCase();
-  const image = getImagePath(buzz.image);
-  const usefulCount = Number(buzz.usefulCount || 0) + (useful ? 1 : 0);
+  const image = getImagePath(buzz.imageData || buzz.image);
+  const usefulCount = Number(buzz.usefulCount || 0);
 
-  function toggleUseful() {
+  async function toggleUseful() {
     const next = !useful;
+    setActionError('');
     setUseful(next);
     savePreference(usefulKey, next);
+    try {
+      await onUseful?.(buzz, next ? 1 : -1);
+    } catch (error) {
+      setUseful(!next);
+      savePreference(usefulKey, !next);
+      console.error('Unable to update Useful count:', error);
+      setActionError(error.message || 'Unable to update Useful count. Please try again.');
+    }
   }
-  function toggleSaved() {
+  async function toggleSaved() {
     const next = !saved;
-    setSaved(next);
-    savePreference(savedKey, next);
+    setActionError('');
+    try {
+      await updateBuzzSaved(buzz.id, next);
+      setSaved(next);
+      savePreference(savedKey, next);
+    } catch (error) {
+      setActionError(error.message || 'Unable to save this Buzz. Please sign in and try again.');
+    }
   }
 
   return (
@@ -93,6 +115,7 @@ function BuzzCard({ buzz }) {
           <button type="button" className={useful ? 'is-active' : ''} aria-pressed={useful} onClick={toggleUseful}>{useful ? '♥' : '♡'} Useful <span>{usefulCount}</span></button>
           <button type="button" className={saved ? 'is-saved' : ''} aria-pressed={saved} onClick={toggleSaved}>{saved ? 'Saved ✓' : 'Save'}</button>
         </div></div>
+        {actionError && <p className="bf-action-error" role="alert">{actionError}</p>}
       </div>
     </article>
   );
@@ -103,10 +126,48 @@ export default function BuzzFeed() {
   const [typeFilter, setTypeFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [sort, setSort] = useState('latest');
-  const [showCreateNotice, setShowCreateNotice] = useState(false);
+  const [allBuzzes, setAllBuzzes] = useState([]);
+  const [loadingBuzzes, setLoadingBuzzes] = useState(true);
+  const [feedError, setFeedError] = useState('');
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadBuzzes() {
+      try {
+        const loadedBuzzes = await getCommunityBuzzes();
+        if (!cancelled) {
+          setAllBuzzes(loadedBuzzes);
+          setFeedError('');
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error('Unable to load community posts:', error);
+          setFeedError('Unable to refresh community posts. Please try again.');
+        }
+      } finally {
+        if (!cancelled) setLoadingBuzzes(false);
+      }
+    }
+
+    loadBuzzes();
+    const intervalId = window.setInterval(loadBuzzes, 5000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
+  async function handleUseful(buzz, delta) {
+    const updatedBuzz = await updateBuzzUsefulCount(buzz.id, delta);
+    setAllBuzzes((current) => current.map((item) => (
+      item.id === updatedBuzz.id ? updatedBuzz : item
+    )));
+  }
 
   const buzzes = useMemo(() => {
-    let list = [...defaultBuzzes];
+    let list = [...allBuzzes];
     const term = query.trim().toLocaleLowerCase();
     if (term) list = list.filter((buzz) => [buzz.title, buzz.description, buzz.product, buzz.store, buzz.location, buzz.author, buzz.category, buzz.type].some((value) => String(value ?? '').toLocaleLowerCase().includes(term)));
     if (typeFilter !== 'all') {
@@ -121,25 +182,33 @@ export default function BuzzFeed() {
       return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
     });
     return list;
-  }, [query, typeFilter, categoryFilter, sort]);
+  }, [allBuzzes, query, typeFilter, categoryFilter, sort]);
 
   function resetFilters() { setQuery(''); setTypeFilter('all'); setCategoryFilter('all'); setSort('latest'); }
-  function requestCreateBuzz() { setShowCreateNotice(true); }
+  function requestCreateBuzz() {
+    if (!localStorage.getItem('kumaritesToken')) {
+      window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}`;
+      return;
+    }
+    setShowCreateForm(true);
+  }
+
 
   return <div className="buzzfeed-page">
     <Header activePage="buzzfeed" searchValue={query} onSearchChange={setQuery} />
 
     <main>
       <section className="bf-hero"><div><p className="bf-eyebrow">THE COMMUNITY FEED</p><h1>What's <span>Buzzing?</span></h1><p>Discover real finds, deals, recommendations, and helpful tsika shared by the community.</p><button className="bf-primary" type="button" onClick={requestCreateBuzz}>＋ Create a Buzz</button></div><div className="bf-hero-art" aria-hidden="true"><span className="bf-art-bubble bf-bubble-one">Sulit!</span><span className="bf-art-bubble bf-bubble-two">₱</span><span className="bf-art-bubble bf-bubble-three">★</span><div className="bf-art-card"><span>COMMUNITY FINDS</span><strong>Good deals are better when shared.</strong><div className="bf-art-bars"><i/><i/><i/></div></div></div></section>
-      {showCreateNotice && <div className="bf-notice" role="status"><span><strong>Creating a Buzz isn't connected yet.</strong> This React page currently displays the existing sample buzzes. Connect the create-buzz form and backend to publish new posts.</span><button type="button" onClick={() => setShowCreateNotice(false)} aria-label="Dismiss notice">×</button></div>}
+      {feedError && <div className="bf-notice" role="status">{feedError}</div>}
       <section className="bf-layout" aria-label="Buzz feed">
         <aside className="bf-filter-panel"><h2>Filter Buzzes</h2><fieldset className="bf-filter-group"><legend>Buzz Type</legend>{TYPES.map((item) => <label key={item.value}><input type="radio" name="bf-type" value={item.value} checked={typeFilter === item.value} onChange={() => setTypeFilter(item.value)} /><span>{item.label}</span></label>)}</fieldset><fieldset className="bf-filter-group"><legend>Category</legend>{CATEGORIES.map((item) => <label key={item.value}><input type="radio" name="bf-category" value={item.value} checked={categoryFilter === item.value} onChange={() => setCategoryFilter(item.value)} /><span>{item.label}</span></label>)}</fieldset><div className="bf-filter-group"><label className="bf-select-label" htmlFor="bf-sidebar-sort">Sort Buzzes</label><select id="bf-sidebar-sort" value={sort} onChange={(event) => setSort(event.target.value)}>{SORTS.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></div><button className="bf-clear" type="button" onClick={resetFilters}>Clear all filters</button></aside>
         <section className="bf-feed" aria-labelledby="bf-feed-title"><div className="bf-feed-heading"><div><h2 id="bf-feed-title">Latest Buzzes</h2><p>{buzzes.length} {buzzes.length === 1 ? 'post' : 'posts'} match your filters</p></div><label htmlFor="bf-search">Search <input id="bf-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search buzzes…" /></label></div>
-          {buzzes.length ? <div className="bf-buzz-list">{buzzes.map((buzz, index) => <BuzzCard key={buzz.id ?? `${buzz.category}-${buzz.title}-${buzz.createdAt}-${index}`} buzz={buzz} />)}</div> : <div className="bf-empty"><span aria-hidden="true">⌕</span><h3>No buzzes found</h3><p>Try a different search term or clear your filters to see more community posts.</p><button className="bf-primary" type="button" onClick={resetFilters}>Reset filters</button></div>}
+          {loadingBuzzes && <p className="bf-feed-status" role="status">Loading community posts…</p>}{buzzes.length ? <div className="bf-buzz-list">{buzzes.map((buzz, index) => <BuzzCard key={buzz.id ?? `${buzz.category}-${buzz.title}-${buzz.createdAt}-${index}`} buzz={buzz} onUseful={handleUseful} />)}</div> : <div className="bf-empty"><span aria-hidden="true">⌕</span><h3>No buzzes found</h3><p>Try a different search term or clear your filters to see more community posts.</p><button className="bf-primary" type="button" onClick={resetFilters}>Reset filters</button></div>}
         </section>
         <aside className="bf-right-sidebar"><section className="bf-side-card"><h2>Trending Stores</h2><div className="bf-trending-store"><span className="bf-store-icon">W</span><div><strong>Watsons</strong><span>Beauty & personal care</span></div></div><div className="bf-trending-store"><span className="bf-store-icon">N</span><div><strong>National Book Store</strong><span>Books & school supplies</span></div></div><div className="bf-trending-store"><span className="bf-store-icon">M</span><div><strong>Mang Inasal</strong><span>Food & dining</span></div></div><a className="bf-side-link" href="/stores">Explore all stores →</a></section><section className="bf-side-cta"><h2>Know a sulit find?</h2><p>Help the community discover useful deals, local finds, and practical tips.</p><button type="button" className="bf-primary" onClick={requestCreateBuzz}>＋ Share a Buzz</button></section><section className="bf-side-card bf-tip"><span>COMMUNITY TIP</span><h2>Share the details</h2><p>Include the store, price, location, and date so other Kumarites can verify whether a deal is still available.</p></section></aside>
       </section>
     </main>
+    {showCreateForm && <CreateBuzzModal onClose={() => setShowCreateForm(false)} onPublished={async (buzz) => { if (buzz) setAllBuzzes(current => [buzz, ...current.filter(item => item.id !== buzz.id)]); try { setAllBuzzes(await getCommunityBuzzes()); } catch (error) { console.error('Unable to refresh after publishing:', error); } }} />}
     <Footer />
   </div>;
 }

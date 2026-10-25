@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getStoreBuzzes, updateBuzzUsefulCount } from '../data/store-buzzes.js';
+import { getCommunityBuzzes, updateBuzzUsefulCount, updateBuzzSaved } from '../data/buzzes.js';
 
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
+import CreateBuzzModal from '../components/CreateBuzzModal.jsx';
 const tabs = [
   { id: 'latest', label: 'Latest Buzzes' },
   { id: 'sulit', label: 'Sulit Find' },
@@ -34,65 +35,46 @@ export default function Stores() {
   const [buzzes, setBuzzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
+  const [actionError, setActionError] = useState('');
   const [activeTab, setActiveTab] = useState('latest');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('Latest');
   const [shareOpen, setShareOpen] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
+  const [createBuzzOpen, setCreateBuzzOpen] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
-    getStoreBuzzes()
-      .then((loadedBuzzes) => {
+    async function loadBuzzes() {
+      try {
+        const loadedBuzzes = await getCommunityBuzzes();
         if (isMounted) {
           setBuzzes(loadedBuzzes);
-        } else {
-          loadedBuzzes.forEach((buzz) => {
-            if (buzz.image.startsWith('blob:')) {
-              URL.revokeObjectURL(buzz.image);
-            }
-          });
+          setLoadError('');
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Unable to load store Buzzes:', error);
         if (isMounted) {
-          setLoadError('Unable to load Buzzes. Please refresh the page and try again.');
+          setLoadError('Unable to load Buzzes. Please try again.');
         }
-      })
-      .finally(() => {
-        if (isMounted) {
-          setLoading(false);
-        }
-      });
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
 
+    loadBuzzes();
+    const intervalId = window.setInterval(loadBuzzes, 5000);
     return () => {
       isMounted = false;
+      window.clearInterval(intervalId);
     };
   }, []);
 
   const filteredBuzzes = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
-    const uniqueBuzzes = new Map();
 
-    buzzes.forEach((buzz) => {
-      const identity = [
-        buzz.type,
-        buzz.category,
-        buzz.store,
-        buzz.product,
-        buzz.title,
-      ]
-        .map((value) => String(value || '').trim().toLowerCase())
-        .join('|');
-
-      if (!uniqueBuzzes.has(identity)) {
-        uniqueBuzzes.set(identity, buzz);
-      }
-    });
-
-    return [...uniqueBuzzes.values()]
+    return [...buzzes]
       .filter((buzz) => activeTab === 'latest' || buzz.type?.toLowerCase() === activeTab)
       .filter((buzz) => {
         if (!normalizedSearch) {
@@ -125,43 +107,33 @@ export default function Stores() {
       });
   }, [activeTab, buzzes, searchTerm, sortOrder]);
 
-  function handleUseful(buzz) {
-    const storageKey = `kumaritesUseful_v2_${buzz.id}`;
-    const wasUseful = localStorage.getItem(storageKey) === 'true';
-    const nextUseful = !wasUseful;
-    const nextCount = Math.max(0, Number(buzz.usefulCount || 0) + (nextUseful ? 1 : -1));
-
-    if (nextUseful) {
-      localStorage.setItem(storageKey, 'true');
-    } else {
-      localStorage.removeItem(storageKey);
-    }
-
-    setBuzzes((currentBuzzes) => currentBuzzes.map((item) => (
-      item.id === buzz.id ? { ...item, usefulCount: nextCount } : item
-    )));
-
-    updateBuzzUsefulCount(buzz.id, nextCount).catch((error) => {
-      console.error('Unable to update Useful count:', error);
-      if (wasUseful) {
-        localStorage.setItem(storageKey, 'true');
-      } else {
-        localStorage.removeItem(storageKey);
-      }
+  async function handleUseful(buzz) {
+    const wasUseful = Boolean(buzz.isUsefulByMe);
+    try {
+      const updatedBuzz = await updateBuzzUsefulCount(buzz.id, wasUseful ? -1 : 1);
       setBuzzes((currentBuzzes) => currentBuzzes.map((item) => (
-        item.id === buzz.id ? { ...item, usefulCount: buzz.usefulCount } : item
+        item.id === buzz.id ? { ...item, usefulCount: updatedBuzz.usefulCount, isUsefulByMe: updatedBuzz.isUsefulByMe } : item
       )));
-    });
+    } catch (error) {
+      console.error('Unable to update Useful count:', error);
+      setActionError(error.message || 'Unable to update Useful count. Please sign in and try again.');
+    }
   }
 
-  function handleSave(buzzId) {
+  async function handleSave(buzzId) {
     const storageKey = `kumaritesSaved_${buzzId}`;
-    if (localStorage.getItem(storageKey) === 'true') {
-      localStorage.removeItem(storageKey);
-    } else {
-      localStorage.setItem(storageKey, 'true');
+    const nextSaved = localStorage.getItem(storageKey) !== 'true';
+    try {
+      const result = await updateBuzzSaved(buzzId, nextSaved);
+      if (nextSaved) localStorage.setItem(storageKey, 'true');
+      else localStorage.removeItem(storageKey);
+      setBuzzes((currentBuzzes) => currentBuzzes.map((item) => (
+        item.id === buzzId ? { ...item, isSavedByMe: result.isSaved } : item
+      )));
+    } catch (error) {
+      console.error('Unable to update saved Buzz:', error);
+      setActionError(error.message || 'Unable to save this Buzz. Please sign in and try again.');
     }
-    setBuzzes((currentBuzzes) => [...currentBuzzes]);
   }
 
   function handleNavigationSearch(event) {
@@ -283,6 +255,7 @@ export default function Stores() {
               <h2 id="buzz-list-title">Buzzes at SM Mall of Asia</h2>
               <span>{loading ? 'Loading Buzzes…' : `${filteredBuzzes.length} Buzzes`}</span>
             </div>
+            {actionError && <p role="alert" className="store-action-error">{actionError}</p>}
             {loading ? (
               <div className="store-empty-state" role="status">
                 <p>Loading Buzzes…</p>
@@ -296,8 +269,8 @@ export default function Stores() {
               <div className="buzz-list-items">
                 {filteredBuzzes.map((buzz) => (
                   <article className="store-buzz-card" key={buzz.id}>
-                    <div className={`store-buzz-image${buzz.image ? '' : ' is-empty'}`}>
-                      {buzz.image && <img src={buzz.image} alt={buzz.title} />}
+                    <div className={`store-buzz-image${(buzz.imageData || buzz.image) ? '' : ' is-empty'}`}>
+                      {(buzz.imageData || buzz.image) && <img src={buzz.imageData || buzz.image} alt={buzz.title} loading="lazy" />}
                       <span>{buzz.type === 'sulit' ? 'Sulit Find' : buzz.type === 'sale' ? 'Sale / Promo' : buzz.type}</span>
                     </div>
                     <div className="store-buzz-content">
@@ -325,19 +298,19 @@ export default function Stores() {
                       <div className="store-buzz-actions">
                         <button
                           type="button"
-                          className={localStorage.getItem(`kumaritesUseful_v2_${buzz.id}`) === 'true' ? 'is-active' : ''}
-                          aria-pressed={localStorage.getItem(`kumaritesUseful_v2_${buzz.id}`) === 'true'}
+                          className={buzz.isUsefulByMe ? 'is-active' : ''}
+                          aria-pressed={Boolean(buzz.isUsefulByMe)}
                           onClick={() => handleUseful(buzz)}
                         >
                           ♡ Useful <span>{buzz.usefulCount || 0}</span>
                         </button>
                         <button
                           type="button"
-                          className={localStorage.getItem(`kumaritesSaved_${buzz.id}`) === 'true' ? 'is-saved' : ''}
-                          aria-pressed={localStorage.getItem(`kumaritesSaved_${buzz.id}`) === 'true'}
+                          className={buzz.isSavedByMe ? 'is-saved' : ''}
+                          aria-pressed={Boolean(buzz.isSavedByMe)}
                           onClick={() => handleSave(buzz.id)}
                         >
-                          {localStorage.getItem(`kumaritesSaved_${buzz.id}`) === 'true' ? 'Saved' : 'Save'}
+                          {buzz.isSavedByMe ? 'Saved' : 'Save'}
                         </button>
                       </div>
                     </div>
@@ -402,12 +375,13 @@ export default function Stores() {
             <section className="cta-card">
               <h2>Share your finds!</h2>
               <p>Help other Kumarites discover great deals at SM Mall of Asia.</p>
-              <a className="create-buzz-button" href="/login">Create a Buzz</a>
+              <button className="create-buzz-button" type="button" onClick={() => { if (!localStorage.getItem('kumaritesToken')) window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}`; else setCreateBuzzOpen(true); }}>Create a Buzz</button>
             </section>
           </aside>
         </div>
       </main>
 
+      {createBuzzOpen && <CreateBuzzModal onClose={() => setCreateBuzzOpen(false)} onPublished={(buzz) => { if (buzz) setBuzzes(current => [buzz, ...current]); }} />}
       {shareOpen && (
         <div className="store-share-modal" role="presentation" onMouseDown={(event) => {
           if (event.target === event.currentTarget) {

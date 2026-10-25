@@ -11,7 +11,7 @@ export default function Header({
   const [user] = useState(() => {
     try {
       return JSON.parse(
-        sessionStorage.getItem('kumaritesUser') || 'null'
+        localStorage.getItem('kumaritesUser') || 'null'
       );
     } catch {
       return null;
@@ -123,13 +123,14 @@ export default function Header({
             <span className="user-greeting">
               Hi, {user.name}!
             </span>
+            <a href="/profile" className="login-button" onClick={() => setMenuOpen(false)}>My Profile</a>
 
             <button
               type="button"
               className="login-button"
               onClick={() => {
-                sessionStorage.removeItem('kumaritesToken');
-                sessionStorage.removeItem('kumaritesUser');
+                localStorage.removeItem('kumaritesToken');
+                localStorage.removeItem('kumaritesUser');
                 window.location.assign('/');
               }}
             >

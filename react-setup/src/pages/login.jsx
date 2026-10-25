@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 
-const API_URL = 'http://localhost:3001/api/auth';
+const API_URL = '/api/auth';
 
 export default function Login() {
   const [showSignup, setShowSignup] = useState(
@@ -60,13 +60,15 @@ export default function Login() {
       }
 
       // Keep the login session for this browser tab.
-      sessionStorage.setItem('kumaritesToken', data.token);
-      sessionStorage.setItem(
+      localStorage.setItem('kumaritesToken', data.token);
+      localStorage.setItem(
         'kumaritesUser',
         JSON.stringify(data.user)
       );
 
-    window.location.assign('/');
+    const returnTo = new URLSearchParams(window.location.search).get('returnTo');
+    const safeReturnTo = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/';
+    window.location.assign(safeReturnTo);
     } catch (err) {
       setError(
         err.message === 'Failed to fetch'
@@ -82,7 +84,8 @@ export default function Login() {
     <main className="auth-container">
       {/* Left Side: Welcome Panel */}
       <section className="welcome-section">
-        <div className="logo">
+        <div className="logo" style={{ marginLeft: "50%",
+    marginTop: "25%" }}>
           <a href="/">
             <img
               src="/Images/BuzzFeed%20Images/Kumarites%20Logo.png"
