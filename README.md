@@ -102,8 +102,7 @@ KuMarites/
 │   ├── README.md
 │   ├── package.json
 │   ├── server.cjs
-│   ├── .env.example
-│   ├── .env                 # Local only; never commit
+│   ├── .env 
 │   ├── users.json
 │   ├── buzzes.json
 │   └── buzzes.seed.json
