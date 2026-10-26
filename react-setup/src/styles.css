@@ -11251,21 +11251,31 @@ button:hover {
 .bf-trending-store:last-of-type {
     border-bottom:0
 }
-.bf-store-icon {
-    width:36px;
-    height:36px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    line-height:1;
-    margin:0;
-    padding:0;
-    background:#eee4ff;
-    color:var(--bf-purple);
-    font-weight:800;
-    font-size:13px;
-    flex-shrink:0
+.bf-trending-store .bf-store-icon {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px;
+    max-width: 36px;
+    aspect-ratio: 1 / 1;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    box-sizing: border-box;
+    border-radius: 50%;
+    flex: 0 0 36px;
+
+    padding: 0 !important;
+    margin: 0;
+    line-height: 1;
+    text-align: center;
+
+    background: #eee4ff;
+    color: var(--bf-purple);
+    font-size: 13px;
+    font-weight: 800;
+    overflow: hidden;
 }
 .bf-trending-store strong,.bf-trending-store span {
     display:block
