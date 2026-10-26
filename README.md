@@ -243,8 +243,26 @@ Authenticated users can publish a community post through the Create a Buzz modal
 
 The form supports:
 
-- Title.
-- Description.
-- Category.
+- Title
+- Description
+- Category
 - Buzz
 - Upload a Photo
+
+## 8. Project Resources and Demo Access
+
+### 8.1 Project Documentation
+
+The following documents provide supporting information about the development process and use of AI tools during KuMarites Milestone 2.
+
+- **AI Use Statement:** [View AI Use Statement](https://docs.google.com/document/d/1ngPBqaweRxmEtRuVxQvcU0iX8dphO5jrtIUfwBs-7AU/edit?usp=sharing)
+- **Application Development Workflow Worksheet:** [View Application Development Workflow Worksheet](https://docs.google.com/spreadsheets/d/1zuNlpsh_xMfn_F9xt85dr5v-XrY-hOGiOzh3YUXaOc/edit?usp=sharing)
+
+### 8.2 Test Account
+
+A test account is available for authorized testing and demonstration of the application's registration and authentication features.
+
+| Field | Details |
+|---|---|
+| Email | `testaccount@gmail.com` |
+| Password | Test12345! |
