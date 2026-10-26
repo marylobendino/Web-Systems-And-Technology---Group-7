@@ -1,7 +1,7 @@
-# KuMarites — Milestone 2
+# Kumarites — Milestone 2
 ## Full-Stack Community Buzz Platform
 
-**Project:** KuMarites  
+**Project:** Kumarites  
 **Milestone:** Milestone 2 — Backend Integration and System Validation  
 **Frontend:** React and Vite  
 **Backend:** Node.js and Express.js  
@@ -12,7 +12,7 @@
 
 ## 1. Project Overview
 
-KuMarites is a community-driven web application that allows users to discover, publish, save, and mark useful community Buzz posts. It extends the Milestone 1 frontend by integrating a Node.js and Express.js backend for account authentication, API-based data access, server-side validation, and persistent community interactions.
+Kumarites is a community-driven web application that allows users to discover, publish, save, and mark useful community Buzz posts. It extends the Milestone 1 frontend by integrating a Node.js and Express.js backend for account authentication, API-based data access, server-side validation, and persistent community interactions.
 
 The application demonstrates a full-stack web architecture in which the React frontend communicates with a REST API, the backend validates and processes requests, and JSON files retain application records between server restarts.
 
@@ -93,7 +93,7 @@ This separation improves maintainability by keeping presentation, request handli
 The project uses two main application directories: `backend/` and `react-setup/`.
 
 ```text
-KuMarites/
+Kumarites/
 ├── README.md
 ├── MS2-IMPLEMENTATION-NOTES.md
 ├── MS2-RUBRIC-ALIGNMENT.md
@@ -253,7 +253,7 @@ The form supports:
 
 ### 8.1 Project Documentation
 
-The following documents provide supporting information about the development process and use of AI tools during KuMarites Milestone 2.
+The following documents provide supporting information about the development process and use of AI tools during Kumarites Milestone 2.
 
 - **AI Use Statement:** [View AI Use Statement](https://docs.google.com/document/d/1ngPBqaweRxmEtRuVxQvcU0iX8dphO5jrtIUfwBs-7AU/edit?usp=sharing)
 - **Application Development Workflow Worksheet:** [View Application Development Workflow Worksheet](https://docs.google.com/spreadsheets/d/1zuNlpsh_xMfn_F9xt85dr5v-XrY-hOGiOzh3YUXaOc/edit?usp=sharing)
