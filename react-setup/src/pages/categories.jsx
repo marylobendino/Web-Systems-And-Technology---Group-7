@@ -79,6 +79,45 @@ const featuredCategories = [
   },
 ];
 
+// Normalize text for consistent category and Buzz matching.
+function normalizeSearchValue(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/[-_]+/g, ' ')
+    .trim();
+}
+
+// Search relevant Buzz fields while excluding description.
+function buzzMatchesSearch(buzz, search) {
+  if (!search.trim()) return true;
+
+  const searchableFields = [
+    buzz.title,
+    buzz.product,
+    buzz.store,
+    buzz.location,
+    buzz.author,
+    buzz.category,
+    buzz.type,
+    buzz.price,
+  ];
+
+  const normalizedSearch = normalizeSearchValue(search);
+  const escapedSearch = normalizedSearch.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    '\\$&'
+  );
+
+  const wordPattern = new RegExp(
+    `(^|[^a-z0-9])${escapedSearch}($|[^a-z0-9])`,
+    'i'
+  );
+
+  return searchableFields.some((field) =>
+    wordPattern.test(normalizeSearchValue(field))
+  );
+}
+
 export default function Categories() {
 
   // React state
@@ -116,19 +155,19 @@ export default function Categories() {
     };
   }, []);
 
-  // Search and filter categories
-  const searchTerms = search
-    .toLowerCase()
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
+  // Search and filter categories.
+  const normalizedSearch = normalizeSearchValue(search);
 
   const filteredCategories = categories.filter((category) => {
-    const searchableText =
-      `${category.name} ${category.keywords}`.toLowerCase();
+    const searchableText = normalizeSearchValue(
+      `${category.name} ${category.keywords} ${category.id}`
+    );
 
-    return searchTerms.every((term) =>
-      searchableText.includes(term)
+    return !normalizedSearch || buzzMatchesSearch(
+      {
+        title: searchableText,
+      },
+      normalizedSearch
     );
   });
 
@@ -150,9 +189,21 @@ export default function Categories() {
       block: 'start',
     });
   }
-const selectedBuzzes = selectedCategory
-    ? buzzes.filter((buzz) => String(buzz.category || '').toLowerCase() === selectedCategory.id)
+
+  const selectedBuzzes = selectedCategory
+    ? buzzes.filter((buzz) => {
+        const buzzCategory = normalizeSearchValue(buzz.category)
+          .replace(/[^a-z0-9]+/g, '-');
+        const selectedCategoryId = normalizeSearchValue(selectedCategory.id)
+          .replace(/[^a-z0-9]+/g, '-');
+
+        const matchesCategory = buzzCategory === selectedCategoryId;
+        const matchesSearch = buzzMatchesSearch(buzz, search);
+
+        return matchesCategory && matchesSearch;
+      })
     : [];
+
   // Handle Create a Buzz button
   function handleCreateBuzz() {
     if (!localStorage.getItem('kumaritesToken')) {
@@ -268,57 +319,66 @@ const selectedBuzzes = selectedCategory
         {/* Selected Category Results */}
 
 {selectedCategory && (
-  <section className="category-results">
+          <section className="category-results">
+            <div className="category-results-header">
+              <div>
+                <p className="category-results-label">
+                  CATEGORY FINDS
+                </p>
 
-    <div className="category-results-header">
-      <div>
-        <p className="category-results-label">
-          CATEGORY FINDS
-        </p>
+                <h3>{selectedCategory.name}</h3>
 
-        <h3>{selectedCategory.name}</h3>
+                <p>
+                  Discover sulit finds, deals, and recommendations
+                  shared by the Kumarites community.
+                </p>
+              </div>
 
-        <p>
-          Discover sulit finds, deals, and recommendations
-          shared by the Kumarites community.
-        </p>
-      </div>
+              <button
+                type="button"
+                className="category-results-close"
+                onClick={() => setSelectedCategory(null)}
+                aria-label="Close category results"
+                title="Close category results"
+              >
+                ×
+              </button>
+            </div>
 
-
-<button
-  type="button"
-  className="category-results-close"
-  onClick={() => setSelectedCategory(null)}
-  aria-label="Close category results"
-  title="Close category results"
->
-  ×
-</button>
-
-    </div>
-
-    {loading ? (
-      <p className="no-buzz-results" role="status">Loading community Buzzes...</p>
-    ) : loadError ? (
-      <div className="no-buzz-results" role="alert">
-        <p>{loadError}</p>
-        <button type="button" onClick={() => window.location.reload()}>Retry</button>
-      </div>
-    ) : selectedBuzzes.length > 0 ? (
-      <div className="category-buzz-list">
-        {selectedBuzzes.map((buzz, index) => (
-          <CategoryBuzzCard
-            key={buzz.id || buzz._id || `${buzz.title}-${buzz.createdAt || index}`}
-            buzz={buzz}
-          />
-        ))}
-      </div>
-    ) : (
-      <p className="no-buzz-results">No Buzzes found in this category.</p>
-    )}
-
-  </section>
-)}
+            {loading ? (
+              <p className="no-buzz-results" role="status">
+                Loading community Buzzes...
+              </p>
+            ) : loadError ? (
+              <div className="no-buzz-results" role="alert">
+                <p>{loadError}</p>
+                <button
+                  type="button"
+                  onClick={() => window.location.reload()}
+                >
+                  Retry
+                </button>
+              </div>
+            ) : selectedBuzzes.length > 0 ? (
+              <div className="category-buzz-list">
+                {selectedBuzzes.map((buzz, index) => (
+                  <CategoryBuzzCard
+                    key={
+                      buzz.id ||
+                      buzz._id ||
+                      `${buzz.title}-${buzz.createdAt || index}`
+                    }
+                    buzz={buzz}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="no-buzz-results">
+                No Buzzes found matching this category and search.
+              </p>
+            )}
+          </section>
+        )}
 </section>
 
       {/* =====================================
@@ -443,8 +503,24 @@ const selectedBuzzes = selectedCategory
 
       </section>
 
-        </main>
-    {createBuzzOpen && <CreateBuzzModal onClose={() => setCreateBuzzOpen(false)} onPublished={async () => { setCtaMessage('Your Buzz was published successfully.'); try { setBuzzes(await getCommunityBuzzes()); setLoadError(''); } catch (error) { console.error('Unable to refresh Buzzes after publishing:', error); setLoadError('Buzz published, but the list could not refresh.'); } }} />}
+    </main>
+    {createBuzzOpen && (
+      <CreateBuzzModal
+        onClose={() => setCreateBuzzOpen(false)}
+        onPublished={async () => {
+          setCtaMessage('Your Buzz was published successfully.');
+
+          try {
+            setBuzzes(await getCommunityBuzzes());
+            setLoadError('');
+          } catch (error) {
+            console.error('Unable to refresh Buzzes after publishing:', error);
+            setLoadError('Buzz published, but the list could not refresh.');
+          }
+        }}
+      />
+    )}
+
     <Footer />
   </>
   );

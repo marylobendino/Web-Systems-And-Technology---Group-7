@@ -72,7 +72,7 @@ export default function Stores() {
   }, []);
 
   const filteredBuzzes = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
+    const normalizedSearch = searchTerm.trim();
 
     return [...buzzes]
       .filter((buzz) => activeTab === 'latest' || buzz.type?.toLowerCase() === activeTab)
@@ -81,18 +81,34 @@ export default function Stores() {
           return true;
         }
 
-        const searchableText = [
-          buzz.product,
+        const escapedSearch = normalizedSearch.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          '\\$&'
+        );
+
+        const wordPattern = new RegExp(
+          `(^|[^a-z0-9])${escapedSearch}($|[^a-z0-9])`,
+          'i'
+        );
+
+        const searchableFields = [
           buzz.title,
+          buzz.product,
+          buzz.store,
+          buzz.location,
+          buzz.author,
           buzz.category,
           categoryNames[buzz.category],
-          buzz.store,
-        ]
-          .filter(Boolean)
-          .join(' ')
-          .toLowerCase();
+          buzz.type,
+          buzz.price,
+        ];
 
-        return normalizedSearch.split(/\s+/).every((term) => searchableText.includes(term));
+        return searchableFields.some(
+          (value) =>
+            value !== null &&
+            value !== undefined &&
+            wordPattern.test(String(value))
+        );
       })
       .sort((a, b) => {
         if (sortOrder === 'Oldest') {

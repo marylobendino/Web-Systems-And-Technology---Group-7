@@ -3,6 +3,7 @@ import { getCommunityBuzzes, updateBuzzUsefulCount, updateBuzzSaved } from '../d
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import CreateBuzzModal from '../components/CreateBuzzModal.jsx';
+
 const TYPES = [
   { value: 'all', label: 'All Buzzes' },
   { value: 'find', label: 'Sulit Finds', matches: ['sulit', 'find'] },
@@ -10,6 +11,7 @@ const TYPES = [
   { value: 'recommendation', label: 'Recommendations' },
   { value: 'advice', label: 'Tips & Advice' },
 ];
+
 const CATEGORIES = [
   { value: 'all', label: 'All Categories' },
   { value: 'food', label: 'Food' },
@@ -20,6 +22,7 @@ const CATEGORIES = [
   { value: 'home-living', label: 'Home & Living' },
   { value: 'services', label: 'Services' },
 ];
+
 const SORTS = [
   { value: 'latest', label: 'Latest' },
   { value: 'popular', label: 'Most Useful' },
@@ -35,24 +38,29 @@ function getImagePath(image) {
   if (image.startsWith('/')) return image;
   return `/${image.split('/').map(encodeURIComponent).join('/')}`;
 }
+
 function numericPrice(price) {
   if (typeof price === 'number') return price;
   const match = String(price ?? '').replace(/,/g, '').match(/[\d]+(?:\.\d+)?/);
   return match ? Number(match[0]) : Number.POSITIVE_INFINITY;
 }
+
 function postedLabel(date) {
   if (!date) return 'Community post';
   const parsed = new Date(date);
   return Number.isNaN(parsed.getTime()) ? 'Community post' : parsed.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
 }
+
 function preferenceKey(buzz, kind) {
   if (kind === 'useful' && buzz.id) return `kumaritesUseful_v2_${buzz.id}`;
   if (kind === 'saved' && buzz.id) return `kumaritesSaved_${buzz.id}`;
   return `kumarites:buzzfeed:${kind}:${buzz.id ?? `${buzz.category}-${buzz.title}-${buzz.createdAt}`}`;
 }
+
 function readPreference(key) {
   try { return localStorage.getItem(key) === 'true'; } catch { return false; }
 }
+
 function savePreference(key, value) {
   try {
     if (value) localStorage.setItem(key, 'true');
@@ -70,12 +78,12 @@ function BuzzCard({ buzz, onUseful }) {
   const type = String(buzz.type || 'find').toLowerCase();
   const image = getImagePath(buzz.imageData || buzz.image);
   const usefulCount = Number(buzz.usefulCount || 0);
-
   async function toggleUseful() {
     const next = !useful;
     setActionError('');
     setUseful(next);
     savePreference(usefulKey, next);
+
     try {
       await onUseful?.(buzz, next ? 1 : -1);
     } catch (error) {
@@ -85,6 +93,7 @@ function BuzzCard({ buzz, onUseful }) {
       setActionError(error.message || 'Unable to update Useful count. Please try again.');
     }
   }
+
   async function toggleSaved() {
     const next = !saved;
     setActionError('');
@@ -130,10 +139,8 @@ export default function BuzzFeed() {
   const [loadingBuzzes, setLoadingBuzzes] = useState(true);
   const [feedError, setFeedError] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
-
   useEffect(() => {
     let cancelled = false;
-
     async function loadBuzzes() {
       try {
         const loadedBuzzes = await getCommunityBuzzes();
@@ -150,7 +157,6 @@ export default function BuzzFeed() {
         if (!cancelled) setLoadingBuzzes(false);
       }
     }
-
     loadBuzzes();
     const intervalId = window.setInterval(loadBuzzes, 5000);
     return () => {
@@ -158,18 +164,43 @@ export default function BuzzFeed() {
       window.clearInterval(intervalId);
     };
   }, []);
-
   async function handleUseful(buzz, delta) {
     const updatedBuzz = await updateBuzzUsefulCount(buzz.id, delta);
     setAllBuzzes((current) => current.map((item) => (
       item.id === updatedBuzz.id ? updatedBuzz : item
     )));
   }
-
   const buzzes = useMemo(() => {
     let list = [...allBuzzes];
-    const term = query.trim().toLocaleLowerCase();
-    if (term) list = list.filter((buzz) => [buzz.title, buzz.description, buzz.product, buzz.store, buzz.location, buzz.author, buzz.category, buzz.type].some((value) => String(value ?? '').toLocaleLowerCase().includes(term)));
+    const term = query.trim();
+    if (term) {
+      // Escape special characters so the search term is treated literally.
+      const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // Match complete words rather than partial words.
+      const wordPattern = new RegExp(
+        `(^|[^a-z0-9])${escapedTerm}($|[^a-z0-9])`,
+        'i'
+      );
+      list = list.filter((buzz) => {
+        // Description is intentionally excluded from searchable fields.
+        const searchableFields = [
+          buzz.title,
+          buzz.product,
+          buzz.store,
+          buzz.location,
+          buzz.author,
+          buzz.category,
+          buzz.type,
+          buzz.price,
+        ];
+        return searchableFields.some(
+          (value) =>
+            value !== null &&
+            value !== undefined &&
+            wordPattern.test(String(value))
+        );
+      });
+    }
     if (typeFilter !== 'all') {
       const selected = TYPES.find((item) => item.value === typeFilter);
       list = list.filter((buzz) => selected?.matches ? selected.matches.includes(String(buzz.type).toLowerCase()) : String(buzz.type).toLowerCase() === typeFilter);
@@ -183,8 +214,13 @@ export default function BuzzFeed() {
     });
     return list;
   }, [allBuzzes, query, typeFilter, categoryFilter, sort]);
+  function resetFilters() {
+    setQuery('');
+    setTypeFilter('all');
+    setCategoryFilter('all');
+    setSort('latest');
+  }
 
-  function resetFilters() { setQuery(''); setTypeFilter('all'); setCategoryFilter('all'); setSort('latest'); }
   function requestCreateBuzz() {
     if (!localStorage.getItem('kumaritesToken')) {
       window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}`;
@@ -193,10 +229,8 @@ export default function BuzzFeed() {
     setShowCreateForm(true);
   }
 
-
   return <div className="buzzfeed-page">
     <Header activePage="buzzfeed" searchValue={query} onSearchChange={setQuery} />
-
     <main>
       <section className="bf-hero"><div><p className="bf-eyebrow">THE COMMUNITY FEED</p><h1>What's <span>Buzzing?</span></h1><p>Discover real finds, deals, recommendations, and helpful tsika shared by the community.</p><button className="bf-primary" type="button" onClick={requestCreateBuzz}>＋ Create a Buzz</button></div><div className="bf-hero-art" aria-hidden="true"><span className="bf-art-bubble bf-bubble-one">Sulit!</span><span className="bf-art-bubble bf-bubble-two">₱</span><span className="bf-art-bubble bf-bubble-three">★</span><div className="bf-art-card"><span>COMMUNITY FINDS</span><strong>Good deals are better when shared.</strong><div className="bf-art-bars"><i/><i/><i/></div></div></div></section>
       {feedError && <div className="bf-notice" role="status">{feedError}</div>}

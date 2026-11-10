@@ -1,9 +1,10 @@
+
 import { useState } from 'react';
 
 export default function Header({
   activePage = 'categories',
   searchValue,
-  onSearchChange
+  onSearchChange,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -26,9 +27,17 @@ export default function Header({
     const formData = new FormData(event.currentTarget);
     const query = String(formData.get('searchInput') || '').trim();
 
-    if (query && !isControlledSearch) {
-      alert(`Search functionality will be connected next. Search: ${query}`);
+    if (!query) return;
+
+    if (isControlledSearch) {
+      onSearchChange(query);
+    } else {
+      window.location.assign(
+        `/buzzfeed?search=${encodeURIComponent(query)}`
+      );
     }
+
+    setMenuOpen(false);
   }
 
   return (
@@ -44,10 +53,15 @@ export default function Header({
         <p>Real Finds. Real People. A More Sulit You.</p>
       </div>
 
+      {/* Mobile Navigation Toggle */}
       <button
         type="button"
         className="nav-toggle"
-        aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-label={
+          menuOpen
+            ? 'Close navigation menu'
+            : 'Open navigation menu'
+        }
         aria-controls="primary-navigation-panel"
         aria-expanded={menuOpen}
         onClick={() => setMenuOpen((open) => !open)}
@@ -61,102 +75,126 @@ export default function Header({
         id="primary-navigation-panel"
         className={`navbar-collapse${menuOpen ? ' is-open' : ''}`}
       >
-      {/* Main Navigation */}
-      <nav
-        className="main-navigation"
-        aria-label="Main navigation"
-      >
-        <a
-          href="/"
-          onClick={() => setMenuOpen(false)}
-          className={activePage === 'home' ? 'active' : undefined}
-          aria-current={activePage === 'home' ? 'page' : undefined}
+        {/* Main Navigation */}
+        <nav
+          className="main-navigation"
+          aria-label="Main navigation"
         >
-          Home
-        </a>
-        <a
-          href="/buzzfeed"
-          onClick={() => setMenuOpen(false)}
-          className={activePage === 'buzzfeed' ? 'active' : undefined}
-          aria-current={activePage === 'buzzfeed' ? 'page' : undefined}
+          <a
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className={activePage === 'home' ? 'active' : undefined}
+            aria-current={activePage === 'home' ? 'page' : undefined}
+          >
+            Home
+          </a>
+
+          <a
+            href="/buzzfeed"
+            onClick={() => setMenuOpen(false)}
+            className={activePage === 'buzzfeed' ? 'active' : undefined}
+            aria-current={
+              activePage === 'buzzfeed' ? 'page' : undefined
+            }
+          >
+            BuzzFeed
+          </a>
+
+          <a
+            href="/stores"
+            onClick={() => setMenuOpen(false)}
+            className={activePage === 'stores' ? 'active' : undefined}
+            aria-current={
+              activePage === 'stores' ? 'page' : undefined
+            }
+          >
+            Stores
+          </a>
+
+          <a
+            href="/categories"
+            onClick={() => setMenuOpen(false)}
+            className={activePage === 'categories' ? 'active' : undefined}
+            aria-current={
+              activePage === 'categories' ? 'page' : undefined
+            }
+          >
+            Categories
+          </a>
+        </nav>
+
+        {/* Search Bar */}
+        <form
+          className="nav-search"
+          onSubmit={handleSearch}
         >
-          BuzzFeed
-        </a>
-        <a
-          href="/stores"
-          onClick={() => setMenuOpen(false)}
-          className={activePage === 'stores' ? 'active' : undefined}
-          aria-current={activePage === 'stores' ? 'page' : undefined}
-        >
-          Stores
-        </a>
-        <a
-          href="/categories"
-          onClick={() => setMenuOpen(false)}
-          className={activePage === 'categories' ? 'active' : undefined}
-          aria-current={activePage === 'categories' ? 'page' : undefined}
-        >
-          Categories
-        </a>
-      </nav>
+          <input
+            type="search"
+            id="searchInput"
+            name="searchInput"
+            placeholder="Search stores, products, or buzzes"
+            aria-label="Search stores, products, or buzzes"
+            value={
+              isControlledSearch
+                ? searchValue ?? ''
+                : undefined
+            }
+            onChange={
+              isControlledSearch
+                ? (event) => onSearchChange(event.target.value)
+                : undefined
+            }
+          />
+        </form>
 
-      {/* Search Bar */}
-      <form
-        className="nav-search"
-        onSubmit={handleSearch}
-      >
-        <input
-          type="search"
-          id="searchInput"
-          name="searchInput"
-          placeholder="Search stores, products, or buzzes"
-          aria-label="Search stores, products, or buzzes"
-          value={isControlledSearch ? searchValue : undefined}
-          onChange={isControlledSearch ? (event) => onSearchChange(event.target.value) : undefined}
-        />
-      </form>
+        {/* Authentication */}
+        <div className="nav-actions">
+          {user ? (
+            <>
+              <span className="user-greeting">
+                Hi, {user.name}!
+              </span>
 
-      {/* Authentication */}
-      <div className="nav-actions">
-        {user ? (
-          <>
-            <span className="user-greeting">
-              Hi, {user.name}!
-            </span>
-            <a href="/profile" className="login-button" onClick={() => setMenuOpen(false)}>My Profile</a>
+              <a
+                href="/profile"
+                className="login-button"
+                onClick={() => setMenuOpen(false)}
+              >
+                My Profile
+              </a>
 
-            <button
-              type="button"
-              className="login-button"
-              onClick={() => {
-                localStorage.removeItem('kumaritesToken');
-                localStorage.removeItem('kumaritesUser');
-                window.location.assign('/');
-              }}
-            >
-              Log Out
-            </button>
-          </>
-        ) : (
-          <>
-            <a
-              href="/login"
-              onClick={() => setMenuOpen(false)}
-              className="login-button"
-            >
-              Log In
-            </a>
+              <button
+                type="button"
+                className="login-button"
+                onClick={() => {
+                  localStorage.removeItem('kumaritesToken');
+                  localStorage.removeItem('kumaritesUser');
+                  window.location.assign('/');
+                }}
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
+            <>
+              <a
+                href="/login"
+                onClick={() => setMenuOpen(false)}
+                className="login-button"
+              >
+                Log In
+              </a>
 
-            <a
-              href="/login?form=signup"
-              onClick={() => setMenuOpen(false)}
-              className="signup-button"
-            >
-              Sign Up
-            </a>
-          </>
-        )}
-      </div>
+              <a
+                href="/login?form=signup"
+                onClick={() => setMenuOpen(false)}
+                className="signup-button"
+              >
+                Sign Up
+              </a>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
