@@ -252,12 +252,15 @@ The form supports:
 
 The following documents provide supporting information for the Kumarites Terminal Assessment, including the application development workflow, AI tool usage disclosure, and internal system testing.
 
-### 8.1 TA Documentation
+### 8.1 MS1 & MS2 Documentation
 
-- **AI Use Statement:** [View AI Use Statement](https://docs.google.com/document/d/1U2OT6bfrxlslZUeDDw_FO0qLsSAw_2oquiWmlCx9QoA/edit?usp=sharing)
 - **Application Development Workflow Worksheet:** [View Workflow Worksheet](https://docs.google.com/spreadsheets/d/1zuNlpsh_xMfn_F9xti85dr5v-XrY-hOGiOzh3YUXaOc/edit?usp=sharing)
 
-### 8.2 Internal Testing and Bug Fixes
+### 8.2 TA Documentation
+
+- **AI Use Statement:** [View AI Use Statement](https://docs.google.com/document/d/1U2OT6bfrxlslZUeDDw_FO0qLsSAw_2oquiWmlCx9QoA/edit?usp=sharing)
+
+### 8.3 Internal Testing and Bug Fixes
 
 Internal testing was conducted as part of the TA system validation process to assess application functionality and identify potential issues.
 
@@ -265,7 +268,7 @@ The testing process involved documenting identified issues and bugs, reviewing t
 
 - **Internal Testing Documentation:** [View Testing Results](https://docs.google.com/spreadsheets/d/1liVR4iANOdvkr4x5cl46HdqrfYT3cPRthyPZudF0MaE/edit?usp=sharing)
 
-### 8.3 Test Account
+### 8.4 Test Account
 
 A test account is available for authorized testing and demonstration of the application's registration and authentication features.
 
