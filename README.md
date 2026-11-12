@@ -1,22 +1,22 @@
-# Kumarites — Milestone 2
+# Kumarites — Terminal Assessment (TA)
 ## Full-Stack Community Buzz Platform
 
 **Project:** Kumarites  
-**Milestone:** Milestone 2 — Backend Integration and System Validation  
+**Assessment:** Terminal Assessment (TA)  
 **Frontend:** React and Vite  
 **Backend:** Node.js and Express.js  
 **Data Persistence:** JSON files  
-**Authentication:** JWT and bcrypt
+**Authentication:** JWT and bcrypt  
 
 ---
 
 ## 1. Project Overview
 
-Kumarites is a community-driven web application that allows users to discover, publish, save, and mark useful community Buzz posts. It extends the Milestone 1 frontend by integrating a Node.js and Express.js backend for account authentication, API-based data access, server-side validation, and persistent community interactions.
+Kumarites is a community-driven web application that allows users to discover, publish, save, and mark useful community Buzz posts. The application integrates a React frontend with a Node.js and Express.js backend to support account authentication, API-based data access, server-side validation, and persistent community interactions.
 
 The application demonstrates a full-stack web architecture in which the React frontend communicates with a REST API, the backend validates and processes requests, and JSON files retain application records between server restarts.
 
-The primary objective of Milestone 2 is to establish a consistent data flow across the application, associate user actions with authenticated accounts, and provide a verifiable testing workflow.
+The primary objective of the Terminal Assessment is to demonstrate the integration of frontend and backend components, establish consistent data flow across the application, associate user actions with authenticated accounts, and validate system functionality through internal testing.
 
 ### Project Objectives
 
@@ -27,7 +27,7 @@ The primary objective of Milestone 2 is to establish a consistent data flow acro
 - Persist Buzz posts, saved actions, and Useful actions.
 - Provide an account-specific Profile page showing authored, saved, and Useful Buzz posts.
 - Validate backend behavior through functional testing, security checks, and persistence verification.
-- Address Milestone 1 feedback through clearer integration, quality assurance, documentation, and task prioritization.
+- Address development and usability feedback through improved integration, quality assurance, documentation, and task prioritization.
 
 ## 2. Technology Stack
 
@@ -39,7 +39,7 @@ The primary objective of Milestone 2 is to establish a consistent data flow acro
 | Express.js | REST API routing and request processing. |
 | JWT | Authentication tokens for protected requests. |
 | bcrypt | Password hashing for account credentials. |
-| JSON files | Local coursework data persistence. |
+| JSON files | Local application data persistence. |
 | npm | Dependency installation and script execution. |
 | ESLint | Frontend code-quality checks, if configured. |
 
@@ -72,7 +72,7 @@ The application separates the frontend presentation layer from the backend API a
 |               JSON Storage               |
 |                                          |
 | users.json | buzzes.json                 |
-| buzzes.seed.json (demo seed data)         |
+| buzzes.seed.json (demo seed data)        |
 +------------------------------------------+
 ```
 
@@ -102,7 +102,7 @@ Kumarites/
 │   ├── README.md
 │   ├── package.json
 │   ├── server.cjs
-│   ├── .env 
+│   ├── .env
 │   ├── users.json
 │   ├── buzzes.json
 │   └── buzzes.seed.json
@@ -114,11 +114,8 @@ Kumarites/
     └── src/
         ├── data/
         │   └── buzzes.js
-        ├── ...
         └── ...
 ```
-
-This is an illustrative structure. Preserve the actual filenames and additional source directories in your repository.
 
 ### Key Files
 
@@ -131,14 +128,14 @@ This is an illustrative structure. Preserve the actual filenames and additional 
 | `backend/buzzes.seed.json` | Demo records used to initialize an empty or missing runtime Buzz store. |
 | `react-setup/src/data/buzzes.js` | Shared frontend Buzz data access and Useful-count API action. |
 | `react-setup/vite.config.js` | Vite configuration, including the development API proxy. |
-| `MS2-IMPLEMENTATION-NOTES.md` | Implementation summary and verification checklist. |
-| `MS2-RUBRIC-ALIGNMENT.md` | Rubric mapping and supporting evaluation evidence, where maintained. |
+| `MS2-IMPLEMENTATION-NOTES.md` | Supporting implementation notes and verification checklist. |
+| `MS2-RUBRIC-ALIGNMENT.md` | Supporting rubric mapping and evaluation evidence. |
 
 ## 5. System Requirements
 
 Install the following before running the project:
 
-- Node.js **20.19+ or 22.12+**, as specified for this project’s Vite 8 setup.
+- Node.js **20.19+ or 22.12+**, as specified for this project's Vite 8 setup.
 - npm.
 - Visual Studio Code or another suitable editor.
 - A modern web browser.
@@ -249,20 +246,30 @@ The form supports:
 - Buzz
 - Upload a Photo
 
-## 8. Project Resources and Demo Access
+---
 
-### 8.1 Project Documentation
+## 8. Project Documentation and Testing
 
-The following documents provide supporting information about the development process and use of AI tools during Kumarites Milestone 2.
+The following documents provide supporting information for the Kumarites Terminal Assessment, including the application development workflow, AI tool usage disclosure, and internal system testing.
 
-- **AI Use Statement:** [View AI Use Statement](https://docs.google.com/document/d/1ngPBqaweRxmEtRuVxQvcU0iX8dphO5jrtIUfwBs-7AU/edit?usp=sharing)
-- **Application Development Workflow Worksheet:** [View Application Development Workflow Worksheet](https://docs.google.com/spreadsheets/d/1zuNlpsh_xMfn_F9xti85dr5v-XrY-hOGiOzh3YUXaOc/edit?usp=sharing)
+### 8.1 TA Documentation
 
-### 8.2 Test Account
+- **AI Use Statement:** [View AI Use Statement](https://docs.google.com/document/d/1U2OT6bfrxlslZUeDDw_FO0qLsSAw_2oquiWmlCx9QoA/edit?usp=sharing)
+- **Application Development Workflow Worksheet:** [View Workflow Worksheet](https://docs.google.com/spreadsheets/d/1zuNlpsh_xMfn_F9xti85dr5v-XrY-hOGiOzh3YUXaOc/edit?usp=sharing)
+
+### 8.2 Internal Testing and Bug Fixes
+
+Internal testing was conducted as part of the TA system validation process to assess application functionality and identify potential issues.
+
+The testing process involved documenting identified issues and bugs, reviewing their behavior, and implementing the necessary corrections. The bugs identified during internal testing were subsequently addressed and fixed.
+
+- **Internal Testing Documentation:** [View Testing Results](https://docs.google.com/spreadsheets/d/1liVR4iANOdvkr4x5cl46HdqrfYT3cPRthyPZudF0MaE/edit?usp=sharing)
+
+### 8.3 Test Account
 
 A test account is available for authorized testing and demonstration of the application's registration and authentication features.
 
 | Field | Details |
 |---|---|
 | Email | `testaccount@gmail.com` |
-| Password | Test12345! |
+| Password | `Test12345!` |
